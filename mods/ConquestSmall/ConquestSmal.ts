@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 0, 0];
+const VERSION = [1, 0, 2];
 
 // Define Classes
 class Player {
@@ -211,16 +211,19 @@ const COLOR_ENEMY    =   mod.CreateVector(1, 0.4, 0);
 const CAPTURE_POINT_FIRST_ID = 200;
 const TICK_RATE = 30;
 const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
- 
+
 
 // Sets up variables
 let serverTickCount:number = 0;
 let phaseTickCount:number = 0;
 const serverPlayers = new Map<number, Player>();
+const voflags: {[key: string]: mod.VoiceOverFlags} = {
+    "A": mod.VoiceOverFlags.Alpha,
+    "B": mod.VoiceOverFlags.Bravo,
+    "C": mod.VoiceOverFlags.Charlie
+}
 
-
-
-
+let vo: {[key: number]: mod.VO} = {};
 
 
 let serverScores: number[] = [INITIAL_TICKETS, INITIAL_TICKETS];
@@ -803,6 +806,13 @@ function InitializePreMatch() {
     Object.values(serverCapturePoints).forEach(cp => {
         mod.EnableGameModeObjective(cp.capturePoint, false);
     })
+
+    vo[mod.VoiceOverEvents2D.ObjectiveNeutralised] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+    vo[mod.VoiceOverEvents2D.ObjectiveLost] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+    vo[mod.VoiceOverEvents2D.ObjectiveCaptured] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+    vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+    vo[mod.VoiceOverEvents2D.ObjectiveCapturing] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+    vo[mod.VoiceOverEvents2D.ObjectiveContested] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
     
 
     initialization[0] = true;
@@ -1224,10 +1234,6 @@ export function OngoingGlobal() {
     }
     
     
-        
-    
-
-    
     
 }
 
@@ -1364,10 +1370,10 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerReconnected, p.id));
     }
     
-    console.log(p)
+    
     if (p != undefined) {
         if (gameStatus == 0 || gameStatus == -1) {
-            console.log("Adding ready text")
+            
             mod.AddUIText(
                 "ReadyText" + p.id,
                 mod.CreateVector(0, 60, 0),
@@ -1389,9 +1395,12 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
 
         
         }
-    }
+
+        else if (gameStatus == 3) {
+            mod.SetUIWidgetVisible(UIContainers[2], true);
+        }
     
-        
+    }  
 }
 
 export function OnPlayerLeftGame(eventPlayer: mod.Player) {
@@ -1400,6 +1409,10 @@ export function OnPlayerLeftGame(eventPlayer: mod.Player) {
     if (p != undefined) {
         p.connected = false;
         modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerDisconnected, p.id));
+        mod.DeleteUIWidget(mod.FindUIWidgetWithName("ActiveFlag" + p.id));
+        mod.DeleteUIWidget(mod.FindUIWidgetWithName("FriendlyCap" + p.id));
+        mod.DeleteUIWidget(mod.FindUIWidgetWithName("EnemyCap" + p.id));
+        mod.DeleteUIWidget(mod.FindUIWidgetWithName("CapProgress" + p.id));
     }
     
 }
@@ -1460,10 +1473,15 @@ export function OnCapturePointCaptured(flag: mod.CapturePoint): void {
             mod.SetUITextColor(widget1, COLOR_FRIENDLY);
             mod.SetUITextColor(widget2, COLOR_ENEMY);
             
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team1);
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team2);
+            
         }
         else {
             mod.SetUITextColor(widget1, COLOR_ENEMY);
-            mod.SetUITextColor(widget2, COLOR_FRIENDLY);        
+            mod.SetUITextColor(widget2, COLOR_FRIENDLY);    
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team2);            
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team1);    
         }
     }
 }
@@ -1479,8 +1497,44 @@ export function OnCapturePointLost(flag: mod.CapturePoint): void {
         const widget2 = mod.FindUIWidgetWithName("FLAG" + symbol + "2");
         mod.SetUITextColor(widget1, COLOR_NEUTRAL);
         mod.SetUITextColor(widget2, COLOR_NEUTRAL);
+
+        
+
+        const team = mod.GetPreviousOwnerTeam(flag);
+
+        if (modlib.Equals(team, team1)) {
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
+        }
+        else {
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
+        }  
+        
+        
     } 
     
+}
+
+export function OnCapturePointCapturing(flag: mod.CapturePoint) {
+    // Bugged function is not called at all
+    /*
+    if (gameStatus == 3) {
+        const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
+        const team = mod.GetCurrentOwnerTeam(flag);
+
+        if (modlib.Equals(team, team1)) {
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
+            console.log("Capturing")
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
+        }
+        else {
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
+        } 
+
+    }
+    */  
 }
 
 export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mod.InteractPoint) {
@@ -1521,8 +1575,9 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
 }
 
 export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
+    
     if (gameStatus == 3) {
-        console.log("Player entered capture point "+mod.GetObjId(eventCapturePoint));
+        
         
         const team = mod.GetTeam(eventPlayer);
         const id = modlib.getPlayerId(eventPlayer);
@@ -1626,11 +1681,12 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
             eventPlayer
         )
 
-        serverPlayers.forEach(p => {
-            if (modlib.Equals(p.player, eventPlayer)) {
-                p.setWidgets();
-            }
-        })
+        const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+        if (p != undefined) {
+            p.setWidgets();
+        }
+        
+
             
         
     }
