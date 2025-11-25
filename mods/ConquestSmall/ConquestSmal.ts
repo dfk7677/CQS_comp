@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 0, 2];
+const VERSION = [1, 1, 0];
 
 // Define Classes
 class Player {
@@ -10,12 +10,17 @@ class Player {
     public friendlyCapWidget: mod.UIWidget | null;
     public enemyCapWidget: mod.UIWidget | null;
     public progressBarWidget: mod.UIWidget | null;
+    public friendlyScoreWidget: mod.UIWidget | null;
+    public opponentScoreWidget: mod.UIWidget | null;
+    public flagWidget: {[key: string]: mod.UIWidget | null};
+    
     private _scoreboard: number[];
     private _onCapturePoint: mod.CapturePoint | null;
     private _firstDeploy:boolean;
     private _ready: boolean;
     public id: number;
     public connected: boolean;
+    public team: mod.Team;
 
     constructor(player: mod.Player) {
         this.player = player;
@@ -26,8 +31,16 @@ class Player {
         this.friendlyCapWidget = null;
         this.enemyCapWidget = null;
         this.progressBarWidget = null;
+        this.friendlyScoreWidget = null;
+        this.opponentScoreWidget = null;
+        this.flagWidget = {
+            'A': null,
+            'B': null,            
+            'C': null
+        };
         this.id = modlib.getPlayerId(this.player);
         this.connected = true;
+        this.team = mod.GetTeam(this.player);
     }
 
     setCapturePoint(capturePoint: mod.CapturePoint | null) {
@@ -69,9 +82,7 @@ class Player {
         this._scoreboard[4] += 1;
     }
 
-    getTeam(): mod.Team {
-        return mod.GetTeam(this.player);
-    }
+    
 
     isReady() {
         return this._ready;
@@ -100,6 +111,138 @@ class Player {
         this.progressBarWidget = mod.FindUIWidgetWithName("CapProgress" + this.id);
     }
 
+    setTeam() {
+        this.team = mod.GetTeam(this.player);
+           
+    }
+
+    addUI() {
+        if (gameStatus == 3)
+        {
+            let t = [];
+            
+            if (mod.Equals(this.team,team1)) {
+                t = [0,1];
+                
+            }
+            else {
+                t = [1,0];
+                
+            }
+            
+            
+            mod.AddUIText(
+                "TeamFriendlyScore"+this.id,
+                mod.CreateVector(0, 0, 0),
+                mod.CreateVector(100, 50, 0),
+                mod.UIAnchor.CenterLeft,
+                mod.FindUIWidgetWithName("LiveContainer"),
+                true,
+                0,
+                mod.CreateVector(0.2, 0.2, 0.2),
+                1,
+                mod.UIBgFill.None,
+                mod.Message(serverScores[t[0]]),
+                24,
+                COLOR_FRIENDLY,
+                1,
+                mod.UIAnchor.Center,
+                this.player
+            );
+
+            mod.AddUIText(
+                "TeamOpponentScore"+this.id,
+                mod.CreateVector(0, 0, 0),
+                mod.CreateVector(100, 50, 0),
+                mod.UIAnchor.CenterRight,
+                mod.FindUIWidgetWithName("LiveContainer"),
+                true,
+                0,
+                mod.CreateVector(0.2, 0.2, 0.2),
+                1,
+                mod.UIBgFill.None,
+                mod.Message(serverScores[t[1]]),
+                24,
+                COLOR_ENEMY,
+                1,
+                mod.UIAnchor.Center,
+                this.player
+            )
+
+            mod.AddUIText(
+                "FLAGA"+this.id,
+                mod.CreateVector(0, 0, 0),
+                mod.CreateVector(50, 50, 0),
+                mod.UIAnchor.Center,
+                mod.FindUIWidgetWithName("FlagContainerA"),
+                true,
+                0,
+                mod.CreateVector(0, 0, 0),
+                0.4,
+                mod.UIBgFill.Blur,
+                mod.Message("A"),
+                27,
+                serverCapturePoints[201].getColor(this.team),
+                1,
+                mod.UIAnchor.Center,
+                this.player            
+            )
+
+            mod.AddUIText(
+                "FLAGB"+this.id,
+                mod.CreateVector(0, 0, 0),
+                mod.CreateVector(50, 50, 0),
+                mod.UIAnchor.Center,
+                mod.FindUIWidgetWithName("FlagContainerB"),
+                true,
+                0,
+                mod.CreateVector(0, 0, 0),
+                0.4,
+                mod.UIBgFill.Blur,
+                mod.Message("B"),
+                27,
+                serverCapturePoints[202].getColor(this.team),
+                1,
+                mod.UIAnchor.Center,
+                this.player            
+            )
+
+            mod.AddUIText(
+                "FLAGC"+this.id,
+                mod.CreateVector(0, 0, 0),
+                mod.CreateVector(50, 50, 0),
+                mod.UIAnchor.Center,
+                mod.FindUIWidgetWithName("FlagContainerC"),
+                true,
+                0,
+                mod.CreateVector(0, 0, 0),
+                0.4,
+                mod.UIBgFill.Blur,
+                mod.Message("C"),
+                27,
+                serverCapturePoints[203].getColor(this.team),
+                1,
+                mod.UIAnchor.Center,
+                this.player            
+            )
+
+            this.flagWidget['A'] = mod.FindUIWidgetWithName("FLAGA"+this.id);
+            this.flagWidget['B'] = mod.FindUIWidgetWithName("FLAGB"+this.id);
+            this.flagWidget['C'] = mod.FindUIWidgetWithName("FLAGC"+this.id);
+            this.friendlyScoreWidget = mod.FindUIWidgetWithName("TeamFriendlyScore"+this.id);
+            this.opponentScoreWidget = mod.FindUIWidgetWithName("TeamOpponentScore"+this.id);
+        }
+
+        
+    }
+
+    updateTickets() {
+        if (this.friendlyScoreWidget !== null && this.opponentScoreWidget !== null) {
+            mod.SetUITextLabel(this.friendlyScoreWidget, mod.Message(getFriendlyScore(this.team)));
+            mod.SetUITextLabel(this.opponentScoreWidget, mod.Message(getOpponentScore(this.team)));
+        }
+    }
+
 
 }
 
@@ -120,7 +263,7 @@ class CapturePoint {
         this.symbol = symbol;
         this.capturePoint = mod.GetCapturePoint(id);
         this._owner = teamNeutral;
-        this._onPoint = [0,0];
+        this._onPoint = [];
         this._captureProgress = 0;
         this._previousCaptureProgress = 0;
         this._capturingTeam = teamNeutral;
@@ -129,12 +272,28 @@ class CapturePoint {
         mod.EnableGameModeObjective(this.capturePoint, false);
     }
 
-    setOnPoint(onPoint: number[]) {
-        this._onPoint = onPoint;
+    addOnPoint(playerId: number) {
+        this._onPoint.push(playerId);
+    }
+
+    removeOnPoint(playerId: number) {
+        this._onPoint.splice(this._onPoint.indexOf(playerId), 1);
     }
 
     getOnPoint(): number[] {
-        return this._onPoint;
+        let onPoint = [0,0];
+        for (let i = 0; i < this._onPoint.length; i++) {
+            const p = serverPlayers.get(this._onPoint[i]);
+            if (p !== undefined) {
+                if (mod.Equals(p.team, team1)) {
+                    onPoint[0] += 1;
+                }
+                else {
+                    onPoint[1] += 1;
+                }
+            }
+        }
+        return onPoint;
     }
 
     setOwner(owner: mod.Team) {
@@ -150,25 +309,28 @@ class CapturePoint {
     setCaptureProgress() {
         this._previousCaptureProgress = this._captureProgress;
         this._captureProgress = mod.GetCaptureProgress(this.capturePoint);
+        
+        const onPoint = this.getOnPoint();
         if (this._captureProgress > this._previousCaptureProgress) {
-            if (this._onPoint[0] > this._onPoint[1]) {
+
+            if (onPoint[0] > onPoint[1]) {
                 this._capturingTeam = team1;
             }
-            else if (this._onPoint[0] < this._onPoint[1]) {
+            else if (onPoint[0] < onPoint[1]) {
                 this._capturingTeam = team2;
             }
             mod.SetCapturePointCapturingTime(this.capturePoint, CAPTURE_TIME);
         }
         else if (this._captureProgress < this._previousCaptureProgress) {
-            if (this._onPoint[0] > this._onPoint[1]) {
+            if (onPoint[0] > onPoint[1]) {
                 this._capturingTeam = team2;
             }
-            else if (this._onPoint[0] < this._onPoint[1]) {
+            else if (onPoint[0] < onPoint[1]) {
                 this._capturingTeam = team1;
             }
             mod.SetCapturePointNeutralizationTime(this.capturePoint, NEUTRALIZE_TIME);
         }
-        const fade = (this._onPoint[0] > 0 && this._onPoint[1] > 0) || (this._onPoint[0] > 0 && mod.NotEqualTo(this._owner, team1)) || (this._onPoint[1] > 0 && mod.NotEqualTo(this._owner, team2));
+        const fade = this._captureProgress != 0 && this._captureProgress != 1;
         if (fade) {
             this._fade += 2* mod.Pi() / TICK_RATE;
         }
@@ -177,8 +339,11 @@ class CapturePoint {
 
         }
 
-        mod.SetUITextAlpha(mod.FindUIWidgetWithName("FLAG" + this.symbol + "1"), (mod.SineFromRadians(this._fade) + 1) / 2);
-        mod.SetUITextAlpha(mod.FindUIWidgetWithName("FLAG" + this.symbol + "2"), (mod.SineFromRadians(this._fade) + 1) / 2);
+        serverPlayers.forEach(p => {
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("FLAG" + this.symbol + p.id), (mod.SineFromRadians(this._fade) + 1) / 2);
+        });
+
+        
         
     }
 
@@ -188,6 +353,20 @@ class CapturePoint {
 
     getCapturingTeam(): mod.Team {
         return this._capturingTeam;
+    }
+
+    getColor(team:mod.Team): mod.Vector {
+        if (mod.Equals(team, this._owner)) {
+            return COLOR_FRIENDLY;
+        }
+        else {
+            if (mod.Equals(this._owner, teamNeutral)) {
+                return COLOR_NEUTRAL;
+            }
+            else {
+                return COLOR_ENEMY;
+            }
+        }
     }
     
 }
@@ -222,6 +401,8 @@ const voflags: {[key: string]: mod.VoiceOverFlags} = {
     "B": mod.VoiceOverFlags.Bravo,
     "C": mod.VoiceOverFlags.Charlie
 }
+
+const disconnectedPlayers: Player[] = [];
 
 let vo: {[key: number]: mod.VO} = {};
 
@@ -509,220 +690,7 @@ const UIWidget = modlib.ParseUI(
     }
 );
 
-function AddTeam1UI() {
-    mod.AddUIText(
-        "Team1FriendlyScore",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(100, 50, 0),
-        mod.UIAnchor.CenterLeft,
-        mod.FindUIWidgetWithName("LiveContainer"),
-        true,
-        0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
-        mod.Message(serverScores[0]),
-        24,
-        COLOR_FRIENDLY,
-        1,
-        mod.UIAnchor.Center,
-        team1
-    );
 
-    mod.AddUIText(
-        "Team1OpponentScore",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(100, 50, 0),
-        mod.UIAnchor.CenterRight,
-        mod.FindUIWidgetWithName("LiveContainer"),
-        true,
-        0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
-        mod.Message(serverScores[1]),
-        24,
-        COLOR_ENEMY,
-        1,
-        mod.UIAnchor.Center,
-        team1
-    )
-
-    mod.AddUIText(
-        "FLAGA1",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerA"),
-        true,
-        0,
-        mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
-        mod.Message("A"),
-        27,
-        COLOR_NEUTRAL,
-        1,
-        mod.UIAnchor.Center,
-        team1            
-    )
-
-    mod.AddUIText(
-        "FLAGB1",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerB"),
-        true,
-        0,
-        mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
-        mod.Message("B"),
-        27,
-        COLOR_NEUTRAL,
-        1,
-        mod.UIAnchor.Center,
-        team1            
-    )
-
-    mod.AddUIText(
-        "FLAGC1",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerC"),
-        true,
-        0,
-        mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
-        mod.Message("C"),
-        27,
-        COLOR_NEUTRAL,
-        1,
-        mod.UIAnchor.Center,
-        team1            
-    )
-        
-
-    
-}
-
-function RemoveUITeam1()
-{
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team1FriendlyScore"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team1OpponentScore"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("FLAGA1"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("FLAGB1"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("FLAGC1"));
-    
-}
-
-function AddTeam2UI() {
-    mod.AddUIText(
-        "Team2FriendlyScore",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(100, 50, 0),
-        mod.UIAnchor.CenterLeft,
-        mod.FindUIWidgetWithName("LiveContainer"),
-        true,
-        0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
-        mod.Message(serverScores[1]),
-        24,
-        COLOR_FRIENDLY,
-        1,
-        mod.UIAnchor.Center,
-        team2
-    );
-
-    mod.AddUIText(
-        "Team2OpponentScore",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(100, 50, 0),
-        mod.UIAnchor.CenterRight,
-        mod.FindUIWidgetWithName("LiveContainer"),
-        true,
-        0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
-        mod.Message(serverScores[0]),
-        24,
-        COLOR_ENEMY,
-        1,
-        mod.UIAnchor.Center,
-        team2
-    )
-
-    mod.AddUIText(
-        "FLAGA2",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerA"),
-        true,
-        0,
-        mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
-        mod.Message("A"),
-        27,
-        COLOR_NEUTRAL,
-        1,
-        mod.UIAnchor.Center,
-        team2            
-    )
-
-    mod.AddUIText(
-        "FLAGB2",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerB"),
-        true,
-        0,
-        mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
-        mod.Message("B"),
-        27,
-        COLOR_NEUTRAL,
-        1,
-        mod.UIAnchor.Center,
-        team2            
-    )
-
-    mod.AddUIText(
-        "FLAGC2",
-        mod.CreateVector(0, 0, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerC"),
-        true,
-        0,
-        mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
-        mod.Message("C"),
-        27,
-        COLOR_NEUTRAL,
-        1,
-        mod.UIAnchor.Center,
-        team2            
-    )
-}
-
-function RemoveUITeam2(){
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team2FriendlyScore"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team2OpponentScore"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("FLAGA2"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("FLAGB2"));
-    mod.DeleteUIWidget(mod.FindUIWidgetWithName("FLAGC2"));
-}
 
 function SetUITime() {
     const timeWidget = mod.FindUIWidgetWithName("RemainingTime");
@@ -762,13 +730,23 @@ function ChangeTickets() {
     else if (teamcps[1] == 3) {
         serverScores[0] += BLEED_THREE_FLAGS / 10;
     }
+
+    
+}
+
+function getFriendlyScore(team: mod.Team): number {
+    return mod.Equals(team, team1) ? mod.Ceiling(serverScores[0]) : mod.Ceiling(serverScores[1]);    
+}
+
+function getOpponentScore(team: mod.Team): number {
+    return mod.Equals(team, team1) ? mod.Ceiling(serverScores[1]) : mod.Ceiling(serverScores[0]);    
 }
 
 function SetUIScores() {
-    mod.SetUITextLabel(mod.FindUIWidgetWithName("Team1FriendlyScore"), mod.Message(mod.Ceiling(serverScores[0])));
-    mod.SetUITextLabel(mod.FindUIWidgetWithName("Team1OpponentScore"), mod.Message(mod.Ceiling(serverScores[1])));
-    mod.SetUITextLabel(mod.FindUIWidgetWithName("Team2FriendlyScore"), mod.Message(mod.Ceiling(serverScores[1])));
-    mod.SetUITextLabel(mod.FindUIWidgetWithName("Team2OpponentScore"), mod.Message(mod.Ceiling(serverScores[0])));
+    serverPlayers.forEach(p => {
+        p.updateTickets();
+    });
+    
 }
 
 function UpdateScoreboard() {
@@ -783,7 +761,9 @@ function InitializePreMatch() {
     
     UIContainers = [mod.FindUIWidgetWithName("PreMatchContainer"), mod.FindUIWidgetWithName("CountDownContainer"), mod.FindUIWidgetWithName("LiveContainer"), mod.FindUIWidgetWithName("PostMatchContainer")];
 
-     
+    serverPlayers.forEach(p => {
+        p.setTeam();
+    });
     
     
     const wIcon1 = mod.GetWorldIcon(5001);
@@ -865,14 +845,17 @@ function InitializeLive() {
 
     serverPlayers.forEach(p => {
         p.setWidgets();
+        p.setTeam();
+        p.addUI()
+        mod.EnableAllInputRestrictions(p.player, false);
+        mod.EnableInputRestriction(p.player, mod.RestrictedInputs.FireWeapon, false);
     })
     serverScores = [INITIAL_TICKETS, INITIAL_TICKETS];
     
     // mod.ResetGameModeTime();
     const allPlayers = modlib.ConvertArray(mod.AllPlayers());
     allPlayers.forEach((player: mod.Player) => {
-        mod.EnableAllInputRestrictions(player, false);
-        mod.EnableInputRestriction(player, mod.RestrictedInputs.FireWeapon, false);
+        
     })
     
     
@@ -881,8 +864,8 @@ function InitializeLive() {
     
     
     
-    AddTeam1UI();
-    AddTeam2UI();
+    //AddTeam1UI();
+    //AddTeam2UI();
 
     SetUITime();
     SetUIScores();
@@ -897,8 +880,7 @@ function InitializePostmatch()
     phaseTickCount = 0;
     countDown = POSTMATCH_TIME;
     mod.SetUIWidgetVisible(UIContainers[2], false);
-    RemoveUITeam1();
-    RemoveUITeam2();
+    
     mod.DeployAllPlayers()
     
     mod.SetUIWidgetDepth(UIContainers[3], mod.UIDepth.AboveGameUI);
@@ -1039,13 +1021,13 @@ export function OngoingGlobal() {
         let readyPlayers:number[] = [0, 0];
         let totalPlayers:number[] = [0, 0];
         serverPlayers.forEach(p => {
-            if (mod.Equals(p.getTeam(), team1)) {
+            if (mod.Equals(p.team, team1)) {
                 totalPlayers[0] += 1;
                 if (p.isReady()) {
                     readyPlayers[0] += 1;
                 } 
 
-            } else if (mod.Equals(p.getTeam(), team2)) {
+            } else if (mod.Equals(p.team, team2)) {
                 totalPlayers[1] += 1;
                 if (p.isReady()) {
                     readyPlayers[1] += 1;
@@ -1107,38 +1089,12 @@ export function OngoingGlobal() {
             UpdateScoreboard();
         }
 
-        // Set all player cp to null
         
-        serverPlayers.forEach(p => {
-            p.setCapturePoint(null);
-        })
         
-        // Set player cp
+        
+        
+        
         Object.values(serverCapturePoints).forEach(capturePoint => {
-            
-        
-            const playersOnPoint = modlib.ConvertArray(mod.GetPlayersOnPoint(capturePoint.capturePoint));
-            let team1players = 0;
-            let team2players = 0;
-            playersOnPoint.forEach(player => {
-                serverPlayers.forEach(p => {
-                    if (modlib.Equals(p.player, player)) {
-                        
-                        p.setCapturePoint(capturePoint.capturePoint);
-                    }
-                })
-                const team = mod.GetTeam(player);
-                
-                if (modlib.Equals(team, team1)) {
-                    team1players += 1;
-                }
-                else {
-                    team2players += 1;
-                }
-                
-            })
-            capturePoint.setOnPoint([team1players, team2players]);
-            
             capturePoint.setOwner(mod.GetCurrentOwnerTeam(capturePoint.capturePoint));
             capturePoint.setCaptureProgress();
         
@@ -1241,11 +1197,12 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
     if (!gameModeStarted) {
         return;
     }
-    const player = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+    let player = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+    
     if (gameStatus == 0) {
         
         
-        if (player != undefined) {
+        if (player !== undefined) {
             if (player.isReady()) {
             
                 mod.SetUITextColor(mod.FindUIWidgetWithName("ReadyText" + player.id), mod.CreateVector(0, 1, 0));
@@ -1260,27 +1217,44 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                
     } else if (gameStatus == 3)
     {
-        const team = mod.GetTeam(eventPlayer);
-        let point = null;
-        //let point:mod.CapturePoint | null = null;
-        if (player != undefined) {
-            point = player.getCapturePoint();
+        for (let i = 0; i < disconnectedPlayers.length; i++) {
+            if (mod.Equals(disconnectedPlayers[i].player, eventPlayer)) {
+                // Player reconnected
+                player = disconnectedPlayers[i];
+                serverPlayers.set(modlib.getPlayerId(eventPlayer), player);
+                if (mod.NotEqualTo(player.team, mod.GetTeam(eventPlayer))) {
+                    mod.SetTeam(eventPlayer, player.team);
+                }
+                player.connected = true;
+                player.setTeam();
+                modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerReconnected, player.id));
                 
+
+                mod.SetUIWidgetVisible(UIContainers[0], false);
+                mod.SetUIWidgetVisible(UIContainers[2], true);
+                
+                player.addUI();
+                disconnectedPlayers.splice(i, 1);
+                break;
+            }
         }
         
         
         
         
         
-        if (point !== null) {
+        
+        const point = player?.getCapturePoint();
+        
+        if (point !== null && point !== undefined) {
             const cp = serverCapturePoints[mod.GetObjId(point)];
-            
+            const team = player?.team;
                     
                     
             
             if (modlib.Equals(team, team1)) {
                 
-                if (player != undefined) {
+                if (player !== undefined) {
                     if (player.friendlyCapWidget != null) 
                     {
                             mod.SetUITextLabel(player.friendlyCapWidget, mod.Message(cp.getOnPoint()[0]));
@@ -1289,7 +1263,7 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                     
                 
                 
-                if (player != undefined) {
+                if (player !== undefined) {
                     if (player.enemyCapWidget != null) 
                     {
                         mod.SetUITextLabel(player.enemyCapWidget, mod.Message(cp.getOnPoint()[1]));
@@ -1299,14 +1273,14 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
             }
             else {
                 
-                if (player != undefined) {
+                if (player !== undefined) {
                     if (player.friendlyCapWidget != null) 
                     {
                         mod.SetUITextLabel(player.friendlyCapWidget, mod.Message(cp.getOnPoint()[1]));
                     }
                 }
                 
-                if (player != undefined) {
+                if (player !== undefined) {
                     if (player.enemyCapWidget != null) 
                     {
                         mod.SetUITextLabel(player.enemyCapWidget, mod.Message(cp.getOnPoint()[0]));
@@ -1318,7 +1292,9 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
             
             
             const size = mod.CreateVector(60 * cp.getCaptureProgress(),60,0);
-            if (player != undefined) {
+            
+            if (player !== undefined) {
+                
                 if (player.progressBarWidget != null) {
                     mod.SetUIWidgetSize(player.progressBarWidget, size);
             
@@ -1364,15 +1340,8 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         serverPlayers.set(p.id, p);
         modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerJoined, p.id));
         console.log(`Player with ID${p.id} joined server`);
-        
-    }
-    else {
-        modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerReconnected, p.id));
-    }
-    
-    
-    if (p != undefined) {
         if (gameStatus == 0 || gameStatus == -1) {
+
             
             mod.AddUIText(
                 "ReadyText" + p.id,
@@ -1395,24 +1364,58 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
 
         
         }
+        else if (gameStatus == 1) {
+            mod.SetUIWidgetVisible(UIContainers[0], false);
+            mod.SetUIWidgetVisible(UIContainers[1], true);
+        }
 
         else if (gameStatus == 3) {
+            mod.SetUIWidgetVisible(UIContainers[0], false);
             mod.SetUIWidgetVisible(UIContainers[2], true);
+            p.addUI();
+            
         }
+        
+        
+    }
+    else {
+        
+    }
     
-    }  
+    
+    
+        
+    
+      
 }
 
-export function OnPlayerLeftGame(eventPlayer: mod.Player) {
-
-    const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-    if (p != undefined) {
+export function OnPlayerLeaveGame(eventNumber: number) {
+    modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerDisconnected, eventNumber));
+    const p = serverPlayers.get(eventNumber);    
+    
+    if (p !== undefined) {
         p.connected = false;
-        modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerDisconnected, p.id));
-        mod.DeleteUIWidget(mod.FindUIWidgetWithName("ActiveFlag" + p.id));
-        mod.DeleteUIWidget(mod.FindUIWidgetWithName("FriendlyCap" + p.id));
-        mod.DeleteUIWidget(mod.FindUIWidgetWithName("EnemyCap" + p.id));
-        mod.DeleteUIWidget(mod.FindUIWidgetWithName("CapProgress" + p.id));
+        const cp = p.getCapturePoint();
+        
+        if (cp !== null) {
+            const capturePoint = serverCapturePoints[mod.GetObjId(cp)];
+            capturePoint.removeOnPoint(eventNumber)
+            p.setCapturePoint(null);
+        }
+        
+        console.log("Player left" +p.id);
+       
+        if (gameStatus == 3) {
+            
+            p.addDeath();
+            mod.DeleteUIWidget(mod.FindUIWidgetWithName("ActiveFlag" + p.id));
+            mod.DeleteUIWidget(mod.FindUIWidgetWithName("FriendlyCap" + p.id));
+            mod.DeleteUIWidget(mod.FindUIWidgetWithName("EnemyCap" + p.id));
+            mod.DeleteUIWidget(mod.FindUIWidgetWithName("CapProgress" + p.id));
+            disconnectedPlayers.push(p);
+            
+        }
+        
     }
     
 }
@@ -1440,7 +1443,7 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
         const team = mod.GetTeam(eventPlayer);
     
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if (p != undefined) {
+        if (p !== undefined) {
             if (!p.isFirstDeploy()) {
                     if (modlib.Equals(team, team1)) 
                     {
@@ -1466,22 +1469,52 @@ export function OnCapturePointCaptured(flag: mod.CapturePoint): void {
 
         const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
         
-        const widget1 = mod.FindUIWidgetWithName("FLAG" + symbol + "1");
-        const widget2 = mod.FindUIWidgetWithName("FLAG" + symbol + "2");
+
+        serverPlayers.forEach(p => {
+            if (p.flagWidget[symbol] !== null) {
+                if (modlib.Equals(team, p.team)) {
+                    mod.SetUITextColor(p.flagWidget[symbol], COLOR_FRIENDLY)
+                }
+                else {
+                    mod.SetUITextColor(p.flagWidget[symbol], COLOR_ENEMY)
+                }
+                
+            }
+        });
+        
         if (modlib.Equals(team, team1)) 
         {
-            mod.SetUITextColor(widget1, COLOR_FRIENDLY);
-            mod.SetUITextColor(widget2, COLOR_ENEMY);
+            
             
             mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team1);
             mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team2);
-            
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCaptured, symbol), team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturedEnemy, symbol), team2);
         }
         else {
-            mod.SetUITextColor(widget1, COLOR_ENEMY);
-            mod.SetUITextColor(widget2, COLOR_FRIENDLY);    
+            
             mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team2);            
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team1);    
+            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team1);  
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCaptured, symbol), team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturedEnemy, symbol), team1);
+        }
+    }
+}
+
+function OnCapturePointNeutralizing(flag: mod.CapturePoint, team: mod.Team): void {
+    if (gameStatus == 3) {
+        
+        const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
+        
+        
+        if (modlib.Equals(team, team1)) {
+            
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizing, symbol), team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizingEnemy, symbol), team2);
+        }
+        else {
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizing, symbol), team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizingEnemy, symbol), team1);
         }
     }
 }
@@ -1493,10 +1526,12 @@ export function OnCapturePointLost(flag: mod.CapturePoint): void {
         mod.SetCapturePointCapturingTime(flag, CAPTURE_TIME);
         
         const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
-        const widget1 = mod.FindUIWidgetWithName("FLAG" + symbol + "1");
-        const widget2 = mod.FindUIWidgetWithName("FLAG" + symbol + "2");
-        mod.SetUITextColor(widget1, COLOR_NEUTRAL);
-        mod.SetUITextColor(widget2, COLOR_NEUTRAL);
+        serverPlayers.forEach(p => {
+            if (p.flagWidget[symbol] !== null) {
+                mod.SetUITextColor(p.flagWidget[symbol], COLOR_NEUTRAL)
+            }
+        });
+        
 
         
 
@@ -1505,10 +1540,15 @@ export function OnCapturePointLost(flag: mod.CapturePoint): void {
         if (modlib.Equals(team, team1)) {
             mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
             mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralised, symbol), team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizedEnemy, symbol), team2);
         }
         else {
             mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
             mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralised, symbol), team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizedEnemy, symbol), team1);
+
         }  
         
         
@@ -1518,7 +1558,7 @@ export function OnCapturePointLost(flag: mod.CapturePoint): void {
 
 export function OnCapturePointCapturing(flag: mod.CapturePoint) {
     // Bugged function is not called at all
-    /*
+    
     if (gameStatus == 3) {
         const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
         const team = mod.GetCurrentOwnerTeam(flag);
@@ -1526,15 +1566,19 @@ export function OnCapturePointCapturing(flag: mod.CapturePoint) {
         if (modlib.Equals(team, team1)) {
             //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
             console.log("Capturing")
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team1);
         }
         else {
             //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team2);
         } 
 
     }
-    */  
+      
 }
 
 export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mod.InteractPoint) {
@@ -1542,19 +1586,21 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
     if (gameStatus == 0) {
         if (mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003) {
             mod.UndeployPlayer(eventPlayer);
-    
+            const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
             if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
                 mod.SetTeam(eventPlayer, team2);
+                
+                p?.setTeam();
             }
             else {
                 mod.SetTeam(eventPlayer, team1);
-
+                p?.setTeam();
             }
         }
 
         else if (mod.GetObjId(eventInteractPoint) == 2002 || mod.GetObjId(eventInteractPoint) == 2004) {
             const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-            if (p != undefined) {
+            if (p !== undefined) {
                 p.changeReady();
             }
         }
@@ -1582,6 +1628,14 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
         const team = mod.GetTeam(eventPlayer);
         const id = modlib.getPlayerId(eventPlayer);
         const cp = serverCapturePoints[mod.GetObjId(eventCapturePoint)];
+        
+        
+        cp.addOnPoint(id);
+        const onpoint = cp.getOnPoint();
+        const inNeutralizing = ((onpoint[0] == 1 && mod.Equals(cp.getOwner(), team2)) || (onpoint[1] == 1 && mod.Equals(cp.getOwner(), team1))) && cp.getCaptureProgress() == 1;
+        if (inNeutralizing) {
+            OnCapturePointNeutralizing(eventCapturePoint, team);
+        }
         
         const parent = mod.FindUIWidgetWithName("ActiveFlagContainer");
         mod.AddUIText(
@@ -1682,7 +1736,9 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
         )
 
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if (p != undefined) {
+        if (p !== undefined) {
+            p.setCapturePoint(eventCapturePoint);
+            
             p.setWidgets();
         }
         
@@ -1695,7 +1751,21 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
 
 export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     if (gameStatus == 3) {
+        const cp = serverCapturePoints[mod.GetObjId(eventCapturePoint)];
+        cp.removeOnPoint(modlib.getPlayerId(eventPlayer));
+        const onpoint = cp.getOnPoint();
+        const team = mod.GetTeam(eventPlayer);
+        const inNeutralizing = ((onpoint[0] == 1 && mod.Equals(cp.getOwner(), team2)) || (onpoint[1] == 1 && mod.Equals(cp.getOwner(), team1))) && cp.getCaptureProgress() == 1;
+        if (inNeutralizing) {
+            OnCapturePointNeutralizing(eventCapturePoint, team);
+        }
+        
         const id = modlib.getPlayerId(eventPlayer);
+        const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+        if (p !== undefined) {
+            p.setCapturePoint(null);
+        }
+
         mod.DeleteUIWidget(mod.FindUIWidgetWithName("ActiveFlag" + id));
         mod.DeleteUIWidget(mod.FindUIWidgetWithName("FriendlyCap" + id));
         mod.DeleteUIWidget(mod.FindUIWidgetWithName("EnemyCap" + id));
@@ -1707,7 +1777,7 @@ export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePo
 export function OnPlayerEarnedKill(eventPlayer: mod.Player, eventOtherPlayer: mod.Player, eventDeathType: mod.DeathType, eventWeaponUnlock: mod.WeaponUnlock) {
     if (gameStatus == 3) {
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if (p != undefined) {
+        if (p !== undefined) {
             if (mod.NotEqualTo(eventPlayer, eventOtherPlayer)) {
                     p.addKill();
                     p.addScore(100);
@@ -1720,7 +1790,7 @@ export function OnPlayerEarnedKill(eventPlayer: mod.Player, eventOtherPlayer: mo
 export function OnPlayerUndeploy(eventPlayer: mod.Player) {
     if (gameStatus == 3) {
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if (p != undefined) {
+        if (p !== undefined) {
             p.addDeath();
         }
            
@@ -1730,7 +1800,7 @@ export function OnPlayerUndeploy(eventPlayer: mod.Player) {
 export function OnPlayerEarnedKillAssist(eventPlayer: mod.Player, eventOtherPlayer: mod.Player) {
     if (gameStatus == 3) {
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if (p != undefined) {
+        if (p !== undefined) {
             p.addKillAssist();
             p.addScore(50);
         }
