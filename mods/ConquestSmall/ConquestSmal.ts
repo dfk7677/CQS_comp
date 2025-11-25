@@ -1626,10 +1626,8 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             }
         }
         
-   
-           
-        
     }
+
 
     if (gameStatus == 3) {
         if (mod.GetObjId(eventInteractPoint) == 6001) // Spectator
@@ -1638,6 +1636,20 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             mod.SetCameraTypeForPlayer(eventPlayer, mod.Cameras.Free);
 
         } 
+
+        if (mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003) {
+            mod.UndeployPlayer(eventPlayer);
+            const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+            if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
+                mod.SetTeam(eventPlayer, team2);
+                
+                p?.setTeam();
+            }
+            else {
+                mod.SetTeam(eventPlayer, team1);
+                p?.setTeam();
+            }
+        }
     }
 }
 
