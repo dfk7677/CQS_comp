@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 1, 4];
+const VERSION = [1, 1, 0];
 
 // Define Classes
 class Player {
@@ -1575,6 +1575,26 @@ export function OnCapturePointCapturing(flag: mod.CapturePoint) {
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team1);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team2);
         }
+        /*
+        else {
+            setTimeout(() => {
+                console.log(cp.getOnPoint()[0] + " " + cp.getOnPoint()[1]);
+                if (cp.getOnPoint()[0] > cp.getOnPoint()[1])  {
+                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
+                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
+                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team1);
+                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team2);
+                }
+                else {
+                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
+                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
+                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team2);
+                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team1);
+                }
+            }, 100);
+            
+        }
+            */
 
     }
       
