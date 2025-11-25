@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 1, 0];
+const VERSION = [1, 1, 4];
 
 // Define Classes
 class Player {
@@ -1227,7 +1227,7 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                 }
                 player.connected = true;
                 player.setTeam();
-                modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerReconnected, player.id));
+                mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, player.id));
                 
 
                 mod.SetUIWidgetVisible(UIContainers[0], false);
@@ -1338,7 +1338,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
     if (p == undefined) {
         p = new Player(eventPlayer);
         serverPlayers.set(p.id, p);
-        modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerJoined, p.id));
+        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, p.id));
         console.log(`Player with ID${p.id} joined server`);
         if (gameStatus == 0 || gameStatus == -1) {
 
@@ -1390,7 +1390,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
 }
 
 export function OnPlayerLeaveGame(eventNumber: number) {
-    modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.PlayerDisconnected, eventNumber));
+    mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerDisconnected, eventNumber));
     const p = serverPlayers.get(eventNumber);    
     
     if (p !== undefined) {
@@ -1556,10 +1556,11 @@ export function OnCapturePointLost(flag: mod.CapturePoint): void {
 }
 
 export function OnCapturePointCapturing(flag: mod.CapturePoint) {
-    // Bugged function is not called at all
     
     if (gameStatus == 3) {
-        const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
+        const cp = serverCapturePoints[mod.GetObjId(flag)];
+        const symbol = cp.symbol;
+
         const team = mod.GetCurrentOwnerTeam(flag);
 
         if (modlib.Equals(team, team1)) {
@@ -1568,12 +1569,12 @@ export function OnCapturePointCapturing(flag: mod.CapturePoint) {
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team2);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team1);
         }
-        else {
+        else if (modlib.Equals(team, team2)) {
             //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
             //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team1);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team2);
-        } 
+        }
 
     }
       
