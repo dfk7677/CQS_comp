@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 1, 0];
+const VERSION = [1, 1, 3];
 
 // Define Classes
 class Player {
@@ -1410,10 +1410,7 @@ export function OnPlayerLeaveGame(eventNumber: number) {
         if (gameStatus == 3) {
             
             p.addDeath();
-            mod.DeleteUIWidget(mod.FindUIWidgetWithName("ActiveFlag" + p.id));
-            mod.DeleteUIWidget(mod.FindUIWidgetWithName("FriendlyCap" + p.id));
-            mod.DeleteUIWidget(mod.FindUIWidgetWithName("EnemyCap" + p.id));
-            mod.DeleteUIWidget(mod.FindUIWidgetWithName("CapProgress" + p.id));
+            
             disconnectedPlayers.push(p);
             
         }
@@ -1656,7 +1653,7 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
 export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     
     if (gameStatus == 3) {
-        
+        console.log("Player entered capture point");
         
         const team = mod.GetTeam(eventPlayer);
         const id = modlib.getPlayerId(eventPlayer);
@@ -1664,10 +1661,27 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
         
         
         cp.addOnPoint(id);
+
         const onpoint = cp.getOnPoint();
         const inNeutralizing = ((onpoint[0] == 1 && mod.Equals(cp.getOwner(), team2)) || (onpoint[1] == 1 && mod.Equals(cp.getOwner(), team1))) && cp.getCaptureProgress() == 1;
         if (inNeutralizing) {
             OnCapturePointNeutralizing(eventCapturePoint, team);
+        }
+
+        const capturingNeutralByTeam1 = (mod.Equals(cp.getOwner(), teamNeutral) && onpoint[0] == 1 && cp.getCaptureProgress() < 0.02);
+        const capturingNeutralByTeam2 = (mod.Equals(cp.getOwner(), teamNeutral) && onpoint[1] == 1 && cp.getCaptureProgress() < 0.02);
+        
+        if (capturingNeutralByTeam1) {
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, cp.symbol), team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, cp.symbol), team2);
+        }
+        else if (capturingNeutralByTeam2) {
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, cp.symbol), team2);
+            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, cp.symbol), team1);
         }
         
         const parent = mod.FindUIWidgetWithName("ActiveFlagContainer");
@@ -1784,6 +1798,7 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
 
 export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     if (gameStatus == 3) {
+        console.log("Player exited capture point");
         const cp = serverCapturePoints[mod.GetObjId(eventCapturePoint)];
         cp.removeOnPoint(modlib.getPlayerId(eventPlayer));
         const onpoint = cp.getOnPoint();
