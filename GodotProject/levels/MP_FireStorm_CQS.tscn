@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dnyxkjo1m1c3m"]
+[gd_scene load_steps=19 format=3 uid="uid://dnyxkjo1m1c3m"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_hailf"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_u1lf4"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_256x120x192.tscn" id="15_bn0gu"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_A_256x120x64.tscn" id="16_wr0ue"]
 [ext_resource type="PackedScene" path="res://objects/Turkmenistan/MP_FireStorm/Generic/Industrial/Props/Container_02_Open_C.tscn" id="18_e0k4g"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="18_l18xe"]
 
 [node name="MP_FireStorm" type="Node3D"]
 
@@ -379,3 +380,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128.7, 134.468, -38.7859)
 
 [node name="BarrierStoneBlock_01_A2" parent="." instance=ExtResource("9_wr0ue")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128.7, 135.61, -38.7859)
+
+[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("18_l18xe")]
+ObjId = 7001
+Area = NodePath("../CombatArea/TEAM_1_HQ/HQ_Team1")
+
+[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("18_l18xe")]
+ObjId = 7002
+Area = NodePath("../CombatArea/TEAM_2_HQ/HQ_Team2")

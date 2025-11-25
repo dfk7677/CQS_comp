@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 1, 3];
+const VERSION = [1, 1, 0];
 
 // Define Classes
 class Player {
@@ -13,6 +13,8 @@ class Player {
     public friendlyScoreWidget: mod.UIWidget | null;
     public opponentScoreWidget: mod.UIWidget | null;
     public flagWidget: {[key: string]: mod.UIWidget | null};
+    public onHQ: boolean;
+    public isDeployed: boolean;
     
     private _scoreboard: number[];
     private _onCapturePoint: mod.CapturePoint | null;
@@ -41,6 +43,8 @@ class Player {
         this.id = modlib.getPlayerId(this.player);
         this.connected = true;
         this.team = mod.GetTeam(this.player);
+        this.onHQ = true;
+        this.isDeployed = false;
     }
 
     setCapturePoint(capturePoint: mod.CapturePoint | null) {
@@ -381,8 +385,8 @@ const PRELIVE_TIME = 30;
 const ROUND_TIME = 1200; // 20 minutes in seconds
 const POSTMATCH_TIME = 10;
 
-const CAPTURE_TIME = 10;
-const NEUTRALIZE_TIME = 15;
+const CAPTURE_TIME = 6;
+const NEUTRALIZE_TIME = 8;
 const CAPTURE_MULTIPLIER = 2;
 const COLOR_NEUTRAL  =   mod.CreateVector(1, 1, 1);
 const COLOR_FRIENDLY =   mod.CreateVector(0.0902, 0.8627, 1);
@@ -1433,6 +1437,13 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
     }
     else if (gameStatus == 2) {
         mod.EnableAllInputRestrictions(eventPlayer, true);
+        const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+        
+        if (p !== undefined) {
+            p.isDeployed = true;
+            mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+            p.onHQ = true;
+        }
     }
 
     else if (gameStatus == 3) {
@@ -1442,7 +1453,15 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
         const team = mod.GetTeam(eventPlayer);
     
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+        
         if (p !== undefined) {
+            p.isDeployed = true;
+            if (p.onHQ) {
+                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+            }
+            else {
+                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+            }
             if (!p.isFirstDeploy()) {
                     if (modlib.Equals(team, team1)) 
                     {
@@ -1650,10 +1669,49 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
     }
 }
 
+export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
+    const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+    
+    if (p !== undefined) {
+        if (mod.Equals(p.team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
+            p.onHQ = true;
+            if (p.isDeployed) {
+                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+            }
+            
+        }
+        else if (mod.Equals(p.team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
+            p.onHQ = true;
+            if (p.isDeployed) {
+                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+            }
+            
+        }
+    }
+}
+
+export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
+    const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+    if (p !== undefined) {
+        if (mod.Equals(p.team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
+            p.onHQ = false;
+            if (p.isDeployed) {
+                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+            }
+            //mod.SetPlayerIncomingDamageFactor(eventPlayer, 100);
+        }
+        else if (mod.Equals(p.team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
+            if (p.isDeployed) {
+                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+            }
+        }
+    }
+}
+
 export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     
     if (gameStatus == 3) {
-        console.log("Player entered capture point");
+        
         
         const team = mod.GetTeam(eventPlayer);
         const id = modlib.getPlayerId(eventPlayer);
@@ -1789,8 +1847,6 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
             p.setWidgets();
         }
         
-
-            
         
     }
     
@@ -1798,7 +1854,7 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
 
 export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     if (gameStatus == 3) {
-        console.log("Player exited capture point");
+        
         const cp = serverCapturePoints[mod.GetObjId(eventCapturePoint)];
         cp.removeOnPoint(modlib.getPlayerId(eventPlayer));
         const onpoint = cp.getOnPoint();
@@ -1839,6 +1895,7 @@ export function OnPlayerUndeploy(eventPlayer: mod.Player) {
     if (gameStatus == 3) {
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
         if (p !== undefined) {
+            p.isDeployed = false;
             p.addDeath();
         }
            

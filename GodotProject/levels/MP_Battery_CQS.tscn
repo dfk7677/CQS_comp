@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://s3hwkd22fx4f"]
+[gd_scene load_steps=15 format=3 uid="uid://s3hwkd22fx4f"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_rteku"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="2_0lxw4"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="11_8nn5m"]
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="12_f7roe"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="13_43mdt"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="14_0lxw4"]
 
 [node name="MP_Battery" type="Node3D"]
 
@@ -316,3 +317,11 @@ transform = Transform3D(0.961195, 0.158252, -0.225963, -0.0292127, -0.756104, -0
 
 [node name="BarrierStoneBlock_01_A6" parent="." instance=ExtResource("5_qssag")]
 transform = Transform3D(0.961195, 0.158252, -0.225963, -0.0292127, -0.756104, -0.6538, -0.274316, 0.635031, -0.722141, 917.562, 83.3879, 264.315)
+
+[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("14_0lxw4")]
+ObjId = 7001
+Area = NodePath("../CombatArea/Team1_HQ/PolygonVolume")
+
+[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("14_0lxw4")]
+ObjId = 7002
+Area = NodePath("../CombatArea/Team2_HQ/PolygonVolume")

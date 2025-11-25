@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://clwmhbmnii7a2"]
+[gd_scene load_steps=15 format=3 uid="uid://clwmhbmnii7a2"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_vlha6"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="2_26kd4"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://static/MP_Abbasid_Assets.tscn" id="11_is2uf"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="12_0uyhr"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="13_dukeq"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="14_5pghb"]
 
 [node name="MP_Abbasid" type="Node3D"]
 
@@ -331,3 +332,11 @@ transform = Transform3D(0.849194, 0, -0.528083, 0, 1, 0, 0.528083, 0, 0.849194, 
 
 [node name="SpawnPoint_10" parent="Obectives/Flags/CapturePointC/Spawns/Team2" instance=ExtResource("5_x17pv")]
 transform = Transform3D(0.0960021, 0, -0.995381, 0, 1, 0, 0.995381, 0, 0.0960021, 19.8158, 2.24475, -48.0919)
+
+[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("14_5pghb")]
+ObjId = 7001
+Area = NodePath("../TEAM_1_HQ/HQ_Team1")
+
+[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("14_5pghb")]
+ObjId = 7002
+Area = NodePath("../TEAM_2_HQ/HQ_Team2")

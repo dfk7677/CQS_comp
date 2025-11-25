@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://00xka1664pef"]
+[gd_scene load_steps=18 format=3 uid="uid://00xka1664pef"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_bbmed"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_dgb3x"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="6_y4f4a"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="7_1mdp5"]
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="7_b60hg"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="8_b60hg"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="8_dgb3x"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_A.tscn" id="9_medn7"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_D.tscn" id="9_roggi"]
@@ -339,3 +340,13 @@ SectorArea = NodePath("../TEAM_1_HQ/HQ_Team1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.318, 67.3944, 103.71)
 ObjId = 3001
 SectorArea = NodePath("../TEAM_2_HQ/HQ_Team2")
+
+[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("8_b60hg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.0752, 123.848, 8.03396)
+ObjId = 7001
+Area = NodePath("../TEAM_1_HQ/HQ_Team1")
+
+[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("8_b60hg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198.837, 136.055, 232.846)
+ObjId = 7002
+Area = NodePath("../TEAM_2_HQ/HQ_Team2")
