@@ -1485,16 +1485,15 @@ export function OnCapturePointCaptured(flag: mod.CapturePoint): void {
         if (modlib.Equals(team, team1)) 
         {
             
-            
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team1);
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team2);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team1);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team2);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCaptured, symbol), team1);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturedEnemy, symbol), team2);
         }
         else {
             
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team2);            
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team1);  
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team2);            
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team1);  
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCaptured, symbol), team2);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturedEnemy, symbol), team1);
         }
@@ -1538,14 +1537,14 @@ export function OnCapturePointLost(flag: mod.CapturePoint): void {
         const team = mod.GetPreviousOwnerTeam(flag);
 
         if (modlib.Equals(team, team1)) {
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralised, symbol), team1);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizedEnemy, symbol), team2);
         }
         else {
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
-            mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
+            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralised, symbol), team2);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralizedEnemy, symbol), team1);
 
@@ -1565,7 +1564,6 @@ export function OnCapturePointCapturing(flag: mod.CapturePoint) {
 
         if (modlib.Equals(team, team1)) {
             //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
-            console.log("Capturing")
             //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team2);
             modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team1);
