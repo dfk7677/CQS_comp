@@ -853,6 +853,21 @@ function InitializePreLive() {
         const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
         mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
     }
+
+    if (mod.IsCurrentMap(mod.Maps.Capstone)) {
+        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
+        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
+        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
+        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
+        const emplacementSpawner1 = mod.GetEmplacementSpawner(801);
+        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
+        const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
+        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
+    }
     
     
     initialization[2] = true;
