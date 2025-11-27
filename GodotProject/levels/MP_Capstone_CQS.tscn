@@ -258,8 +258,8 @@ InfantrySpawnPoints_Team1 = [NodePath("Spawns/Team1/SpawnPoint"), NodePath("Spaw
 InfantrySpawnPoints_Team2 = [NodePath("Spawns/Team2/SpawnPoint"), NodePath("Spawns/Team2/SpawnPoint2"), NodePath("Spawns/Team2/SpawnPoint3"), NodePath("Spawns/Team2/SpawnPoint4"), NodePath("Spawns/Team2/SpawnPoint5")]
 
 [node name="CaptureArea" parent="CapturePointC" instance=ExtResource("2_dgb3x")]
-points = PackedVector2Array(-1.63948, -5.63379, -6.06441, -0.341232, 0.500671, 4.95131, 5.12804, -1.06425)
-height = 2.0
+points = PackedVector2Array(-1.63948, -5.63379, -6.06441, -0.341232, 5.3246, 8.40329, 10.3059, 2.52696)
+height = 6.0
 
 [node name="Spawns" type="Node3D" parent="CapturePointC"]
 

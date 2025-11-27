@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dnyxkjo1m1c3m"]
+[gd_scene load_steps=20 format=3 uid="uid://dnyxkjo1m1c3m"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_hailf"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_u1lf4"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="8_bn0gu"]
 [ext_resource type="PackedScene" path="res://objects/Turkmenistan/MP_FireStorm/Generic/Industrial/Props/Container_02_Open_A_Sand.tscn" id="9_4wwva"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_A.tscn" id="9_wr0ue"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/VehicleSpawner.tscn" id="10_tsmjs"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_256x120x192.tscn" id="15_bn0gu"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_A_256x120x64.tscn" id="16_wr0ue"]
 [ext_resource type="PackedScene" path="res://objects/Turkmenistan/MP_FireStorm/Generic/Industrial/Props/Container_02_Open_C.tscn" id="18_e0k4g"]
@@ -235,6 +236,9 @@ iconTeamOwnerId = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.01453, 1.40739, -19.8696)
 ObjId = 6001
 
+[node name="VehicleSpawner" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("10_tsmjs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0986, 9.14437)
+
 [node name="TEAM_2_HQ" parent="CombatArea" node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_u1lf4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.7168, 28.3916, -154.051)
 Team = 2
@@ -261,7 +265,7 @@ transform = Transform3D(0.99944, 0, 0.0334515, 0, 1, 0, -0.0334515, 0, 0.99944, 
 transform = Transform3D(-0.165771, 0, -0.986164, 0, 1, 0, 0.986164, 0, -0.165771, -3.27857, 0.288116, 13.0592)
 
 [node name="InteractArea" parent="CombatArea/TEAM_2_HQ" instance=ExtResource("4_64bra")]
-transform = Transform3D(0.832283, 0, 0.554351, 0, 1, 0, -0.554351, 0, 0.832283, 4.46351, -0.51693, -13.1371)
+transform = Transform3D(0.832283, 0, 0.554351, 0, 1, 0, -0.554351, 0, 0.832283, 0.353464, -0.51693, -10.7256)
 
 [node name="InteractPointChangeTeam" parent="CombatArea/TEAM_2_HQ/InteractArea" instance=ExtResource("5_wbq2u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.563835, 1, 6.92941)

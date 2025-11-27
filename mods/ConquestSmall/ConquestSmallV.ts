@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 1, 0];
+const VERSION = [1, 1, 2];
 
 // Define Classes
 class Player {
@@ -804,6 +804,7 @@ function InitializePreMatch() {
 
 function InitializeCountDown() {
     console.log("Initialize CountDown");
+
     phaseTickCount = 0;
     countDown = COUNT_DOWN_TIME;
     mod.SetUIWidgetVisible(UIContainers[0], false);
@@ -818,6 +819,8 @@ function InitializeCountDown() {
     mod.SetUIWidgetVisible(UIContainers[1], true);
 
     
+    
+
     
     initialization[1] = true;
 
@@ -834,6 +837,22 @@ function InitializePreLive() {
     Object.values(serverCapturePoints).forEach(capturePoint => {
         mod.EnableGameModeObjective(capturePoint.capturePoint, true);        
     });
+
+    // Spawn vehicles
+    if (mod.IsCurrentMap(mod.Maps.Firestorm)) {
+        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
+        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
+        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
+        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
+        const emplacementSpawner1 = mod.GetEmplacementSpawner(801);
+        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
+        const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
+        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
+    }
     
     
     initialization[2] = true;
