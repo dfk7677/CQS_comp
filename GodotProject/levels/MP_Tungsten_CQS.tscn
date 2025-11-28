@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dadlc5r0qyttx"]
+[gd_scene load_steps=17 format=3 uid="uid://dadlc5r0qyttx"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_nlrid"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_i4ru3"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="6_p3c7y"]
 [ext_resource type="PackedScene" path="res://static/MP_Tungsten_Assets.tscn" id="7_daqfh"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_H.tscn" id="7_p3c7y"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/VehicleSpawner.tscn" id="8_77bwp"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="8_je3t5"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="10_ipvq4"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="13_daqfh"]
@@ -78,6 +79,12 @@ ObjId = 6001
 [node name="BarrierStoneBlock_01_H" parent="TEAM_1_HQ" instance=ExtResource("7_p3c7y")]
 transform = Transform3D(0.882825, 0, -0.469703, 0, 1, 0, 0.469703, 0, 0.882825, 11.5632, -0.561951, 15.802)
 
+[node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_77bwp")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.97388, -1.2351, -10.9246)
+ObjId = 701
+VehicleType = 16
+P_DefaultRespawnTime = 120
+
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_nlrid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 394.677, 88.0856, -461.064)
 Team = 2
@@ -131,6 +138,12 @@ iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
 iconTeamOwnerId = 2
+
+[node name="IFVSpawner" parent="TEAM_2_HQ" instance=ExtResource("8_77bwp")]
+transform = Transform3D(0.466479, 0, -0.884532, 0, 1, 0, 0.884532, 0, 0.466479, 9.38428, -4.74037, 41.1726)
+ObjId = 702
+VehicleType = 3
+P_DefaultRespawnTime = 120
 
 [node name="CombatArea" parent="." node_paths=PackedStringArray("CombatVolume") instance=ExtResource("4_ipvq4")]
 CombatVolume = NodePath("CombatVolume")

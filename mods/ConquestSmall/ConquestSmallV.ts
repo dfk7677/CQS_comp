@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 1, 2];
+const VERSION = [1, 2, 2];
 
 // Define Classes
 class Player {
@@ -852,9 +852,7 @@ function InitializePreLive() {
         mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
         const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
         mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
-    }
-
-    if (mod.IsCurrentMap(mod.Maps.Capstone)) {
+    } else if (mod.IsCurrentMap(mod.Maps.Capstone)) {
         const vehicleSpawner1 = mod.GetVehicleSpawner(701);
         mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
         const vehicleSpawner2 = mod.GetVehicleSpawner(702);
@@ -863,10 +861,30 @@ function InitializePreLive() {
         mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
         const vehicleSpawner4 = mod.GetVehicleSpawner(704);
         mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
+        /*
         const emplacementSpawner1 = mod.GetEmplacementSpawner(801);
         mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
         const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
         mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
+        */
+    } else if (mod.IsCurrentMap(mod.Maps.Battery)) {
+        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
+        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
+        
+    } else if (mod.IsCurrentMap(mod.Maps.Abbasid)) {
+        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
+        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
+        
+    } else if (mod.IsCurrentMap(mod.Maps.Tungsten)) {
+        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
+        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
+        
     }
     
     

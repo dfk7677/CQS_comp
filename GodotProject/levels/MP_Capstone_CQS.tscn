@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://00xka1664pef"]
+[gd_scene load_steps=19 format=3 uid="uid://00xka1664pef"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_bbmed"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_dgb3x"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="7_b60hg"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="8_b60hg"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="8_dgb3x"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/VehicleSpawner.tscn" id="8_wx6x0"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_A.tscn" id="9_medn7"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_D.tscn" id="9_roggi"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="12_pbfgd"]
@@ -79,6 +80,21 @@ iconTeamOwnerId = 1
 transform = Transform3D(0.971147, 0, 0.238483, 0, 1, 0, -0.238483, 0, 0.971147, -25.6777, 1.94797, 3.59914)
 ObjId = 6001
 
+[node name="MBTSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_wx6x0")]
+transform = Transform3D(0.970279, 0, 0.24199, 0, 1, 0, -0.24199, 0, 0.970279, 3.8242, -1.94872, -8.55387)
+ObjId = 701
+P_DefaultRespawnTime = 120
+
+[node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_wx6x0")]
+transform = Transform3D(0.970279, 0, 0.24199, 0, 1, 0, -0.24199, 0, 0.970279, 9.62229, -1.94872, -9.99993)
+ObjId = 703
+VehicleType = 12
+P_DefaultRespawnTime = 30
+
+[node name="AreaTrigger" parent="TEAM_1_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("8_b60hg")]
+ObjId = 7001
+Area = NodePath("../HQ_Team1")
+
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_bbmed")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198.837, 136.055, 232.846)
 Team = 2
@@ -131,6 +147,22 @@ iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
 iconTeamOwnerId = 2
+
+[node name="AreaTrigger2" parent="TEAM_2_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("8_b60hg")]
+ObjId = 7002
+Area = NodePath("../HQ_Team2")
+
+[node name="MBTSpawner" parent="TEAM_2_HQ" instance=ExtResource("8_wx6x0")]
+transform = Transform3D(-0.838271, 0, -0.545254, 0, 1, 0, 0.545254, 0, -0.838271, 4.60144, 6.38249, 7.96223)
+ObjId = 702
+VehicleType = 1
+P_DefaultRespawnTime = 120
+
+[node name="TransportSpawner" parent="TEAM_2_HQ" instance=ExtResource("8_wx6x0")]
+transform = Transform3D(-0.809437, 0, 0.587206, 0, 1, 0, -0.587206, 0, -0.809437, 20.5194, 5.55302, 9.41954)
+ObjId = 704
+VehicleType = 8
+P_DefaultRespawnTime = 30
 
 [node name="CombatArea" parent="." node_paths=PackedStringArray("CombatVolume") instance=ExtResource("4_medn7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1458.32, 33.5003, 0)
@@ -340,13 +372,3 @@ SectorArea = NodePath("../TEAM_1_HQ/HQ_Team1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.318, 67.3944, 103.71)
 ObjId = 3001
 SectorArea = NodePath("../TEAM_2_HQ/HQ_Team2")
-
-[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("8_b60hg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.0752, 123.848, 8.03396)
-ObjId = 7001
-Area = NodePath("../TEAM_1_HQ/HQ_Team1")
-
-[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("8_b60hg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198.837, 136.055, 232.846)
-ObjId = 7002
-Area = NodePath("../TEAM_2_HQ/HQ_Team2")
