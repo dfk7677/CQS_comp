@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="6_p3c7y"]
 [ext_resource type="PackedScene" path="res://static/MP_Tungsten_Assets.tscn" id="7_daqfh"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_H.tscn" id="7_p3c7y"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/VehicleSpawner.tscn" id="8_77bwp"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/VehicleSpawner.tscn" id="8_77bwp"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="8_je3t5"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="10_ipvq4"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="13_daqfh"]

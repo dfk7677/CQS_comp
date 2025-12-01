@@ -9,12 +9,13 @@
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="7_735oq"]
 [ext_resource type="Script" uid="uid://ctsgxf2api438" path="res://scripts/Gameplay/Common/AreaTrigger.gd" id="8_b7mf2"]
 [ext_resource type="PackedScene" path="res://objects/Global/Generic/Common/Props/FlagPole_01_USA.tscn" id="8_nrdkt"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/VehicleSpawner.tscn" id="10_jax7h"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/VehicleSpawner.tscn" id="10_jax7h"]
 [ext_resource type="PackedScene" path="res://static/MP_Abbasid_Terrain.tscn" id="10_xjhnj"]
 [ext_resource type="PackedScene" path="res://static/MP_Abbasid_Assets.tscn" id="11_is2uf"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="12_0uyhr"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="13_dukeq"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="14_5pghb"]
+
 
 [node name="MP_Abbasid" type="Node3D"]
 

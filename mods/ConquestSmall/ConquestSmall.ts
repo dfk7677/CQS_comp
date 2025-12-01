@@ -378,7 +378,7 @@ class CapturePoint {
 // Sets core constants
 const INITIAL_TICKETS = 250;
 const BLEED_TWO_FLAGS = -.3;
-const BLEED_THREE_FLAGS = -1.2;
+const BLEED_THREE_FLAGS = -.75;
 const DEATH_TICKET_LOSS = -1;
 const COUNT_DOWN_TIME = 5;
 const PRELIVE_TIME = 30;
