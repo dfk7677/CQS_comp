@@ -1085,6 +1085,7 @@ export function OngoingGlobal() {
         let readyPlayers:number[] = [0, 0];
         let totalPlayers:number[] = [0, 0];
         serverPlayers.forEach(p => {
+            p.setTeam();
             if (mod.Equals(p.team, team1)) {
                 totalPlayers[0] += 1;
                 if (p.isReady()) {
@@ -1286,9 +1287,11 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                 // Player reconnected
                 player = disconnectedPlayers[i];
                 serverPlayers.set(modlib.getPlayerId(eventPlayer), player);
+                /*
                 if (mod.NotEqualTo(player.team, mod.GetTeam(eventPlayer))) {
                     mod.SetTeam(eventPlayer, player.team);
                 }
+                */
                 player.connected = true;
                 player.setTeam();
                 mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer));
@@ -1380,11 +1383,7 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                     }
                 }
             }
-                    
-                    
-                    
-            
-            
+           
             
         }
         
@@ -1728,9 +1727,9 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
         }
     }
 }
-
+/*
 export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
-    /*
+    
     const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
     
     if (p !== undefined) {
@@ -1748,7 +1747,7 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
             }
             
         }
-    }*/
+    }
 }
 
 export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
@@ -1767,8 +1766,10 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
                 //mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
             }
         }
-    }*/
+    }
 }
+
+*/
 
 export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     
