@@ -1282,29 +1282,6 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                
     } else if (gameStatus == 3)
     {
-        for (let i = 0; i < disconnectedPlayers.length; i++) {
-            if (mod.Equals(disconnectedPlayers[i].player, eventPlayer)) {
-                // Player reconnected
-                player = disconnectedPlayers[i];
-                serverPlayers.set(modlib.getPlayerId(eventPlayer), player);
-                /*
-                if (mod.NotEqualTo(player.team, mod.GetTeam(eventPlayer))) {
-                    mod.SetTeam(eventPlayer, player.team);
-                }
-                */
-                player.connected = true;
-                player.setTeam();
-                mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer));
-                
-
-                mod.SetUIWidgetVisible(UIContainers[0], false);
-                mod.SetUIWidgetVisible(UIContainers[2], true);
-                
-                player.addUI();
-                disconnectedPlayers.splice(i, 1);
-                break;
-            }
-        }
         
         
         
@@ -1396,18 +1373,42 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
 
 
 export function OnPlayerJoinGame(eventPlayer: mod.Player) {
-    let p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+    const id = modlib.getPlayerId(eventPlayer);
+
     
-    if (p == undefined) {
-        p = new Player(eventPlayer);
-        serverPlayers.set(p.id, p);
-        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, p.player));
-        console.log(`Player with ID${p.id} joined server`);
-        if (gameStatus == 0 || gameStatus == -1) {
+
+    const p = serverPlayers.get(id);
+    let player;
+    if (!p) {
+        // New player
+        const newPlayer = new Player(eventPlayer);
+        serverPlayers.set(newPlayer.id, newPlayer);
+        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, newPlayer.player));
+        console.log(`Player with ID${newPlayer.id} joined server`);
+        player = newPlayer;
+        
+        
+    }
+
+    else {
+        disconnectedPlayers.forEach((p) => {
+            if (mod.Equals(p.player, eventPlayer)) {
+                // Player reconnected
+                mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer));
+                p.connected = true;
+                p.setTeam();
+                serverPlayers.set(p.id, p);
+                player = p;
+                disconnectedPlayers.splice(disconnectedPlayers.indexOf(p), 1);
+            }
+        })
+    }
+
+    if (gameStatus == 0 || gameStatus == -1) {
 
             
             mod.AddUIText(
-                "ReadyText" + p.id,
+                "ReadyText" + player?.id,
                 mod.CreateVector(0, 60, 0),
                 mod.CreateVector(200, 60, 0),
                 mod.UIAnchor.TopCenter,
@@ -1435,19 +1436,10 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         else if (gameStatus == 3) {
             mod.SetUIWidgetVisible(UIContainers[0], false);
             mod.SetUIWidgetVisible(UIContainers[2], true);
-            p.addUI();
+            player?.addUI();
             
         }
-        
-        
-    }
-    else {
-        
-    }
     
-    
-    
-        
     
       
 }
@@ -1467,13 +1459,14 @@ export function OnPlayerLeaveGame(eventNumber: number) {
             p.setCapturePoint(null);
         }
         
-        
+        disconnectedPlayers.push(p);
+        serverPlayers.delete(eventNumber);
        
         if (gameStatus == 3) {
             
             p.addDeath();
             
-            disconnectedPlayers.push(p);
+            
             
         }
         
