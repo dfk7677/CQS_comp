@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 2, 2];
+const VERSION = [1, 2, 0];
 
 // Define Classes
 class Player {
@@ -885,6 +885,16 @@ function InitializePreLive() {
         const vehicleSpawner2 = mod.GetVehicleSpawner(702);
         mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
         
+    } else if (mod.IsCurrentMap(mod.Maps.Badlands)) {
+        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
+        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
+        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
+        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
+        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
+        
     }
     
     
@@ -1285,7 +1295,7 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                 }
                 player.connected = true;
                 player.setTeam();
-                mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, player.id));
+                mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer));
                 
 
                 mod.SetUIWidgetVisible(UIContainers[0], false);
@@ -1396,7 +1406,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
     if (p == undefined) {
         p = new Player(eventPlayer);
         serverPlayers.set(p.id, p);
-        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, p.id));
+        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, p.player));
         console.log(`Player with ID${p.id} joined server`);
         if (gameStatus == 0 || gameStatus == -1) {
 
@@ -1448,10 +1458,11 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
 }
 
 export function OnPlayerLeaveGame(eventNumber: number) {
-    mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerDisconnected, eventNumber));
+    
     const p = serverPlayers.get(eventNumber);    
     
     if (p !== undefined) {
+        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerDisconnected, p.player));
         p.connected = false;
         const cp = p.getCapturePoint();
         
@@ -1461,7 +1472,7 @@ export function OnPlayerLeaveGame(eventNumber: number) {
             p.setCapturePoint(null);
         }
         
-        console.log("Player left" +p.id);
+        
        
         if (gameStatus == 3) {
             
@@ -1476,6 +1487,7 @@ export function OnPlayerLeaveGame(eventNumber: number) {
 }
 
 export function OnPlayerDeployed(eventPlayer: mod.Player): void {
+    
     
     if (gameStatus == 0) {
         
@@ -1493,7 +1505,7 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
         
         if (p !== undefined) {
             p.isDeployed = true;
-            mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+            //mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
             p.onHQ = true;
         }
     }
@@ -1509,10 +1521,10 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
         if (p !== undefined) {
             p.isDeployed = true;
             if (p.onHQ) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+                //mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
             }
             else {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+                //mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
             }
             if (!p.isFirstDeploy()) {
                     if (modlib.Equals(team, team1)) 
@@ -1722,42 +1734,44 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
 }
 
 export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
+    /*
     const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
     
     if (p !== undefined) {
         if (mod.Equals(p.team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
             p.onHQ = true;
             if (p.isDeployed) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+                //mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
             }
             
         }
         else if (mod.Equals(p.team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
             p.onHQ = true;
             if (p.isDeployed) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+                //mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
             }
             
         }
-    }
+    }*/
 }
 
 export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
+    /*
     const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
     if (p !== undefined) {
         if (mod.Equals(p.team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
             p.onHQ = false;
             if (p.isDeployed) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+                //mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
             }
             //mod.SetPlayerIncomingDamageFactor(eventPlayer, 100);
         }
         else if (mod.Equals(p.team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
             if (p.isDeployed) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+                //mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
             }
         }
-    }
+    }*/
 }
 
 export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {

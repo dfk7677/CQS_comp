@@ -29,17 +29,17 @@
   "CountDownText": "5",
   "MatchStarts": "Match starts in",
   "Redeploying": "Redeploying in",
-  "PlayerJoined": "Player ({}) joined ", 
-  "PlayerLeft": "Player ({}) left",
-  "PlayerDisconnected": "Player ({}) disconnected",
-  "PlayerReconnected": "Player ({}) reconnected",
+  "PlayerJoined": "Player {} joined ", 
+  "PlayerLeft": "Player {} left",
+  "PlayerDisconnected": "Player {} disconnected",
+  "PlayerReconnected": "Player {} reconnected",
   "ObjectiveCaptured": "Objective {} captured",
   "ObjectiveCapturedEnemy": "Objective {} captured by enemy team",
   "ObjectiveNeutralized": "Objective {} neutralized",
   "ObjectiveNeutralizedEnemy": "Objective {} neutralized by enemy team",
   "ObjectiveCapturing": "Objective {} being captured",
   "ObjectiveCapturingEnemy": "Objective {} being captured by enemy team",
-  "ObjectiveNeutralizing": "We are neutralizing objective {} ",
-  "ObjectiveNeutralizingEnemy": "The enemy team is neutralizing objective {}"
+  "ObjectiveNeutralizing": "Objective {} being neutralized",
+  "ObjectiveNeutralizingEnemy": "Objective {} being neutralized by enemy team"
   
 }
