@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 3, 5];
+const VERSION = [1, 3, 1];
 
 // Define Classes
 class Player {
@@ -1341,7 +1341,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
     disconnectedPlayers.forEach((p) => {
         if (mod.Equals(p.player, eventPlayer)) {
             // Player reconnected
-            mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer));
+            mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer, p.id));
             p.setTeam();
             serverPlayers.set(p.id, p);
             player = p;
@@ -1354,7 +1354,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         // New player
         const newPlayer = new Player(eventPlayer);
         serverPlayers.set(newPlayer.id, newPlayer);
-        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, newPlayer.player));
+        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, newPlayer.player, newPlayer.id));
         console.log(`Player with ID${newPlayer.id} joined server`);
         player = newPlayer;
         
@@ -1435,6 +1435,7 @@ export function OnPlayerLeaveGame(eventNumber: number) {
 }
 
 export function OnPlayerDeployed(eventPlayer: mod.Player): void {
+    
     
     
     if (gameStatus == 0) {
