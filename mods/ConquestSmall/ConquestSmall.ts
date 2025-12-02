@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 2, 0];
+const VERSION = [1, 3, 5];
 
 // Define Classes
 class Player {
@@ -21,7 +21,6 @@ class Player {
     private _firstDeploy:boolean;
     private _ready: boolean;
     public id: number;
-    public connected: boolean;
     public team: mod.Team;
 
     constructor(player: mod.Player) {
@@ -41,7 +40,7 @@ class Player {
             'C': null
         };
         this.id = modlib.getPlayerId(this.player);
-        this.connected = true;
+        
         this.team = mod.GetTeam(this.player);
         this.onHQ = true;
         this.isDeployed = false;
@@ -838,64 +837,25 @@ function InitializePreLive() {
         mod.EnableGameModeObjective(capturePoint.capturePoint, true);        
     });
 
-    // Spawn vehicles
-    if (mod.IsCurrentMap(mod.Maps.Firestorm)) {
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
+    
+    const vehicleSpawner1 = mod.GetVehicleSpawner(701);
+    mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
+    const vehicleSpawner2 = mod.GetVehicleSpawner(702);
+    mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
+    const vehicleSpawner3 = mod.GetVehicleSpawner(703);
+    const vehicleSpawner4 = mod.GetVehicleSpawner(704);
+    if (vehicleSpawner3) {
         mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
-        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
         mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
-        const emplacementSpawner1 = mod.GetEmplacementSpawner(801);
-        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
-        const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
-        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
-    } else if (mod.IsCurrentMap(mod.Maps.Capstone)) {
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
-        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
-        /*
-        const emplacementSpawner1 = mod.GetEmplacementSpawner(801);
-        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
-        const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
-        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
-        */
-    } else if (mod.IsCurrentMap(mod.Maps.Battery)) {
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        
-    } else if (mod.IsCurrentMap(mod.Maps.Abbasid)) {
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        
-    } else if (mod.IsCurrentMap(mod.Maps.Tungsten)) {
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        
-    } else if (mod.IsCurrentMap(mod.Maps.Badlands)) {
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
-        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
-        
     }
+    const emplacementSpawner1 = mod.GetEmplacementSpawner(801);    
+    const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
+    if (emplacementSpawner1 && emplacementSpawner2) {
+        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
+        mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
+    }
+    
+
     
     
     initialization[2] = true;
@@ -1373,13 +1333,24 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
 
 
 export function OnPlayerJoinGame(eventPlayer: mod.Player) {
-    const id = modlib.getPlayerId(eventPlayer);
-
     
-
-    const p = serverPlayers.get(id);
+    
+    // If player was disconnected or not
     let player;
-    if (!p) {
+    let disconnected = false;
+    disconnectedPlayers.forEach((p) => {
+        if (mod.Equals(p.player, eventPlayer)) {
+            // Player reconnected
+            mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer));
+            p.setTeam();
+            serverPlayers.set(p.id, p);
+            player = p;
+            disconnectedPlayers.splice(disconnectedPlayers.indexOf(p), 1);
+            disconnected = true;
+        }
+    })
+    
+    if (!disconnected) {
         // New player
         const newPlayer = new Player(eventPlayer);
         serverPlayers.set(newPlayer.id, newPlayer);
@@ -1390,19 +1361,6 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         
     }
 
-    else {
-        disconnectedPlayers.forEach((p) => {
-            if (mod.Equals(p.player, eventPlayer)) {
-                // Player reconnected
-                mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerReconnected, eventPlayer));
-                p.connected = true;
-                p.setTeam();
-                serverPlayers.set(p.id, p);
-                player = p;
-                disconnectedPlayers.splice(disconnectedPlayers.indexOf(p), 1);
-            }
-        })
-    }
 
     if (gameStatus == 0 || gameStatus == -1) {
 
@@ -1434,9 +1392,11 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         }
 
         else if (gameStatus == 3) {
+            player?.setWidgets();
             mod.SetUIWidgetVisible(UIContainers[0], false);
             mod.SetUIWidgetVisible(UIContainers[2], true);
             player?.addUI();
+            
             
         }
     
@@ -1448,9 +1408,10 @@ export function OnPlayerLeaveGame(eventNumber: number) {
     
     const p = serverPlayers.get(eventNumber);    
     
-    if (p !== undefined) {
-        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerDisconnected, p.player));
-        p.connected = false;
+    if (p) {
+        console.log(`Player with ID${p.player} disconnected`);
+        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerDisconnected, p.id));
+        
         const cp = p.getCapturePoint();
         
         if (cp !== null) {
@@ -1458,7 +1419,6 @@ export function OnPlayerLeaveGame(eventNumber: number) {
             capturePoint.removeOnPoint(eventNumber)
             p.setCapturePoint(null);
         }
-        
         disconnectedPlayers.push(p);
         serverPlayers.delete(eventNumber);
        
