@@ -920,11 +920,7 @@ function InitializeLive() {
     })
     serverScores = [INITIAL_TICKETS, INITIAL_TICKETS];
     
-    // mod.ResetGameModeTime();
-    const allPlayers = modlib.ConvertArray(mod.AllPlayers());
-    allPlayers.forEach((player: mod.Player) => {
-        
-    })
+    
     
     
     mod.SetScoreboardColumnNames(mod.Message(mod.stringkeys.ScoreboardScore), mod.Message(mod.stringkeys.ScoreboardKills), 
