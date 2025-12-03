@@ -23,7 +23,7 @@ These were made having in mind both 8v8 with vehicles and 5v5 infantry only.
 
 The above map design decisions were made to avoid one sided matches, difficulties in breaking opponent majority flag ownership, so there is a constant fight for advantage in the map.
 
-All this of course, is work in progress and not a final proposition. I hope it gains some traction so there is some feedback that will eventually lead to an even better experience.
+All this of course, is work in progress, there may be bugs and not a final proposition. I hope it gains some traction so there is some feedback that will eventually lead to an even better experience.
 
 ## Current Map list
 * Siege of Cairo (MP_Abbasid)
@@ -32,6 +32,8 @@ All this of course, is work in progress and not a final proposition. I hope it g
 * Liberation Peak (MP_Capstone)
 * Mirak Valley (MP_Tungsten)
 * Blackwell Fields (MP_Badlands)
+
+
 
 
 
