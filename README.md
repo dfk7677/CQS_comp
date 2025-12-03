@@ -8,15 +8,15 @@ At its current version there may be bugs, but I don’t consider the code itself
 
 The most important part are the maps. We are given a monumental opportunity with BF6 portal. We as a community, for the first time in Battlefield’s history, are able to make competitive maps for Conquest, that can satisfy all our needs for good competitive gameplay, without having to play in limited in number, not prepared for this kind of game, maps as it was in the previous Battlefields, with the exception of BF2.
 
-# Principles
-The 5 maps that are already made, follow some simple principles:
+## Principles
+The 6 maps that are already made, follow some simple principles:
 * Flags not in a linear positioning between opponent teams HQs.
 * Small distances between flags and HQs, most are less than 100m.
 * Small capture areas, so there is more fighting and less hiding in them.
 * Faster than base game capture (6s) and neutralize (8s) times.
 * For 8v8, only one heavy vehicle per side.
 * 20m time limit and 250 initial tickets.
-* Big areas for HQs along with a reduced damage for the players in them to avoid base rape
+* Big areas for HQs ~~along with a reduced damage for the players in them to avoid base rape~~
 * 3 flag setups to avoid a 2-2 flag scenario where both teams are afraid to attack.
   
 These were made having in mind both 8v8 with vehicles and 5v5 infantry only.
@@ -25,12 +25,13 @@ The above map design decisions were made to avoid one sided matches, difficultie
 
 All this of course, is work in progress and not a final proposition. I hope it gains some traction so there is some feedback that will eventually lead to an even better experience.
 
-# Current Map list
+## Current Map list
 * Siege of Cairo (MP_Abbasid)
 * Iberian Offencis (MP_Battery)
 * Firestorm (MP_Firestorm)
 * Liberation Peak (MP_Capstone)
 * Mirak Valley (MP_Tungsten)
+* Blackwell Fields (MP_Badlands)
 
 
 

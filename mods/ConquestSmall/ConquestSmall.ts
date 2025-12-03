@@ -2,7 +2,7 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 3, 1];
+const VERSION = [1, 3, 0];
 
 // Define Classes
 class Player {
@@ -306,8 +306,6 @@ class CapturePoint {
     getOwner(): mod.Team {
         return this._owner;
     }
-
-    
 
     setCaptureProgress() {
         this._previousCaptureProgress = this._captureProgress;
@@ -816,11 +814,6 @@ function InitializeCountDown() {
     mod.EnableInteractPoint(mod.GetInteractPoint(2004), false);
     mod.SetUITextLabel(mod.FindUIWidgetWithName("MatchStartsText"), mod.Message(mod.stringkeys.Redeploying));
     mod.SetUIWidgetVisible(UIContainers[1], true);
-
-    
-    
-
-    
     initialization[1] = true;
 
 }
@@ -866,8 +859,6 @@ function InitializeLive() {
     console.log("Initialize Live");
     phaseTickCount = 0;
     
-    
-    
     mod.SetUIWidgetVisible(UIContainers[1], false);
     mod.SetUIWidgetVisible(UIContainers[2], true);
 
@@ -880,16 +871,9 @@ function InitializeLive() {
     })
     serverScores = [INITIAL_TICKETS, INITIAL_TICKETS];
     
-    
-    
-    
     mod.SetScoreboardColumnNames(mod.Message(mod.stringkeys.ScoreboardScore), mod.Message(mod.stringkeys.ScoreboardKills), 
     mod.Message(mod.stringkeys.ScoreboardDeaths), mod.Message(mod.stringkeys.ScoreboardAssists), mod.Message(mod.stringkeys.ScoreboardCaptures));
     
-    
-    
-    //AddTeam1UI();
-    //AddTeam2UI();
 
     SetUITime();
     SetUIScores();
@@ -1023,8 +1007,6 @@ export function OnGameModeStarted() {
     serverTickCount = 0;
     gameModeStarted = true;
 }
-    
-
 
 export function OngoingGlobal() {
     
@@ -1203,8 +1185,6 @@ export function OngoingGlobal() {
                 } else {
                     mod.EndGameMode(teamNeutral);
                 }
-                    
-                
             }
         }
 
@@ -1242,19 +1222,12 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                
     } else if (gameStatus == 3)
     {
-        
-        
-        
-        
-        
-        
+      
         const point = player?.getCapturePoint();
         
         if (point !== null && point !== undefined) {
             const cp = serverCapturePoints[mod.GetObjId(point)];
             const team = player?.team;
-                    
-                    
             
             if (modlib.Equals(team, team1)) {
                 
@@ -1264,8 +1237,6 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                             mod.SetUITextLabel(player.friendlyCapWidget, mod.Message(cp.getOnPoint()[0]));
                     }
                 }  
-                    
-                
                 
                 if (player !== undefined) {
                     if (player.enemyCapWidget != null) 
@@ -1290,19 +1261,13 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                         mod.SetUITextLabel(player.enemyCapWidget, mod.Message(cp.getOnPoint()[0]));
                     }
                 }
-                
-
             }
-            
-            
             const size = mod.CreateVector(60 * cp.getCaptureProgress(),60,0);
             
             if (player !== undefined) {
                 
                 if (player.progressBarWidget != null) {
                     mod.SetUIWidgetSize(player.progressBarWidget, size);
-            
-            
 
                     if (modlib.Equals(cp.getOwner(), team)) {
                         mod.SetUIWidgetBgColor(player.progressBarWidget, COLOR_FRIENDLY);
@@ -1320,21 +1285,12 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                     }
                 }
             }
-           
-            
         }
-        
     }
-    
-    
-   
 }
 
 
-
 export function OnPlayerJoinGame(eventPlayer: mod.Player) {
-    
-    
     // If player was disconnected or not
     let player;
     let disconnected = false;
@@ -1357,14 +1313,10 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, newPlayer.player, newPlayer.id));
         console.log(`Player with ID${newPlayer.id} joined server`);
         player = newPlayer;
-        
-        
     }
 
 
     if (gameStatus == 0 || gameStatus == -1) {
-
-            
             mod.AddUIText(
                 "ReadyText" + player?.id,
                 mod.CreateVector(0, 60, 0),
@@ -1396,16 +1348,10 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
             mod.SetUIWidgetVisible(UIContainers[0], false);
             mod.SetUIWidgetVisible(UIContainers[2], true);
             player?.addUI();
-            
-            
         }
-    
-    
-      
 }
 
 export function OnPlayerLeaveGame(eventNumber: number) {
-    
     const p = serverPlayers.get(eventNumber);    
     
     if (p) {
@@ -1423,30 +1369,17 @@ export function OnPlayerLeaveGame(eventNumber: number) {
         serverPlayers.delete(eventNumber);
        
         if (gameStatus == 3) {
-            
             p.addDeath();
-            
-            
-            
         }
-        
     }
-    
 }
 
 export function OnPlayerDeployed(eventPlayer: mod.Player): void {
-    
-    
-    
     if (gameStatus == 0) {
-        
-        mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true);   
-        
-        
+        mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true);  
     }
     else if (gameStatus == 1) {
         mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true);
-        
     }
     else if (gameStatus == 2) {
         mod.EnableAllInputRestrictions(eventPlayer, true);
@@ -1476,21 +1409,17 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
                 //mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
             }
             if (!p.isFirstDeploy()) {
-                    if (modlib.Equals(team, team1)) 
-                    {
-                        serverScores[0] += DEATH_TICKET_LOSS; 
-                    }
-                    else {
-                        serverScores[1] += DEATH_TICKET_LOSS;
-                    }
-                    return;
-                } 
+                if (modlib.Equals(team, team1)) 
+                {
+                    serverScores[0] += DEATH_TICKET_LOSS; 
+                }
+                else {
+                    serverScores[1] += DEATH_TICKET_LOSS;
+                }
+                return;
+            } 
         }
-          
     }
-    
-
-    
 }
 
 export function OnCapturePointCaptured(flag: mod.CapturePoint): void { 
