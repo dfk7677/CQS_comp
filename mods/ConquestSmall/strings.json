@@ -35,9 +35,9 @@
   "ObjectiveCaptured": "Objective {} captured",
   "ObjectiveCapturedEnemy": "Objective {} captured by enemy team",
   "ObjectiveNeutralized": "Objective {} neutralized",
-  "ObjectiveNeutralizedEnemy": "Objective {} neutralized by enemy team",
+  "ObjectiveLost": "Objective {} lost",
   "ObjectiveCapturing": "Objective {} being captured",
-  "ObjectiveCapturingEnemy": "Objective {} being captured by enemy team",
+  "ObjectiveCapturingEnemy": "Objective {} being attacked by enemy team",
   "ObjectiveNeutralizing": "Objective {} being neutralized",
   "ObjectiveNeutralizingEnemy": "Objective {} being neutralized by enemy team"
   
