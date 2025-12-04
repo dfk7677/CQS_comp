@@ -30,8 +30,9 @@ HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), NodePath("SpawnPoint_1_4")]
 
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("2_dgb3x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25.6478, 0)
 points = PackedVector2Array(74.8217, -9.5975, 49.0757, -36.1371, -67.0037, -7.9579, -76.7636, 29.4469)
+height = 50.0
 
 [node name="SpawnPoint_1_1" parent="TEAM_1_HQ" instance=ExtResource("3_roggi")]
 transform = Transform3D(0.999884, 0, -0.0152535, 0, 1, 0, 0.0152535, 0, 0.999884, 19.9417, -1.77891, -5.03187)
@@ -105,9 +106,9 @@ HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), NodePath("SpawnPoint_2_4")]
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_dgb3x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.09363, 0)
 points = PackedVector2Array(16.2744, 60.4625, 57.9384, 25.5142, -1.91278, -11.517, -62.6811, 38.2626)
-height = 20.0
+height = 30.0
 
 [node name="SpawnPoint_2_1" parent="TEAM_2_HQ" instance=ExtResource("3_roggi")]
 transform = Transform3D(-0.30646, 0, -0.951884, 0, 1, 0, 0.951884, 0, -0.30646, -19.5769, 6.34833, 8.10104)

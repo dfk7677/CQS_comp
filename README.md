@@ -27,7 +27,7 @@ All this of course, is work in progress, there may be bugs and not a final propo
 
 ## Current Map list
 * Siege of Cairo (MP_Abbasid)
-* Iberian Offencis (MP_Battery)
+* Iberian Offensive (MP_Battery)
 * Operation Firestorm (MP_Firestorm)
 * Liberation Peak (MP_Capstone)
 * Mirak Valley (MP_Tungsten)

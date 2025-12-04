@@ -16,7 +16,6 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="13_dukeq"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="14_5pghb"]
 
-
 [node name="MP_Abbasid" type="Node3D"]
 
 [node name="Sector - This manages the CapturePoint Names" parent="." node_paths=PackedStringArray("SectorArea", "CapturePoints") instance=ExtResource("1_vlha6")]
@@ -49,6 +48,7 @@ HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), NodePath("SpawnPoint_1_4")]
 
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("3_fx3qc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.76984, 0)
 points = PackedVector2Array(20, -30, -30, -30, -30, 50, 20, 50)
 height = 100.0
 
@@ -119,6 +119,7 @@ HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), NodePath("SpawnPoint_2_4")]
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("3_fx3qc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.18771, 0)
 points = PackedVector2Array(30, 10, 40, -50, 0, -60, -40, -50, -40, 50)
 height = 100.0
 

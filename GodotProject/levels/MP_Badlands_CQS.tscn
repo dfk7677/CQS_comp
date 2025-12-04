@@ -27,8 +27,9 @@ HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), NodePath("SpawnPoint_1_4")]
 
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("2_s0qi4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2026, 5.77018, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2026, -15.1268, 0)
 points = PackedVector2Array(10.6105, -34.1006, -46.4225, -104.448, -75.8563, -71.6842, -66.7444, 45.8734, -17.2183, 96.2976, 12.7229, 43.5307)
+height = 50.0
 
 [node name="SpawnPoint_1_1" parent="TEAM_1_HQ" instance=ExtResource("3_ufcjm")]
 transform = Transform3D(0.670284, 0, 0.742105, 0, 1, 0, -0.742105, 0, 0.670284, 23.546, -0.343369, -13.17)
@@ -99,8 +100,9 @@ HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), NodePath("SpawnPoint_2_4")]
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_s0qi4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.65042, 13.8973)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.4715, 13.8973)
 points = PackedVector2Array(50.8375, 21.703, 24.6121, -46.647, -17.5492, -97.9462, -31.4711, -9.88012, -11.1984, 13.3932)
+height = 50.0
 
 [node name="SpawnPoint_2_1" parent="TEAM_2_HQ" instance=ExtResource("3_ufcjm")]
 transform = Transform3D(0.87795, 0, -0.478754, 0, 1, 0, 0.478754, 0, 0.87795, -25.4468, -4.33853, -1.4007)
@@ -302,7 +304,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1458.32, 33.5003, 0)
 CombatVolume = NodePath("CombatVolume")
 
 [node name="CombatVolume" parent="CombatArea" instance=ExtResource("2_s0qi4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1379.83, 57.362, -253.193)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1379.83, 24.0806, -253.193)
 points = PackedVector2Array(-184.649, 15.1428, -255.337, 93.8123, -246.216, 211.246, -170.347, 288.692, -23.7444, 290.574, 27.8389, 257.96, 65.8056, 182.331, 39.5824, 113.922, -2.60263, 62.6162, -83.5523, 11.31)
 height = 100.0
 

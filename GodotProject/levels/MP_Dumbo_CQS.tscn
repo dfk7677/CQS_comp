@@ -72,9 +72,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.15036, 1, -20.2018)
 ObjId = 6001
 
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("2_ovqyo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65761, -0.664528, 2.81656)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65761, -24.0051, 2.81656)
 points = PackedVector2Array(12.7931, 30.0653, 14.4831, -98.1558, -44.5448, -98.6603, -46.8231, 45.2542)
-height = 10.0
+height = 50.0
 
 [node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("7_r0pww")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.2603, 0, 1.68359)
@@ -103,9 +103,9 @@ transform = Transform3D(0.839278, 0, -0.543702, 0, 1, 0, 0.543702, 0, 0.839278, 
 transform = Transform3D(0.198067, 0, -0.980188, 0, 1, 0, 0.980188, 0, 0.198067, -7.91288, 0.0849876, 8.02187)
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_ovqyo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75376, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75376, -8.69894, 0)
 points = PackedVector2Array(66.8071, 27.2593, 65.7457, -15.2031, -25.2847, -17.2304, -41.4729, 29.3805, -10.6153, 34.1914)
-height = 10.0
+height = 50.0
 
 [node name="InteractArea" parent="TEAM_2_HQ" instance=ExtResource("4_p47jw")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)

@@ -192,7 +192,7 @@ HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), NodePath("SpawnPoint_1_4")]
 
 [node name="HQ_Team1" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("2_u71p8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -2.87901, 0)
 points = PackedVector2Array(17.8105, 37.0166, 18.1808, -37.3808, -31.6046, -38.8283, -31.1823, 38.5422)
 height = 20.0
 
