@@ -28,10 +28,15 @@ All this of course, is work in progress, there may be bugs and not a final propo
 ## Current Map list
 * Siege of Cairo (MP_Abbasid)
 * Iberian Offencis (MP_Battery)
-* Firestorm (MP_Firestorm)
+* Operation Firestorm (MP_Firestorm)
 * Liberation Peak (MP_Capstone)
 * Mirak Valley (MP_Tungsten)
 * Blackwell Fields (MP_Badlands)
+* Manhattan Bridge (MP_Dumbo)
+
+## Map changelog
+### MP_Firestorm
+ver 1.3: Added cover west of capture point B, changed letters of objectives, moved Team 1 spawns a little back, so they don't have advantage reaching B.
 
 
 
