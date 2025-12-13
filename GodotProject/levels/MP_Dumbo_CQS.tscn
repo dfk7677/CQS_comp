@@ -91,16 +91,16 @@ HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), NodePath("SpawnPoint_2_4")]
 
 [node name="SpawnPoint_2_1" parent="TEAM_2_HQ" instance=ExtResource("3_fllmf")]
-transform = Transform3D(-0.979974, 0, -0.199128, 0, 1, 0, 0.199128, 0, -0.979974, -6.70366, 0, -15.2049)
+transform = Transform3D(-0.979974, 0, -0.199128, 0, 1, 0, 0.199128, 0, -0.979974, -16.9536, 0, 2.02135)
 
 [node name="SpawnPoint_2_2" parent="TEAM_2_HQ" instance=ExtResource("3_fllmf")]
-transform = Transform3D(-0.370817, 0, -0.928706, 0, 1, 0, 0.928706, 0, -0.370817, 10.3404, 0.09692, 0)
+transform = Transform3D(-0.919046, 0, -0.39415, 0, 1, 0, 0.39415, 0, -0.919046, -6.0575, 0.09692, -14.7574)
 
 [node name="SpawnPoint_2_3" parent="TEAM_2_HQ" instance=ExtResource("3_fllmf")]
-transform = Transform3D(0.839278, 0, -0.543702, 0, 1, 0, 0.543702, 0, 0.839278, 5.20445, 0.229858, -10.2491)
+transform = Transform3D(0.839278, 0, -0.543702, 0, 1, 0, 0.543702, 0, 0.839278, 5.20445, 0.229858, -10.3317)
 
 [node name="SpawnPoint_2_4" parent="TEAM_2_HQ" instance=ExtResource("3_fllmf")]
-transform = Transform3D(0.198067, 0, -0.980188, 0, 1, 0, 0.980188, 0, 0.198067, -7.91288, 0.0849876, 8.02187)
+transform = Transform3D(0.198067, 0, -0.980188, 0, 1, 0, 0.980188, 0, 0.198067, -16.0759, 0.0849876, 10.2672)
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_ovqyo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75376, -8.69894, 0)

@@ -2,7 +2,8 @@
 // Conquest Small mode with 3 flags, ticket bleed and UI tracking
 import * as modlib from 'modlib';
 
-const VERSION = [1, 4, 4];
+
+const VERSION = [1, 4, 1];
 
 // Sets core constants
 const INITIAL_TICKETS = 250;
@@ -24,6 +25,18 @@ const COLOR_ENEMY    =   mod.CreateVector(1, 0.4, 0);
 const REDEPLOY_TIME = 10;
 const TICK_RATE = 30;
 const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
+
+// Enums
+enum CapturePointStatus {
+    Stable = 0,
+    Capturing,
+    PassiveCapturing,
+    Neutralizing,
+    PassiveNeutralizing,
+    Contested
+}
+
+
 
 // Define Classes
 class Player {
@@ -59,6 +72,7 @@ class Player {
         
         
         this.team = mod.GetTeam(this.player);
+        console.log(modlib.getTeamId(this.team));
         mod.AddUIText(
             "TeamFriendlyScore"+this.id,
             mod.CreateVector(0, 0, 0),
@@ -578,18 +592,14 @@ class Player {
         }
     }
 
-    updateUIProgress() {
+    updateUIProgressColor() {
         const point = this.getCapturePoint();
         
         if (point) {
-            const cp = serverCapturePoints[mod.GetObjId(point)];
-            const size = mod.CreateVector(mod.Ceiling(60 * cp.getCaptureProgress()),60,0);
             
-            //const size = mod.CreateVector(32,60,0);
-                
+            const cp = serverCapturePoints[mod.GetObjId(point)];
             if (this.progressBarWidget) {
-                mod.SetUIWidgetSize(this.progressBarWidget, size);
-
+                
                 if (modlib.Equals(cp.getOwner(), this.team)) {
                     mod.SetUIWidgetBgColor(this.progressBarWidget, COLOR_FRIENDLY);
                 }
@@ -604,6 +614,22 @@ class Player {
                 else {
                     mod.SetUIWidgetBgColor(this.progressBarWidget, COLOR_ENEMY);
                 }
+                
+            }
+        }
+    }
+
+    updateUIProgress() {
+        const point = this.getCapturePoint();
+        
+        if (point) {
+            const cp = serverCapturePoints[mod.GetObjId(point)];
+            const size = mod.CreateVector(mod.Ceiling(60 * cp.getCaptureProgress()),60,0);
+            
+            //const size = mod.CreateVector(32,60,0);
+                
+            if (this.progressBarWidget) {
+                mod.SetUIWidgetSize(this.progressBarWidget, size);
             }
         }
     }
@@ -621,6 +647,7 @@ class CapturePoint {
     private _previousCaptureProgress: number;
     private _capturingTeam: mod.Team;
     private _fade: number;
+    private _status: CapturePointStatus;
 
 
     constructor(id: number, symbol: string) {
@@ -633,8 +660,35 @@ class CapturePoint {
         this._previousCaptureProgress = 0;
         this._capturingTeam = teamNeutral;
         this._fade = mod.Pi();
-        mod.SetCapturePointCapturingTime(this.capturePoint, CAPTURE_TIME);
         mod.EnableGameModeObjective(this.capturePoint, false);
+        this._status = CapturePointStatus.Stable;
+
+    }
+
+    statusChanged() {
+        console.log("Status changed");
+        if (this._status == CapturePointStatus.Stable) {
+            mod.SetCapturePointCapturingTime(this.capturePoint, CAPTURE_TIME);
+            this.stopFlashingFlag();
+        }
+        else if (this._status == CapturePointStatus.Capturing) {
+            mod.SetCapturePointCapturingTime(this.capturePoint, CAPTURE_TIME); 
+        }
+        else if (this._status == CapturePointStatus.Neutralizing) {
+            mod.SetCapturePointNeutralizationTime(this.capturePoint, NEUTRALIZE_TIME); 
+        }
+        
+        
+        this.updateUIProgressColorForPlayersOnPoint();
+    }
+
+    setStatus(status: CapturePointStatus) {
+        // mod.DisplayHighlightedWorldLogMessage(mod.Message(status));
+        this._status = status;
+    }
+
+    getStatus(): CapturePointStatus {
+        return this._status;
     }
 
     addOnPoint(playerId: number) {
@@ -661,65 +715,41 @@ class CapturePoint {
         return onPoint;
     }
 
-    setOwner(owner: mod.Team) {
-        this._owner = owner;
-    }
+    
 
     getOwner(): mod.Team {
-        return this._owner;
+        return mod.GetCurrentOwnerTeam(this.capturePoint);
     }
 
-    setCaptureProgress() {
-        this._previousCaptureProgress = this._captureProgress;
-        this._captureProgress = mod.GetCaptureProgress(this.capturePoint);
-        
-        const onPoint = this.getOnPoint();
-        if (this._captureProgress > this._previousCaptureProgress) {
-
-            if (onPoint[0] > onPoint[1]) {
-                this._capturingTeam = team1;
-            }
-            else if (onPoint[0] < onPoint[1]) {
-                this._capturingTeam = team2;
-            }
-            mod.SetCapturePointCapturingTime(this.capturePoint, CAPTURE_TIME);
-            this.setUIProgressForPlayersOnPoint()
-        }
-        else if (this._captureProgress < this._previousCaptureProgress) {
-            if (onPoint[0] > onPoint[1]) {
-                this._capturingTeam = team2;
-            }
-            else if (onPoint[0] < onPoint[1]) {
-                this._capturingTeam = team1;
-            }
-            mod.SetCapturePointNeutralizationTime(this.capturePoint, NEUTRALIZE_TIME);
-            this.setUIProgressForPlayersOnPoint()
-        }
-        const fade = this._captureProgress != 0 && this._captureProgress != 1;
-        if (fade) {
+    flashFlag() {
+        if (this._status != CapturePointStatus.Stable) {
             this._fade += 2* mod.Pi() / TICK_RATE;
+            serverPlayers.forEach(p => {
+                mod.SetUITextAlpha(mod.FindUIWidgetWithName("FLAG" + this.symbol + p.id), (mod.SineFromRadians(this._fade) + 1) / 2);
+            });
         }
-        else {
-            this._fade = mod.Pi();
+    }
 
-        }
-
+    stopFlashingFlag() {
         serverPlayers.forEach(p => {
-            mod.SetUITextAlpha(mod.FindUIWidgetWithName("FLAG" + this.symbol + p.id), (mod.SineFromRadians(this._fade) + 1) / 2);
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("FLAG" + this.symbol + p.id), 1);
         });
-
-        
-
-        
-        
     }
 
     getCaptureProgress(): number {
-        return this._captureProgress;
+        return mod.GetCaptureProgress(this.capturePoint);
+    }
+
+    setCaptureProgress(progress: number) {
+        this._captureProgress = progress;
     }
 
     getCapturingTeam(): mod.Team {
         return this._capturingTeam;
+    }
+
+    setCapturingTeam(team: mod.Team) {
+        this._capturingTeam = team;
     }
 
     getColor(team:mod.Team): mod.Vector {
@@ -740,13 +770,16 @@ class CapturePoint {
         this._onPoint.forEach(id => {
             const p = serverPlayers.get(id);
             if(p) {
-                p.updateUIPlayersOnPoint()
+                p.updateUIPlayersOnPoint();
             }
             
         });
     }
 
-    setUIProgressForPlayersOnPoint() {
+    updateUIProgressForPlayersOnPoint() {
+        if (this._status == CapturePointStatus.Stable || this._status == CapturePointStatus.Contested) {
+            return;
+        }
         this._onPoint.forEach(id => {
             const p = serverPlayers.get(id);
             if(p) {
@@ -756,6 +789,15 @@ class CapturePoint {
         });
     }
     
+    updateUIProgressColorForPlayersOnPoint() {
+        this._onPoint.forEach(id => {
+            const p = serverPlayers.get(id);
+            if(p) {
+                p.updateUIProgressColor();
+            }
+            
+        });
+    }
 }
 
 
@@ -771,10 +813,12 @@ const voflags: {[key: string]: mod.VoiceOverFlags} = {
     "C": mod.VoiceOverFlags.Charlie
 }
 
+
 const disconnectedPlayers: Player[] = [];
 
-let vo: {[key: number]: mod.VO} = {};
+const VOs: mod.VO[] = [];
 
+let voObject: mod.VO;
 
 let serverScores: number[] = [INITIAL_TICKETS, INITIAL_TICKETS];
 let countDown:number = COUNT_DOWN_TIME;
@@ -836,7 +880,7 @@ const UIWidget = modlib.ParseUI(
                 bgColor: [0.2, 0.2, 0.2],
                 bgAlpha: 1,
                 bgFill: mod.UIBgFill.None,
-                textLabel: mod.stringkeys.RemainingTime,
+                textLabel: mod.Message(mod.stringkeys.RemainingTime, 20, 0, 0),
                 textColor: [1, 1, 1],
                 textAlpha: 1,
                 textSize: 20,
@@ -952,7 +996,7 @@ const UIWidget = modlib.ParseUI(
                 bgColor: [0.2, 0.2, 0.2],
                 bgAlpha: 1,
                 bgFill: mod.UIBgFill.None,
-                textLabel: mod.stringkeys.PreMatchTeam1,
+                textLabel: mod.Message(mod.stringkeys.PreMatchTeam1, 0, 0),
                 textColor: [1, 1, 1],
                 textAlpha: 1,
                 textSize: 24,
@@ -986,7 +1030,7 @@ const UIWidget = modlib.ParseUI(
                 bgColor: [0.2, 0.2, 0.2],
                 bgAlpha: 1,
                 bgFill: mod.UIBgFill.None,
-                textLabel: mod.stringkeys.PreMatchTeam2,
+                textLabel: mod.Message(mod.stringkeys.PreMatchTeam2, 0, 0),
                 textColor: [1, 1, 1],
                 textAlpha: 1,
                 textSize: 24,
@@ -1062,15 +1106,12 @@ function SetUITime() {
 function ChangeTickets() {
     let teamcps = [0,0];
     Object.values(serverCapturePoints).forEach(capturePoint => {
-        
-        
         if (mod.Equals(capturePoint.getOwner(), team1)) {
             teamcps[0] += 1;
         }
         else if (mod.Equals(capturePoint.getOwner(), team2)) {
             teamcps[1] += 1;
         }
-        
     });
     
     if (teamcps[0] == 2) {
@@ -1142,12 +1183,7 @@ function InitializePreMatch() {
         mod.EnableGameModeObjective(cp.capturePoint, false);
     })
 
-    vo[mod.VoiceOverEvents2D.ObjectiveNeutralised] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
-    vo[mod.VoiceOverEvents2D.ObjectiveLost] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
-    vo[mod.VoiceOverEvents2D.ObjectiveCaptured] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
-    vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
-    vo[mod.VoiceOverEvents2D.ObjectiveCapturing] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
-    vo[mod.VoiceOverEvents2D.ObjectiveContested] = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+    
     
 
     initialization[0] = true;
@@ -1181,7 +1217,9 @@ function InitializePreLive() {
     mod.UndeployAllPlayers();
 
     Object.values(serverCapturePoints).forEach(capturePoint => {
-        mod.EnableGameModeObjective(capturePoint.capturePoint, true);        
+        mod.EnableGameModeObjective(capturePoint.capturePoint, true);
+        mod.SetCapturePointCapturingTime(capturePoint.capturePoint, CAPTURE_TIME);
+        //mod.SetCapturePointNeutralizationTime(capturePoint.capturePoint, NEUTRALIZE_TIME);     
     });
 
     
@@ -1229,9 +1267,12 @@ function InitializeLive() {
 
     SetUITime();
     SetUIScores();
-    
+    //mod.ResetGameModeTime();
+    //mod.SetGameModeTimeLimit(ROUND_TIME);
     initialization[3] = true;
-    
+    //VOs.push(mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0)));
+    //VOs.push(mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0)));
+    //voObject = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
         
 }
 
@@ -1360,6 +1401,8 @@ export function OnGameModeStarted() {
     gameModeStarted = true;
 }
 
+
+
 export function OngoingGlobal() {
     
     
@@ -1449,16 +1492,17 @@ export function OngoingGlobal() {
         }
         
         Object.values(serverCapturePoints).forEach(capturePoint => {
-            capturePoint.setOwner(mod.GetCurrentOwnerTeam(capturePoint.capturePoint));
-            capturePoint.setCaptureProgress();
+            capturePoint.updateUIProgressForPlayersOnPoint();  
+            capturePoint.flashFlag();
         
         });
 
         if (phaseTickCount == TOTAL_TICKS) {
             console.log("Live ends by time.");
             gameStatus = 4;
-            
+            //mod.PauseGameModeTime(true);
         }
+        
         if (serverScores[0] <= 0 || serverScores[1] <= 0) {
             console.log("Live ends by score.");
             gameStatus = 4;
@@ -1551,6 +1595,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
     // If player was disconnected or not
     let player;
     let disconnected = false;
+    console.log(mod.Equals(eventPlayer, eventPlayer));
     disconnectedPlayers.forEach((p) => {
         if (mod.Equals(p.player, eventPlayer)) {
             // Player reconnected
@@ -1674,12 +1719,14 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
 
 export function OnCapturePointCaptured(flag: mod.CapturePoint): void { 
     if (gameStatus == 3) {   
-        mod.SetCapturePointNeutralizationTime(flag, NEUTRALIZE_TIME);
-        const team = mod.GetCurrentOwnerTeam(flag);
 
-        const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
         
-
+        //mod.SetCapturePointNeutralizationTime(flag, NEUTRALIZE_TIME);
+        const team = mod.GetCurrentOwnerTeam(flag);
+        const cp = serverCapturePoints[mod.GetObjId(flag)];
+        const symbol = cp.symbol;
+        //cp.setStatus(CapturePointStatus.Stable);
+        
         serverPlayers.forEach(p => {
             if (p.flagWidget[symbol]) {
                 if (modlib.Equals(team, p.team)) {
@@ -1691,25 +1738,26 @@ export function OnCapturePointCaptured(flag: mod.CapturePoint): void {
                 
             }
         });
-        
+        /*
+        const vo1 = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+        const vo2 = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
         if (modlib.Equals(team, team1)) 
         {
             
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team1);
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCaptured, symbol), team1);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturedEnemy, symbol), team2);
+            mod.PlayVO(vo1, mod.VoiceOverEvents2D.ObjectiveCaptured,mod.VoiceOverFlags.Alpha, team1);            
+            mod.PlayVO(vo2, mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team2);
+            
         }
         else {
-            
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCaptured], mod.VoiceOverEvents2D.ObjectiveCaptured, voflags[symbol], team2);            
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturedEnemy], mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team1);  
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCaptured, symbol), team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturedEnemy, symbol), team1);
-        }
+            mod.PlayVO(vo1, mod.VoiceOverEvents2D.ObjectiveCaptured,voflags[symbol], team2);            
+            mod.PlayVO(vo2, mod.VoiceOverEvents2D.ObjectiveCapturedEnemy, voflags[symbol], team1);
+        }  
+        mod.UnspawnObject(vo1);
+        mod.UnspawnObject(vo2);
+        */
     }
 }
-
+/*
 function OnCapturePointNeutralizing(flag: mod.CapturePoint, team: mod.Team): void {
     if (gameStatus == 3) {
         
@@ -1728,86 +1776,72 @@ function OnCapturePointNeutralizing(flag: mod.CapturePoint, team: mod.Team): voi
     }
 }
 
-
+*/
 
 export function OnCapturePointLost(flag: mod.CapturePoint): void {
     console.log("Lost");
     if (gameStatus == 3) {
-        mod.SetCapturePointCapturingTime(flag, CAPTURE_TIME);
         
-        const symbol = serverCapturePoints[mod.GetObjId(flag)].symbol;
+        const cp = serverCapturePoints[mod.GetObjId(flag)];
+        //cp.statusChanged();
+        
+        const symbol = cp.symbol;
         serverPlayers.forEach(p => {
             if (p.flagWidget[symbol]) {
                 mod.SetUITextColor(p.flagWidget[symbol], COLOR_NEUTRAL)
             }
+            
         });
-        
-
-        
-
+        /*
         const team = mod.GetPreviousOwnerTeam(flag);
-
-        if (modlib.Equals(team, team1)) {
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralised, symbol), team1);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveLost, symbol), team2);
+        const vo1 = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+        const vo2 = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0));
+        if (modlib.Equals(team, team1)) 
+        {
+            
+            mod.PlayVO(vo1, mod.VoiceOverEvents2D.ObjectiveNeutralised,voflags[symbol], team1);            
+            mod.PlayVO(vo2, mod.VoiceOverEvents2D.ObjectiveLost, voflags[symbol], team2);
+            
         }
         else {
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveNeutralised], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team1);
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveLost], mod.VoiceOverEvents2D.ObjectiveNeutralised, voflags[symbol], team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveNeutralised, symbol), team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveLost, symbol), team1);
-
+            mod.PlayVO(vo1, mod.VoiceOverEvents2D.ObjectiveNeutralised,voflags[symbol], team2);            
+            mod.PlayVO(vo2, mod.VoiceOverEvents2D.ObjectiveLost, voflags[symbol], team1);
         }  
-        
+        mod.UnspawnObject(vo1);
+        mod.UnspawnObject(vo2);
+        */
         
     } 
     
 }
 
-export function OnCapturePointCapturing(flag: mod.CapturePoint) {
+export async function OnCapturePointCapturing(flag: mod.CapturePoint) {
     
     if (gameStatus == 3) {
         console.log("Capturing");
         const cp = serverCapturePoints[mod.GetObjId(flag)];
         const symbol = cp.symbol;
-
+        cp.updateUIProgressColorForPlayersOnPoint();
+        /*
         const team = mod.GetCurrentOwnerTeam(flag);
 
-        if (modlib.Equals(team, team1)) {
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team1);
-        }
-        else if (modlib.Equals(team, team2)) {
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team1);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team2);
-        }
-        /*
-        else {
-            setTimeout(() => {
-                console.log(cp.getOnPoint()[0] + " " + cp.getOnPoint()[1]);
-                if (cp.getOnPoint()[0] > cp.getOnPoint()[1])  {
-                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
-                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
-                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team1);
-                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team2);
-                }
-                else {
-                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
-                    //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
-                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, symbol), team2);
-                    modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, symbol), team1);
-                }
-            }, 100);
+        
+        mod.PlayVO(voObject, mod.VoiceOverEvents2D.ObjectiveCapturing, mod.VoiceOverFlags.Delta, team1);
+        if (modlib.Equals(team, team1)) 
+        {
+            
+            //mod.PlayVO(VOs[0], mod.VoiceOverEvents2D.ObjectiveCapturing, mod.VoiceOverFlags.Alpha, team1);            
+            //mod.PlayVO(vo2, mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
             
         }
-            */
+        else {
+            //mod.PlayVO(vo1, mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2);            
+            //mod.PlayVO(vo2, mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
 
+        }
+        //mod.UnspawnObject(vo1);
+        //mod.UnspawnObject(vo2);
+        */
     }
       
 }
@@ -1815,9 +1849,10 @@ export function OnCapturePointCapturing(flag: mod.CapturePoint) {
 export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mod.InteractPoint) {
 
     if (gameStatus == 0) {
-        if (mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003) {
+        const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+        if ((mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003) && !p?.isReady()) {
             mod.UndeployPlayer(eventPlayer);
-            const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
+            
             if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
                 mod.SetTeam(eventPlayer, team2);                
                 p?.setTeam();
@@ -1869,55 +1904,67 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
         } 
 
         if (mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003) {
-            mod.UndeployPlayer(eventPlayer);
-            const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-            if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
-                mod.SetTeam(eventPlayer, team2);
-                p?.setTeam();
+            const team = mod.GetTeam(eventPlayer);
+            const team1numPlayers = modlib.getPlayersInTeam(team1).length;
+            const team2numPlayers = modlib.getPlayersInTeam(team2).length;
+            if (mod.Equals(team, team1)) {
+                if (team1numPlayers > team2numPlayers) {
+                    mod.UndeployPlayer(eventPlayer);
+                    mod.SetTeam(eventPlayer, team2);
+                    
+                }
+            }
+            else if (mod.Equals(team, team2)) {
+                if (team2numPlayers > team1numPlayers) {
+                    mod.UndeployPlayer(eventPlayer);
+                    mod.SetTeam(eventPlayer, team1);
+                    
+                }
+                
+            }
 
-            }
-            else {
-                mod.SetTeam(eventPlayer, team1);
-                p?.setTeam();
-            }
+            const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));            
+            p?.setTeam();
+
+            
         }
     }
 }
 
 export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
     if (gameStatus == 2 || gameStatus == 3) {
-        const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if(p) {
-            if (mod.Equals(p.team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
-                console.log("Setting damage factor to 0.5");
-            }
-            else if (mod.Equals(p.team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
-                console.log("Setting damage factor to 0.5");
-            }
+        const team = mod.GetTeam(eventPlayer);
+        
+        if (mod.Equals(team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
+            //mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+            console.log("Setting damage factor to 0.5");
+            
         }
+        else if (mod.Equals(team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
+            //mod.SetPlayerIncomingDamageFactor(eventPlayer, .5);
+            console.log("Setting damage factor to 0.5");
+            
+        }
+        
     }
 }
 
 export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
     if (gameStatus == 2 || gameStatus == 3) {
-        const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if (p) {
-            if (mod.Equals(p.team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
-                console.log("Setting damage factor to 1");
-            }
-            else if (mod.Equals(p.team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
-                mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
-                console.log("Setting damage factor to 1");
-            }
+        const team = mod.GetTeam(eventPlayer);
+        if (mod.Equals(team, team1) && mod.GetObjId(eventAreaTrigger) == 7001) {
+            //mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+            console.log("Setting damage factor to 1");
+            //mod.DisplayHighlightedWorldLogMessage(mod.Message(1))
+        }
+        else if (mod.Equals(team, team2) && mod.GetObjId(eventAreaTrigger) == 7002) {
+            //mod.SetPlayerIncomingDamageFactor(eventPlayer, 1);
+            console.log("Setting damage factor to 1");
+            //mod.DisplayHighlightedWorldLogMessage(mod.Message(1))
         }
         
-    }
-    
-    
         
+    }
     
 }
 
@@ -1936,31 +1983,69 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
 
         
         cp.addOnPoint(id);
-
-        console.log(cp.getOnPoint()[0] + cp.getOnPoint()[1]);
-        console.log(modlib.ConvertArray(mod.GetPlayersOnPoint(eventCapturePoint)).length);
+        if (player) {
+            player.setCapturePoint(cp.capturePoint);
+        }
+        
 
         const onpoint = cp.getOnPoint();
-        const inNeutralizing = ((onpoint[0] == 1 && mod.Equals(cp.getOwner(), team2)) || (onpoint[1] == 1 && mod.Equals(cp.getOwner(), team1))) && cp.getCaptureProgress() == 1;
-        if (inNeutralizing) {
-            OnCapturePointNeutralizing(eventCapturePoint, team);
+        const previousCapturePointStatus = cp.getStatus();
+
+        if (onpoint[0] > onpoint[1]) {
+            if (mod.Equals(cp.getOwner(), team1)) {
+                if (cp.getCaptureProgress() == 1) {
+                    cp.setStatus(CapturePointStatus.Stable);
+                }
+                else {
+                    cp.setStatus(CapturePointStatus.Capturing);
+                    cp.setCapturingTeam(team1);
+                }
+                
+            }
+            else if (mod.Equals(cp.getOwner(), team2)) {
+                cp.setStatus(CapturePointStatus.Neutralizing);
+                cp.setCapturingTeam(team1);
+            }
+            else {
+                cp.setStatus(CapturePointStatus.Capturing);
+                cp.setCapturingTeam(team1);
+            }
+        }
+        else if (onpoint[0] < onpoint[1]) {
+            if (mod.Equals(cp.getOwner(), team2)) {
+                if (cp.getCaptureProgress() == 1) {
+                    cp.setStatus(CapturePointStatus.Stable);
+                }
+                else {
+                    cp.setStatus(CapturePointStatus.Capturing);
+                    cp.setCapturingTeam(team2);
+                }
+                
+            }
+            else if (mod.Equals(cp.getOwner(), team1)) {
+                cp.setStatus(CapturePointStatus.Neutralizing);
+                cp.setCapturingTeam(team2);
+            }
+            else {
+                cp.setStatus(CapturePointStatus.Capturing);
+                cp.setCapturingTeam(team2);
+            }
+        }
+        else {
+            cp.setStatus(CapturePointStatus.Contested);            
         }
 
-        const capturingNeutralByTeam1 = (mod.Equals(cp.getOwner(), teamNeutral) && onpoint[0] == 1 && cp.getCaptureProgress() < 0.02);
-        const capturingNeutralByTeam2 = (mod.Equals(cp.getOwner(), teamNeutral) && onpoint[1] == 1 && cp.getCaptureProgress() < 0.02);
-        
-        if (capturingNeutralByTeam1) {
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team1); still bugged
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, cp.symbol), team1);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, cp.symbol), team2);
+        if (cp.getStatus() != previousCapturePointStatus) {
+            
+            cp.statusChanged();
         }
-        else if (capturingNeutralByTeam2) {
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveCapturing], mod.VoiceOverEvents2D.ObjectiveCapturing, voflags[symbol], team2); still bugged
-            //mod.PlayVO(vo[mod.VoiceOverEvents2D.ObjectiveContested], mod.VoiceOverEvents2D.ObjectiveContested, voflags[symbol], team1);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturing, cp.symbol), team2);
-            modlib.ShowHighlightedGameModeMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, cp.symbol), team1);
+
+        /*
+        if (cp.getStatus() == CapturePointStatus.Neutralizing) {
+            OnCapturePointNeutralizing(eventCapturePoint, cp.getCapturingTeam());
         }
+
+        */
         
         
         console.log("Adding flag UI")
@@ -1994,11 +2079,8 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
                 color = COLOR_ENEMY;
             }
             
-            
             player.setCapturePoint(eventCapturePoint);            
-            //player.setWidgets();
-
-        
+            
         }
         
         cp.updateUIforPlayersOnPoint();
@@ -2014,16 +2096,73 @@ export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePo
         const cp = serverCapturePoints[mod.GetObjId(eventCapturePoint)];
         cp.removeOnPoint(modlib.getPlayerId(eventPlayer));
         const onpoint = cp.getOnPoint();
+        const previousCapturePointStatus = cp.getStatus();
+        if (onpoint[0] > onpoint[1]) {
+            if (mod.Equals(cp.getOwner(), team1)) {
+                if (cp.getCaptureProgress() == 1) {
+                    cp.setStatus(CapturePointStatus.Stable);
+                }
+                else {
+                    cp.setStatus(CapturePointStatus.Capturing);
+                    cp.setCapturingTeam(team1);
+                }
+            }
+            else if (mod.Equals(cp.getOwner(), team2)) {
+                cp.setStatus(CapturePointStatus.Neutralizing);
+                cp.setCapturingTeam(team1);
+            }
+            else {
+                cp.setStatus(CapturePointStatus.Capturing);
+                cp.setCapturingTeam(team1);
+            }
+        }
+        else if (onpoint[0] < onpoint[1]) {
+            if (mod.Equals(cp.getOwner(), team2)) {
 
-        console.log(cp.getOnPoint()[0] + cp.getOnPoint()[1]);
-        console.log(modlib.ConvertArray(mod.GetPlayersOnPoint(eventCapturePoint)).length);
-        const team = mod.GetTeam(eventPlayer);
-        const inNeutralizing = ((onpoint[0] == 1 && mod.Equals(cp.getOwner(), team2)) || (onpoint[1] == 1 && mod.Equals(cp.getOwner(), team1))) && cp.getCaptureProgress() == 1;
-        if (inNeutralizing) {
-            OnCapturePointNeutralizing(eventCapturePoint, team);
+                if (cp.getCaptureProgress() == 1) {
+                    cp.setStatus(CapturePointStatus.Stable);
+                }
+                else {
+                    cp.setStatus(CapturePointStatus.Capturing);
+                    cp.setCapturingTeam(team2);
+                }
+            }
+            else if (mod.Equals(cp.getOwner(), team1)) {
+                cp.setStatus(CapturePointStatus.Neutralizing);
+                cp.setCapturingTeam(team2);
+            }
+            else {
+                cp.setStatus(CapturePointStatus.Capturing);
+                cp.setCapturingTeam(team2);
+            }
+        }
+        else {
+            if (onpoint[0] != 0) {
+                cp.setStatus(CapturePointStatus.Contested); 
+            }
+            else {
+                if (cp.getCaptureProgress() == 1) {
+                    cp.setStatus(CapturePointStatus.Stable);
+                }
+                else {
+                    if (mod.Equals(cp.getOwner(), teamNeutral)) {
+                        cp.setStatus(CapturePointStatus.Neutralizing);
+                    }
+                    else {
+                        cp.setStatus(CapturePointStatus.Capturing);
+                    }
+                }
+                
+                
+            }
+                       
+        }
+
+        if (cp.getStatus() != previousCapturePointStatus) {
+            cp.statusChanged()
         }
         
-        const id = modlib.getPlayerId(eventPlayer);
+        
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
         if (p) {
             p.setCapturePoint(null);

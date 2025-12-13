@@ -89,8 +89,9 @@ InfantrySpawnPoints_Team1 = [NodePath("Team1/SpawnPoint"), NodePath("Team1/Spawn
 InfantrySpawnPoints_Team2 = [NodePath("Team2/SpawnPoint"), NodePath("Team2/SpawnPoint2"), NodePath("Team2/SpawnPoint3"), NodePath("Team2/SpawnPoint4"), NodePath("Team2/SpawnPoint5")]
 
 [node name="CaptureArea" parent="CombatArea/CapturePointB" instance=ExtResource("2_u71p8")]
-points = PackedVector2Array(-7.42621, -7.94896, -7.02907, 4.83682, 8.11049, 4.71661, 8.34502, -6.97572)
-height = 3.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.117561, 0)
+points = PackedVector2Array(-7.30559, -9.68533, -7.02907, 4.83682, 8.11049, 4.71661, 7.5918, -9.58188)
+height = 5.0
 
 [node name="Team1" type="Node3D" parent="CombatArea/CapturePointB"]
 
@@ -346,6 +347,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.590445, -0.238747, -24.1627
 
 [node name="Container_02_Closed_DD_ProxyRadiosity" parent="CombatArea" instance=ExtResource("14_qap0t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -115.402, 31.529, -90.6618)
+
+[node name="Container_02_Closed_DD_ProxyRadiosity4" parent="CombatArea" instance=ExtResource("14_qap0t")]
+transform = Transform3D(0.999761, 0, -0.0218672, 0, 1, 0, 0.0218672, 0, 0.999761, -93.5876, 34.1754, -103.588)
 
 [node name="Container_02_Closed_DD_ProxyRadiosity3" parent="CombatArea" instance=ExtResource("14_qap0t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -115.402, 33.3493, -51.6585)
