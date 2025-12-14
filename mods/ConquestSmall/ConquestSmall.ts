@@ -1093,7 +1093,7 @@ const UIWidget = modlib.ParseUI(
 
 function SetUITime() {
     const timeWidget = mod.FindUIWidgetWithName("RemainingTime");
-    const remainingTime = ROUND_TIME - phaseTickCount / 30;
+    const remainingTime = ROUND_TIME - phaseTickCount / TICK_RATE;
     let minutes = mod.Floor(remainingTime / 60);
     let totalseconds = mod.Floor(remainingTime % 60);
     let seconds = totalseconds % 10;
