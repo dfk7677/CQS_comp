@@ -3,7 +3,7 @@
 import * as modlib from 'modlib';
 
 
-const VERSION = [1, 4, 1];
+const VERSION = [1, 4, 3];
 
 // Sets core constants
 const INITIAL_TICKETS = 250;
@@ -1671,7 +1671,7 @@ export function OnPlayerLeaveGame(eventNumber: number) {
                 capturePoint.removeOnPoint(eventNumber);
                 console.log(capturePoint.getOnPoint()[0] + capturePoint.getOnPoint()[1]);
                 console.log(modlib.ConvertArray(mod.GetPlayersOnPoint(cp)).length);
-                mod.DisplayHighlightedWorldLogMessage(mod.Message(modlib.ConvertArray(mod.GetPlayersOnPoint(cp)).length));
+                //mod.DisplayHighlightedWorldLogMessage(mod.Message(modlib.ConvertArray(mod.GetPlayersOnPoint(cp)).length));
                 p.setCapturePoint(null);
             }
         }
@@ -1856,34 +1856,12 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
                 mod.SetTeam(eventPlayer, team2);                
                 p?.setTeam();
-                Object.values(serverCapturePoints).forEach(cp => {
-                    if (modlib.Equals(cp.getOwner(), team2)) {
-                        if (p?.flagWidget[cp.symbol]) {
-                            mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_FRIENDLY);
-                        }                        
-                    }
-                    else if (modlib.Equals(cp.getOwner(), team1)) {
-                        if (p?.flagWidget[cp.symbol]) {
-                            mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_ENEMY);
-                        }
-                    }
-                })
+                
             }
             else {
                 mod.SetTeam(eventPlayer, team1);
                 p?.setTeam();
-                Object.values(serverCapturePoints).forEach(cp => {
-                    if (modlib.Equals(cp.getOwner(), team1)) {
-                        if (p?.flagWidget[cp.symbol]) {
-                            mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_FRIENDLY);
-                        }                        
-                    }
-                    else if (modlib.Equals(cp.getOwner(), team2)) {
-                        if (p?.flagWidget[cp.symbol]) {
-                            mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_ENEMY);
-                        }
-                    }
-                })
+                
             }
         }
 
@@ -1911,6 +1889,18 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
                 if (team1numPlayers > team2numPlayers) {
                     mod.UndeployPlayer(eventPlayer);
                     mod.SetTeam(eventPlayer, team2);
+                    Object.values(serverCapturePoints).forEach(cp => {
+                        if (modlib.Equals(cp.getOwner(), team2)) {
+                            if (p?.flagWidget[cp.symbol]) {
+                                mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_FRIENDLY);
+                            }                        
+                        }
+                        else if (modlib.Equals(cp.getOwner(), team1)) {
+                            if (p?.flagWidget[cp.symbol]) {
+                                mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_ENEMY);
+                            }
+                        }
+                    })
                     
                 }
             }
@@ -1918,7 +1908,18 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
                 if (team2numPlayers > team1numPlayers) {
                     mod.UndeployPlayer(eventPlayer);
                     mod.SetTeam(eventPlayer, team1);
-                    
+                    Object.values(serverCapturePoints).forEach(cp => {
+                        if (modlib.Equals(cp.getOwner(), team1)) {
+                            if (p?.flagWidget[cp.symbol]) {
+                                mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_FRIENDLY);
+                            }                        
+                        }
+                        else if (modlib.Equals(cp.getOwner(), team2)) {
+                            if (p?.flagWidget[cp.symbol]) {
+                                mod.SetUITextColor(p?.flagWidget[cp.symbol], COLOR_ENEMY);
+                            }
+                        }
+                    })
                 }
                 
             }
