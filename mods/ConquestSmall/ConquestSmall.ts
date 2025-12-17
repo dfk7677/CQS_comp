@@ -841,8 +841,6 @@ let serverCapturePoints: { [key: number]: CapturePoint } = {
 }
 
 
-
-
 // UI
 const UIWidget = modlib.ParseUI(
 {
@@ -1251,13 +1249,18 @@ function InitializeLive() {
     mod.SetUIWidgetVisible(UIContainers[2], true);
 
     serverPlayers.forEach(p => {
-        p.setTeam();
-        mod.SetRedeployTime(p.player, REDEPLOY_TIME);
-        mod.EnableAllInputRestrictions(p.player, false);
-        mod.EnableInputRestriction(p.player, mod.RestrictedInputs.FireWeapon, false);
-        if (p.isDeployed) {
-            p.isFirstDeploy();
+        try {
+            p.setTeam();
+            mod.SetRedeployTime(p.player, REDEPLOY_TIME);
+            mod.EnableAllInputRestrictions(p.player, false);
+            mod.EnableInputRestriction(p.player, mod.RestrictedInputs.FireWeapon, false);
+            if (p.isDeployed) {
+                p.isFirstDeploy();
+            }
+        } catch (e) {
+            console.log(e);
         }
+        
     })
     serverScores = [INITIAL_TICKETS, INITIAL_TICKETS];
     
@@ -1854,13 +1857,22 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             mod.UndeployPlayer(eventPlayer);
             
             if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
-                mod.SetTeam(eventPlayer, team2);                
-                p?.setTeam();
+                try {
+                    mod.SetTeam(eventPlayer, team2);                
+                    p?.setTeam();
+                } catch (e) {
+                    console.log(e);
+                }
+                
                 
             }
             else {
-                mod.SetTeam(eventPlayer, team1);
-                p?.setTeam();
+                try {
+                    mod.SetTeam(eventPlayer, team1);                
+                    p?.setTeam();
+                } catch (e) {
+                    console.log(e);
+                }
                 
             }
         }
@@ -1888,7 +1900,11 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             if (mod.Equals(team, team1)) {
                 if (team1numPlayers > team2numPlayers) {
                     mod.UndeployPlayer(eventPlayer);
-                    mod.SetTeam(eventPlayer, team2);
+                    try {
+                        mod.SetTeam(eventPlayer, team2); 
+                    } catch (e) {
+                        console.log(e);
+                    }
                     Object.values(serverCapturePoints).forEach(cp => {
                         if (modlib.Equals(cp.getOwner(), team2)) {
                             if (p?.flagWidget[cp.symbol]) {
@@ -1907,7 +1923,11 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             else if (mod.Equals(team, team2)) {
                 if (team2numPlayers > team1numPlayers) {
                     mod.UndeployPlayer(eventPlayer);
-                    mod.SetTeam(eventPlayer, team1);
+                    try {
+                        mod.SetTeam(eventPlayer, team1); 
+                    } catch (e) {
+                        console.log(e);
+                    }
                     Object.values(serverCapturePoints).forEach(cp => {
                         if (modlib.Equals(cp.getOwner(), team1)) {
                             if (p?.flagWidget[cp.symbol]) {
