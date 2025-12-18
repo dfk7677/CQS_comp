@@ -1203,6 +1203,7 @@ function InitializePreMatch() {
     mod.SetWorldIconText(wIcon1, mod.Message(mod.stringkeys.SwitchTeam, 2));
     mod.SetWorldIconText(wIcon2, mod.Message(mod.stringkeys.Ready));
     mod.SetWorldIconText(wIcon5, mod.Message(mod.stringkeys.HQ, 1));
+    mod.SetWorldIconColor(wIcon5, mod.CreateVector(1, 0, 0));
 
     const wIcon3 = mod.GetWorldIcon(5003);
     const wIcon4 = mod.GetWorldIcon(5004);
@@ -1212,6 +1213,9 @@ function InitializePreMatch() {
     mod.SetWorldIconText(wIcon3, mod.Message(mod.stringkeys.SwitchTeam, 1));
     mod.SetWorldIconText(wIcon4, mod.Message(mod.stringkeys.Ready));
     mod.SetWorldIconText(wIcon6, mod.Message(mod.stringkeys.HQ, 2));
+    mod.SetWorldIconColor(wIcon6, mod.CreateVector(1, 0, 0));
+    
+    
     
     mod.SetScoreboardType(mod.ScoreboardType.CustomTwoTeams);
     mod.SetGameModeTimeLimit(60000);
