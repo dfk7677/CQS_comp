@@ -1212,8 +1212,11 @@ function InitializeCountDown() {
     for (let i = 0; i < 4; i++) {
         mod.EnableWorldIconImage(mod.GetWorldIcon(5001 + i), false);
         mod.EnableWorldIconText(mod.GetWorldIcon(5001 + i), false);
+
         //mod.EnableInteractPoint(mod.GetInteractPoint(2001 + i), false);
     }
+    mod.EnableWorldIconImage(mod.GetWorldIcon(5011), false);
+     mod.EnableWorldIconImage(mod.GetWorldIcon(5012), false);
     mod.EnableInteractPoint(mod.GetInteractPoint(2002), false);
     mod.EnableInteractPoint(mod.GetInteractPoint(2004), false);
     mod.SetUITextLabel(mod.FindUIWidgetWithName("MatchStartsText"), mod.Message(mod.stringkeys.Redeploying));
