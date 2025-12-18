@@ -3,7 +3,7 @@
 import * as modlib from 'modlib';
 
 
-const VERSION = [1, 5, 1];
+const VERSION = [1, 5, 2];
 
 // Sets core constants
 const INITIAL_TICKETS = 250;
@@ -1441,33 +1441,8 @@ export function OngoingGlobal() {
             InitializePreMatch();
         }
         // Prematch
-        // Count ready players for each team
-        let readyPlayers:number[] = [0, 0];
-        let totalPlayers:number[] = [0, 0];
-        serverPlayers.forEach(p => {
-            p.setTeam();
-            if (mod.Equals(p.team, team1)) {
-                totalPlayers[0] += 1;
-                if (p.isReady()) {
-                    readyPlayers[0] += 1;
-                } 
-
-            } else if (mod.Equals(p.team, team2)) {
-                totalPlayers[1] += 1;
-                if (p.isReady()) {
-                    readyPlayers[1] += 1;
-                }
-                
-            }
-        })
         
-        mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam1"), mod.Message("{}/{}", readyPlayers[0], totalPlayers[0]));
-        mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam2"), mod.Message("{}/{}", readyPlayers[1], totalPlayers[1]));
-        // Check if all players are ready
-        if (readyPlayers[0] == totalPlayers[0] && readyPlayers[1] == totalPlayers[1] && (readyPlayers[0] > 0 || readyPlayers[1] > 0)) {
-            gameStatus = 1;
-            
-        }
+        
 
 
         
@@ -1906,6 +1881,33 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             else if (mod.GetObjId(eventInteractPoint) == 2002 || mod.GetObjId(eventInteractPoint) == 2004) {
                 p.changeReady();
             }
+        }
+
+        // Check if all players are ready
+        // Count ready players for each team
+        let readyPlayers:number[] = [0, 0];
+        let totalPlayers:number[] = [0, 0];
+        serverPlayers.forEach(player => {
+            player.setTeam();
+            if (mod.Equals(player.team, team1)) {
+                totalPlayers[0] += 1;
+                if (player.isReady()) {
+                    readyPlayers[0] += 1;
+                } 
+
+            } else if (mod.Equals(player.team, team2)) {
+                totalPlayers[1] += 1;
+                if (player.isReady()) {
+                    readyPlayers[1] += 1;
+                }
+                
+            }
+        })
+        
+        mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam1"), mod.Message("{}/{}", readyPlayers[0], totalPlayers[0]));
+        mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam2"), mod.Message("{}/{}", readyPlayers[1], totalPlayers[1]));
+        if (readyPlayers[0] == totalPlayers[0] && readyPlayers[1] == totalPlayers[1] && (readyPlayers[0] > 0 || readyPlayers[1] > 0)) {
+            gameStatus = 1;            
         }
         
         
