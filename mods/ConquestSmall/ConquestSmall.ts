@@ -1238,8 +1238,8 @@ function InitializeCountDown() {
 
         //mod.EnableInteractPoint(mod.GetInteractPoint(2001 + i), false);
     }
-    mod.EnableWorldIconImage(mod.GetWorldIcon(5011), false);
-     mod.EnableWorldIconImage(mod.GetWorldIcon(5012), false);
+    mod.EnableWorldIconText(mod.GetWorldIcon(5011), false);
+    mod.EnableWorldIconText(mod.GetWorldIcon(5012), false);
     mod.EnableInteractPoint(mod.GetInteractPoint(2002), false);
     mod.EnableInteractPoint(mod.GetInteractPoint(2004), false);
     mod.SetUITextLabel(mod.FindUIWidgetWithName("MatchStartsText"), mod.Message(mod.stringkeys.Redeploying));
