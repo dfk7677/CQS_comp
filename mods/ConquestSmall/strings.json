@@ -21,6 +21,7 @@
   "HQ": "Headquarters of Team {}",
   "Dash": "-",
   "PreMatch": "Pre-Match",
+  "PostMatch": "FINAL SCORE",
   "NotReady": "Not Ready",
   "Ready": "Ready",
   "PreMatchTeam1": "{}/{}",

@@ -831,6 +831,7 @@ const disconnectedPlayers: Player[] = [];
 const VOs: mod.VO[] = [];
 
 let voObject: mod.VO;
+let liveTickCount: number;
 
 let serverScores: number[] = [INITIAL_TICKETS, INITIAL_TICKETS];
 let countDown:number = COUNT_DOWN_TIME;
@@ -943,11 +944,47 @@ const UIWidget = modlib.ParseUI(
             position: [0, 0],
             size: [7000, 5000],
             anchor: mod.UIAnchor.TopCenter,
-            visible: true,
+            visible: false,
             padding: 0,
             bgColor: [0, 0, 0],
-            bgAlpha: 1,
-            bgFill: mod.UIBgFill.None,
+            bgAlpha: .75,
+            bgFill: mod.UIBgFill.Solid,
+            children: [
+            {
+                name: "PostMatchText",
+                type: "Text",
+                position: [0, 50],
+                size: [400, 50],
+                anchor: mod.UIAnchor.TopCenter,
+                visible: true,
+                padding: 0,
+                bgColor: [0.2, 0.2, 0.2],
+                bgAlpha: 0,
+                bgFill: mod.UIBgFill.None,
+                textLabel: mod.stringkeys.PostMatch,
+                textColor: [1, 1, 1],
+                textAlpha: 0,
+                textSize: 48,
+                textAnchor: mod.UIAnchor.Center
+            },
+            {
+                name: "TotalTime",
+                type: "Text",
+                position: [0, 85],
+                size: [100, 50],
+                anchor: mod.UIAnchor.TopCenter,
+                visible: true,
+                padding: 0,
+                bgColor: [0.2, 0.2, 0.2],
+                bgAlpha: 0,
+                bgFill: mod.UIBgFill.None,
+                textLabel: mod.Message(mod.stringkeys.RemainingTime, 20, 0, 0),
+                textColor: [1, 1, 1],
+                textAlpha: 1,
+                textSize: 20,
+                textAnchor: mod.UIAnchor.Center
+            },
+            ]
         },
         {
             name: "PreMatchContainer",
@@ -1331,12 +1368,18 @@ function InitializePostmatch()
     phaseTickCount = 0;
     countDown = POSTMATCH_TIME;
     mod.SetUIWidgetVisible(UIContainers[2], false);
-    
+    mod.SetUIWidgetVisible(UIContainers[3], true);
     mod.DeployAllPlayers()
     
-    mod.SetUIWidgetDepth(UIContainers[3], mod.UIDepth.AboveGameUI);
-    mod.SetUIWidgetSize(UIContainers[3], mod.CreateVector(6000, 5000, 0));
-    mod.SetUIWidgetBgFill(UIContainers[3], mod.UIBgFill.Solid);
+    const timeWidget = mod.FindUIWidgetWithName("TotalTime");
+    const time = liveTickCount / TICK_RATE;
+    let minutes = mod.Floor(time / 60);
+    let totalseconds = mod.Floor(time % 60);
+    let seconds = totalseconds % 10;
+    let seconds10 = mod.Floor(totalseconds / 10)
+    mod.SetUITextLabel(timeWidget, mod.Message("{}:{}{}", minutes, seconds10, seconds));
+    
+    
     
     serverPlayers.forEach(p => {
         mod.EnableAllInputRestrictions(p.player, true);
@@ -1365,7 +1408,7 @@ function InitializePostmatch()
         mod.Message(mod.Ceiling(serverScores[0])),
         48,
         COLOR_FRIENDLY,
-        1,
+        0,
         mod.UIAnchor.Center,
         team1
     );
@@ -1376,14 +1419,14 @@ function InitializePostmatch()
         mod.UIAnchor.TopCenter,
         UIContainers[3],
         true,
-        0,
+        1,
         mod.CreateVector(0.2, 0.2, 0.2),
         1,
         mod.UIBgFill.None,
         mod.Message(mod.Ceiling(serverScores[1])),
         48,
         COLOR_ENEMY,
-        1,
+        0,
         mod.UIAnchor.Center,
         team1
     );
@@ -1401,7 +1444,7 @@ function InitializePostmatch()
         mod.Message(mod.Ceiling(serverScores[1])),
         48,
         COLOR_FRIENDLY,
-        1,
+        0,
         mod.UIAnchor.Center,
         team2
     );
@@ -1419,7 +1462,7 @@ function InitializePostmatch()
         mod.Message(mod.Ceiling(serverScores[0])),
         48,
         COLOR_ENEMY,
-        1,
+        0,
         mod.UIAnchor.Center,
         team2
     );
@@ -1438,7 +1481,7 @@ function InitializePostmatch()
         mod.Message(mod.stringkeys.Dash),
         48,
         COLOR_NEUTRAL,
-        1,
+        0,
         mod.UIAnchor.Center
     );
 
@@ -1524,12 +1567,14 @@ export function OngoingGlobal() {
 
         if (phaseTickCount == TOTAL_TICKS) {
             console.log("Live ends by time.");
+            liveTickCount = phaseTickCount;
             gameStatus = 4;
             //mod.PauseGameModeTime(true);
         }
         
         if (serverScores[0] <= 0 || serverScores[1] <= 0) {
             console.log("Live ends by score.");
+            liveTickCount = phaseTickCount;
             gameStatus = 4;
             mod.SetUIWidgetVisible(mod.FindUIWidgetWithName("LiveContainer"), false);
         }
@@ -1541,57 +1586,25 @@ export function OngoingGlobal() {
             console.log("Initialize Postmatch");
             InitializePostmatch();
         }
+        mod.SetUIWidgetBgAlpha(UIContainers[3], .6);
+        if (phaseTickCount <= 60) {
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("TotalTime"), phaseTickCount / 60);
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("PostMatchText"), phaseTickCount / 60);
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("Team1EndFriendlyScore"), phaseTickCount / 60);
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("Team2EndFriendlyScore"), phaseTickCount / 60);
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("Team1EndEnemyScore"), phaseTickCount / 60);
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("Team2EndEnemyScore"), phaseTickCount / 60);
+            mod.SetUITextAlpha(mod.FindUIWidgetWithName("PostMatchDash"), phaseTickCount / 60);
+            
+        }
 
         if (mod.Modulo(phaseTickCount, TICK_RATE) == 0) {
             
             countDown -= 1;
-            mod.SetUITextLabel(mod.FindUIWidgetWithName("CountDownText"), mod.Message(countDown));
+            //mod.SetUITextLabel(mod.FindUIWidgetWithName("CountDownText"), mod.Message(countDown));
             if (countDown == 0) {
                 console.log("PostMatch ends.")
-                /// Cannot restart round
-                /*
-                gameStatus = 0;
-                serverPlayers.forEach(p => {
-                    mod.EnableAllInputRestrictions(p.player, false);
-                    mod.EnableInputRestriction(p.player, mod.RestrictedInputs.FireWeapon, false);
-                    p.clearScoreboard();
-                })
-                mod.SwitchTeams(team1, team2);
-                mod.UndeployAllPlayers();
                 
-                serverTickCount = 137;
-                mod.SetUIWidgetVisible(mod.FindUIWidgetWithName("PreMatchContainer"), true);
-                serverScores = [INITIAL_TICKETS, INITIAL_TICKETS];
-                serverCapturePoints.forEach(cp => {
-                    mod.SetCapturePointOwner(cp.capturePoint, teamNeutral);
-                    cp.setOwner(teamNeutral);
-                    console.log("Setting owner to neutral");
-                })
-
-
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team1EndFriendlyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team2EndFriendlyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team1EndEnemyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team2EndEnemyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("EndGameDash"));
-
-                for (let i = 0; i < 4; i++) {
-                    mod.EnableWorldIconImage(mod.GetWorldIcon(5001 + i), true);
-                    mod.EnableWorldIconText(mod.GetWorldIcon(5001 + i), true);
-                    mod.EnableInteractPoint(mod.GetInteractPoint(2001 + i), true);
-                }
-
-                initialization = [false, false, false, false, false];
-
-                mod.SetUIWidgetVisible(mod.FindUIWidgetWithName("EndGameContainer"), false);
-                */
-
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team1EndFriendlyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team2EndFriendlyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team1EndEnemyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("Team2EndEnemyScore"));
-                mod.DeleteUIWidget(mod.FindUIWidgetWithName("PostMatchDash"));
-                //mod.SwitchTeams(team1, team2);
 
                 
                 if (serverScores[0] > serverScores[1]) {
