@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://00xka1664pef"]
+[gd_scene load_steps=21 format=3 uid="uid://00xka1664pef"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_bbmed"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_dgb3x"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="6_y4f4a"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="7_1mdp5"]
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="7_b60hg"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="8_7rcc8"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="8_b60hg"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="8_dgb3x"]
 [ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/VehicleSpawner.tscn" id="8_wx6x0"]
@@ -82,6 +83,14 @@ iconTeamOwnerId = 1
 transform = Transform3D(0.971147, 0, 0.238483, 0, 1, 0, -0.238483, 0, 0.971147, -25.6777, 1.94797, 3.59914)
 ObjId = 6001
 
+[node name="WorldIcon" parent="TEAM_1_HQ/InteractArea" instance=ExtResource("8_7rcc8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5011
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
+iconTeamOwnerId = 1
+
 [node name="MBTSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_wx6x0")]
 transform = Transform3D(0.970279, 0, 0.24199, 0, 1, 0, -0.24199, 0, 0.970279, 3.8242, -1.94872, -8.55387)
 ObjId = 701
@@ -149,6 +158,14 @@ iconTextVisible = true
 iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
+iconTeamOwnerId = 2
+
+[node name="WorldIcon" parent="TEAM_2_HQ/InteractArea" instance=ExtResource("8_7rcc8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5012
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
 iconTeamOwnerId = 2
 
 [node name="AreaTrigger2" parent="TEAM_2_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("8_b60hg")]

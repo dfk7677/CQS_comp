@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://clwmhbmnii7a2"]
+[gd_scene load_steps=17 format=3 uid="uid://clwmhbmnii7a2"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_vlha6"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="2_26kd4"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://ctsgxf2api438" path="res://scripts/Gameplay/Common/AreaTrigger.gd" id="8_b7mf2"]
 [ext_resource type="PackedScene" path="res://objects/Global/Generic/Common/Props/FlagPole_01_USA.tscn" id="8_nrdkt"]
 [ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/VehicleSpawner.tscn" id="10_jax7h"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="10_nrdkt"]
 [ext_resource type="PackedScene" path="res://static/MP_Abbasid_Terrain.tscn" id="10_xjhnj"]
 [ext_resource type="PackedScene" path="res://static/MP_Abbasid_Assets.tscn" id="11_is2uf"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="12_0uyhr"]
@@ -103,6 +104,14 @@ iconImagePicker = 7
 iconImageVisible = true
 iconTeamOwnerId = 1
 
+[node name="WorldIcon" parent="TEAM_1_HQ/FlagPole_01_USA" instance=ExtResource("10_nrdkt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5011
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
+iconTeamOwnerId = 1
+
 [node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("10_jax7h")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.43201, 4.87146, -23.2032)
 ObjId = 701
@@ -168,6 +177,14 @@ iconTextVisible = true
 iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
+iconTeamOwnerId = 2
+
+[node name="WorldIcon" parent="TEAM_2_HQ/InteractArea" instance=ExtResource("10_nrdkt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5012
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
 iconTeamOwnerId = 2
 
 [node name="IFVSpawner" parent="TEAM_2_HQ" instance=ExtResource("10_jax7h")]

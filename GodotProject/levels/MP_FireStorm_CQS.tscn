@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cbbsk0p4l4rqq"]
+[gd_scene load_steps=26 format=3 uid="uid://cbbsk0p4l4rqq"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="1_ooc7j"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_u71p8"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://static/MP_FireStorm_Terrain.tscn" id="11_xlgcs"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/BarrierConstruction_01_256_120_B.tscn" id="12_0ai0k"]
 [ext_resource type="PackedScene" path="res://static/MP_FireStorm_Assets.tscn" id="12_48ufc"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="12_p1q0p"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Military/Props/BarrierBlockConcrete_03_128_120.tscn" id="13_5a5hs"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="13_bko7o"]
 [ext_resource type="PackedScene" path="res://objects/Turkmenistan/MP_FireStorm/Generic/Industrial/Props/Container_02_Closed_DD_ProxyRadiosity.tscn" id="14_qap0t"]
@@ -253,6 +254,14 @@ iconTeamOwnerId = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.7337, 1, -4.16156)
 ObjId = 6001
 
+[node name="WorldIcon" parent="CombatArea/TEAM_1_HQ/InteractArea" instance=ExtResource("12_p1q0p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5011
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
+iconTeamOwnerId = 1
+
 [node name="StationaryEmplacementSpawner" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("11_p24be")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 19.4736, 2.34351, 26.2147)
 ObjId = 801
@@ -318,6 +327,14 @@ iconTextVisible = true
 iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
+iconTeamOwnerId = 2
+
+[node name="WorldIcon" parent="CombatArea/TEAM_2_HQ/InteractArea" instance=ExtResource("12_p1q0p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5012
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
 iconTeamOwnerId = 2
 
 [node name="StationaryEmplacementSpawner2" parent="CombatArea/TEAM_2_HQ" instance=ExtResource("11_p24be")]

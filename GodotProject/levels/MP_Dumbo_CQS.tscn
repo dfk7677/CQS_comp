@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c78aa4tkbnvl3"]
+[gd_scene load_steps=18 format=3 uid="uid://c78aa4tkbnvl3"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_v81jf"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_ovqyo"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://objects/Global/Generic/Common/Props/FlagPole_01_USA.tscn" id="4_p47jw"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="5_nft5g"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="5_vsxjr"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="6_7n1sf"]
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="6_kjkpd"]
 [ext_resource type="PackedScene" path="res://static/MP_Dumbo_Terrain.tscn" id="6_p47jw"]
 [ext_resource type="PackedScene" path="res://static/MP_Dumbo_Assets.tscn" id="7_nft5g"]
@@ -71,6 +72,14 @@ iconTeamOwnerId = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.15036, 1, -20.2018)
 ObjId = 6001
 
+[node name="WorldIcon" parent="TEAM_1_HQ/InteractArea" instance=ExtResource("6_7n1sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5011
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
+iconTeamOwnerId = 1
+
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("2_ovqyo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.65761, -24.0051, 2.81656)
 points = PackedVector2Array(12.7931, 30.0653, 14.4831, -98.1558, -44.5448, -98.6603, -46.8231, 45.2542)
@@ -134,6 +143,14 @@ iconTextVisible = true
 iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
+iconTeamOwnerId = 2
+
+[node name="WorldIcon" parent="TEAM_2_HQ/InteractArea" instance=ExtResource("6_7n1sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5012
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
 iconTeamOwnerId = 2
 
 [node name="IFVSpawner" parent="TEAM_2_HQ" instance=ExtResource("7_r0pww")]

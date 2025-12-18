@@ -3,7 +3,7 @@
 import * as modlib from 'modlib';
 
 
-const VERSION = [1, 4, 3];
+const VERSION = [1, 5, 1];
 
 // Sets core constants
 const INITIAL_TICKETS = 250;
@@ -648,6 +648,7 @@ class CapturePoint {
     private _capturingTeam: mod.Team;
     private _fade: number;
     private _status: CapturePointStatus;
+    private _isFlashing: boolean;
 
 
     constructor(id: number, symbol: string) {
@@ -662,6 +663,7 @@ class CapturePoint {
         this._fade = mod.Pi();
         mod.EnableGameModeObjective(this.capturePoint, false);
         this._status = CapturePointStatus.Stable;
+        this._isFlashing = false;
 
     }
 
@@ -670,12 +672,22 @@ class CapturePoint {
         if (this._status == CapturePointStatus.Stable) {
             mod.SetCapturePointCapturingTime(this.capturePoint, CAPTURE_TIME);
             this.stopFlashingFlag();
+            this._isFlashing = false;
         }
         else if (this._status == CapturePointStatus.Capturing) {
+            this._isFlashing = true;
             mod.SetCapturePointCapturingTime(this.capturePoint, CAPTURE_TIME); 
         }
         else if (this._status == CapturePointStatus.Neutralizing) {
-            mod.SetCapturePointNeutralizationTime(this.capturePoint, NEUTRALIZE_TIME); 
+            mod.SetCapturePointNeutralizationTime(this.capturePoint, NEUTRALIZE_TIME);
+            if (mod.Equals(this._capturingTeam, teamNeutral)) {
+                this._isFlashing = false;
+                this.stopFlashingFlag();
+            }
+        }
+        else if (this._status == CapturePointStatus.Contested) {
+            this._isFlashing = true;
+            
         }
         
         
@@ -722,7 +734,7 @@ class CapturePoint {
     }
 
     flashFlag() {
-        if (this._status != CapturePointStatus.Stable) {
+        if (this._isFlashing) {
             this._fade += 2* mod.Pi() / TICK_RATE;
             serverPlayers.forEach(p => {
                 mod.SetUITextAlpha(mod.FindUIWidgetWithName("FLAG" + this.symbol + p.id), (mod.SineFromRadians(this._fade) + 1) / 2);
@@ -1162,17 +1174,21 @@ function InitializePreMatch() {
     
     const wIcon1 = mod.GetWorldIcon(5001);
     const wIcon2 = mod.GetWorldIcon(5002);
+    const wIcon5 = mod.GetWorldIcon(5011);
 
     
-    mod.SetWorldIconText(wIcon1, mod.Message(mod.stringkeys.SwitchTeam));
+    mod.SetWorldIconText(wIcon1, mod.Message(mod.stringkeys.SwitchTeam, 2));
     mod.SetWorldIconText(wIcon2, mod.Message(mod.stringkeys.Ready));
+    mod.SetWorldIconText(wIcon5, mod.Message(mod.stringkeys.HQ, 1));
 
     const wIcon3 = mod.GetWorldIcon(5003);
     const wIcon4 = mod.GetWorldIcon(5004);
+    const wIcon6 = mod.GetWorldIcon(5012);
 
     
-    mod.SetWorldIconText(wIcon3, mod.Message(mod.stringkeys.SwitchTeam));
+    mod.SetWorldIconText(wIcon3, mod.Message(mod.stringkeys.SwitchTeam, 1));
     mod.SetWorldIconText(wIcon4, mod.Message(mod.stringkeys.Ready));
+    mod.SetWorldIconText(wIcon6, mod.Message(mod.stringkeys.HQ, 2));
     
     mod.SetScoreboardType(mod.ScoreboardType.CustomTwoTeams);
     mod.SetGameModeTimeLimit(60000);
@@ -1252,10 +1268,11 @@ function InitializeLive() {
         try {
             p.setTeam();
             mod.SetRedeployTime(p.player, REDEPLOY_TIME);
-            mod.EnableAllInputRestrictions(p.player, false);
-            mod.EnableInputRestriction(p.player, mod.RestrictedInputs.FireWeapon, false);
+            
             if (p.isDeployed) {
                 p.isFirstDeploy();
+                mod.EnableAllInputRestrictions(p.player, false);
+                mod.EnableInputRestriction(p.player, mod.RestrictedInputs.FireWeapon, false);
             }
         } catch (e) {
             console.log(e);
@@ -1598,7 +1615,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
     // If player was disconnected or not
     let player;
     let disconnected = false;
-    console.log(mod.Equals(eventPlayer, eventPlayer));
+    
     disconnectedPlayers.forEach((p) => {
         if (mod.Equals(p.player, eventPlayer)) {
             // Player reconnected
@@ -1615,7 +1632,7 @@ export function OnPlayerJoinGame(eventPlayer: mod.Player) {
         // New player
         const newPlayer = new Player(eventPlayer);
         serverPlayers.set(newPlayer.id, newPlayer);
-        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, newPlayer.player, newPlayer.id));
+        mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, eventPlayer, newPlayer.id));
         console.log(`Player with ID${newPlayer.id} joined server`);
         player = newPlayer;
     }
@@ -1701,7 +1718,7 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
         const team = mod.GetTeam(eventPlayer);
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
         if (p) {
-           
+           p.isDeployed = true;
             if (!p.isFirstDeploy()) {
                 if (modlib.Equals(team, team1)) 
                 {
@@ -1850,39 +1867,44 @@ export async function OnCapturePointCapturing(flag: mod.CapturePoint) {
 }
 
 export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mod.InteractPoint) {
-
+    const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
     if (gameStatus == 0) {
-        const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-        if ((mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003) && !p?.isReady()) {
-            mod.UndeployPlayer(eventPlayer);
-            
-            if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
-                try {
-                    mod.SetTeam(eventPlayer, team2);                
-                    p?.setTeam();
-                } catch (e) {
-                    console.log(e);
+        
+        if (p) {
+            if ((mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003)) {
+                if (p.isReady())
+                {
+                    modlib.ShowNotificationMessage(mod.Message(mod.stringkeys.CannotChangeTeamWhenReady), eventPlayer);
+                    return;
                 }
-                
-                
-            }
-            else {
-                try {
-                    mod.SetTeam(eventPlayer, team1);                
-                    p?.setTeam();
-                } catch (e) {
-                    console.log(e);
-                }
-                
-            }
-        }
 
-        else if (mod.GetObjId(eventInteractPoint) == 2002 || mod.GetObjId(eventInteractPoint) == 2004) {
-            const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
-            if (p) {
+                mod.UndeployPlayer(eventPlayer);
+                
+                if (modlib.getTeamId(mod.GetTeam(eventPlayer)) == 1 ) {
+                    try {
+                        mod.SetTeam(eventPlayer, team2); 
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    
+                    
+                }
+                else {
+                    try {
+                        mod.SetTeam(eventPlayer, team1);                
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    
+                }
+                p.setTeam();
+            }
+
+            else if (mod.GetObjId(eventInteractPoint) == 2002 || mod.GetObjId(eventInteractPoint) == 2004) {
                 p.changeReady();
             }
         }
+        
         
     }
 
@@ -1890,7 +1912,7 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
     if (gameStatus == 3) {
         if (mod.GetObjId(eventInteractPoint) == 6001) // Spectator
         {
-            mod.SetCameraTypeForPlayer(eventPlayer, mod.Cameras.Free);
+            //mod.SetCameraTypeForPlayer(eventPlayer, mod.Cameras.Free);
         } 
 
         if (mod.GetObjId(eventInteractPoint) == 2001 || mod.GetObjId(eventInteractPoint) == 2003) {
@@ -1901,7 +1923,7 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
                 if (team1numPlayers > team2numPlayers) {
                     mod.UndeployPlayer(eventPlayer);
                     try {
-                        mod.SetTeam(eventPlayer, team2); 
+                        mod.SetTeam(eventPlayer, team2);
                     } catch (e) {
                         console.log(e);
                     }
@@ -1944,7 +1966,7 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
                 
             }
 
-            const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));            
+                       
             p?.setTeam();
 
             
@@ -2113,7 +2135,7 @@ export function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCaptureP
 export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     
     if (gameStatus == 3) {
-        
+        console.log("Player left capture point");
         const cp = serverCapturePoints[mod.GetObjId(eventCapturePoint)];
         cp.removeOnPoint(modlib.getPlayerId(eventPlayer));
         const onpoint = cp.getOnPoint();
@@ -2168,6 +2190,8 @@ export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePo
                 else {
                     if (mod.Equals(cp.getOwner(), teamNeutral)) {
                         cp.setStatus(CapturePointStatus.Neutralizing);
+                        cp.setCapturingTeam(teamNeutral);
+                        console.log("Neutralizing by neutral");
                     }
                     else {
                         cp.setStatus(CapturePointStatus.Capturing);
@@ -2221,7 +2245,7 @@ export function OnPlayerUndeploy(eventPlayer: mod.Player) {
     else if (gameStatus == 3) {
         const p = serverPlayers.get(modlib.getPlayerId(eventPlayer));
         if (p) {
-            
+            p.isDeployed = false;
             p.addDeath();
         }
            

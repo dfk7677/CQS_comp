@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b6ykltc1oey3l"]
+[gd_scene load_steps=18 format=3 uid="uid://b6ykltc1oey3l"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_n67bi"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_s0qi4"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="6_v2s65"]
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="7_gmhy3"]
 [ext_resource type="PackedScene" path="res://static/MP_Badlands_Assets.tscn" id="7_v2s65"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="8_cow5h"]
 [ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/VehicleSpawner.tscn" id="8_smkv7"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="9_v2s65"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="14_gmhy3"]
@@ -80,6 +81,14 @@ iconTeamOwnerId = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.7337, 1, -4.16156)
 ObjId = 6001
 
+[node name="WorldIcon" parent="TEAM_1_HQ/InteractArea" instance=ExtResource("8_cow5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5011
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
+iconTeamOwnerId = 1
+
 [node name="MBTSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_smkv7")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.6483, 7.1242)
 ObjId = 701
@@ -147,6 +156,14 @@ iconTextVisible = true
 iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
+iconTeamOwnerId = 2
+
+[node name="WorldIcon" parent="TEAM_2_HQ/InteractArea" instance=ExtResource("8_cow5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5012
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
 iconTeamOwnerId = 2
 
 [node name="ΜΒΤSpawner2" parent="TEAM_2_HQ" instance=ExtResource("8_smkv7")]

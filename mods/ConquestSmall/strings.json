@@ -17,7 +17,8 @@
   "ColorOpponent": [1, 0.4, 0],
   "FriendlyCap": "0",
   "OpponentCap": "0",
-  "SwitchTeam": "Switch Team",
+  "SwitchTeam": "Switch to Team {}",
+  "HQ": "Headquarters of Team {}",
   "Dash": "-",
   "PreMatch": "Pre-Match",
   "NotReady": "Not Ready",
@@ -39,6 +40,6 @@
   "ObjectiveCapturing": "Objective {} being captured",
   "ObjectiveCapturingEnemy": "Objective {} being attacked by enemy team",
   "ObjectiveNeutralizing": "Objective {} being neutralized",
-  "ObjectiveNeutralizingEnemy": "Objective {} being neutralized by enemy team"
-  
+  "ObjectiveNeutralizingEnemy": "Objective {} being neutralized by enemy team",
+  "CannotChangeTeamWhenReady": "Cannot change team when ready"
 }

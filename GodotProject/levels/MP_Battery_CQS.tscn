@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://s3hwkd22fx4f"]
+[gd_scene load_steps=18 format=3 uid="uid://s3hwkd22fx4f"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_rteku"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="2_0lxw4"]
@@ -14,9 +14,9 @@
 [ext_resource type="PackedScene" path="res://objects/Global/Generic/Common/Props/FlagPole_01_USA.tscn" id="11_qssag"]
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="12_f7roe"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="13_43mdt"]
+[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="13_qssag"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="14_0lxw4"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Military/Props/BarrierBlockConcrete_03_128_120.tscn" id="15_emk36"]
-
 
 [node name="MP_Battery" type="Node3D"]
 
@@ -116,6 +116,14 @@ iconImagePicker = 7
 iconImageVisible = true
 iconTeamOwnerId = 1
 
+[node name="WorldIcon" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("13_qssag")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5011
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
+iconTeamOwnerId = 1
+
 [node name="Team2_HQ" parent="CombatArea" node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("8_wykpq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -160, -13.653, 50)
 Team = 2
@@ -173,6 +181,14 @@ iconTextVisible = true
 iconColor = [0.0, 0.5, 1.0]
 iconImagePicker = 7
 iconImageVisible = true
+iconTeamOwnerId = 2
+
+[node name="WorldIcon" parent="CombatArea/Team2_HQ/InteractArea" instance=ExtResource("13_qssag")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+ObjId = 5012
+iconTextVisible = true
+iconColor = [0.0, 0.0, 1.0]
+iconImagePicker = 7
 iconTeamOwnerId = 2
 
 [node name="BarrierStoneBlock_01_A" parent="." instance=ExtResource("5_qssag")]
