@@ -3,7 +3,7 @@
 import * as modlib from 'modlib';
 
 
-const VERSION = [1, 5, 2];
+const VERSION = [1, 5, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 250;
@@ -1099,6 +1099,33 @@ const UIWidget = modlib.ParseUI(
     }
 );
 
+function CountReadyPlayers() {
+    // Check if all players are ready
+    let readyPlayers:number[] = [0, 0];
+    let totalPlayers:number[] = [0, 0];
+    serverPlayers.forEach(player => {
+        player.setTeam();
+        if (mod.Equals(player.team, team1)) {
+            totalPlayers[0] += 1;
+            if (player.isReady()) {
+                readyPlayers[0] += 1;
+            } 
+
+        } else if (mod.Equals(player.team, team2)) {
+            totalPlayers[1] += 1;
+            if (player.isReady()) {
+                readyPlayers[1] += 1;
+            }
+            
+        }
+    })
+    
+    mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam1"), mod.Message("{}/{}", readyPlayers[0], totalPlayers[0]));
+    mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam2"), mod.Message("{}/{}", readyPlayers[1], totalPlayers[1]));
+    if (readyPlayers[0] == totalPlayers[0] && readyPlayers[1] == totalPlayers[1] && (readyPlayers[0] > 0 || readyPlayers[1] > 0)) {
+        gameStatus = 1;            
+    }
+}
 
 
 function SetUITime() {
@@ -1166,11 +1193,7 @@ function InitializePreMatch() {
     phaseTickCount = 0;
     
     UIContainers = [mod.FindUIWidgetWithName("PreMatchContainer"), mod.FindUIWidgetWithName("CountDownContainer"), mod.FindUIWidgetWithName("LiveContainer"), mod.FindUIWidgetWithName("PostMatchContainer")];
-
-    serverPlayers.forEach(p => {
-        p.setTeam();
-    });
-    
+   
     
     const wIcon1 = mod.GetWorldIcon(5001);
     const wIcon2 = mod.GetWorldIcon(5002);
@@ -1197,7 +1220,7 @@ function InitializePreMatch() {
         mod.EnableGameModeObjective(cp.capturePoint, false);
     })
 
-    
+    CountReadyPlayers();
     
 
     initialization[0] = true;
@@ -1883,32 +1906,7 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             }
         }
 
-        // Check if all players are ready
-        // Count ready players for each team
-        let readyPlayers:number[] = [0, 0];
-        let totalPlayers:number[] = [0, 0];
-        serverPlayers.forEach(player => {
-            player.setTeam();
-            if (mod.Equals(player.team, team1)) {
-                totalPlayers[0] += 1;
-                if (player.isReady()) {
-                    readyPlayers[0] += 1;
-                } 
-
-            } else if (mod.Equals(player.team, team2)) {
-                totalPlayers[1] += 1;
-                if (player.isReady()) {
-                    readyPlayers[1] += 1;
-                }
-                
-            }
-        })
-        
-        mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam1"), mod.Message("{}/{}", readyPlayers[0], totalPlayers[0]));
-        mod.SetUITextLabel(mod.FindUIWidgetWithName("PreMatchTeam2"), mod.Message("{}/{}", readyPlayers[1], totalPlayers[1]));
-        if (readyPlayers[0] == totalPlayers[0] && readyPlayers[1] == totalPlayers[1] && (readyPlayers[0] > 0 || readyPlayers[1] > 0)) {
-            gameStatus = 1;            
-        }
+        CountReadyPlayers();  
         
         
     }
