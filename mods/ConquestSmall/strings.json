@@ -12,7 +12,7 @@
   "ScoreboardDeaths": "Deaths",
   "ScoreboardScore": "Score",
   "ScoreboardAssists": "Assists",
-  "ScoreboardCaptures": "Captures",
+  "ScoreboardRevives": "Revives",
   "ColorFriendly": [0.0902, 0.8627, 1],
   "ColorOpponent": [1, 0.4, 0],
   "FriendlyCap": "0",
@@ -23,7 +23,10 @@
   "PreMatch": "Pre-Match",
   "PostMatch": "FINAL SCORE",
   "NotReady": "Not Ready",
+  "NotReadySymbol": "X",
+  "ReadySymbol": "O",
   "Ready": "Ready",
+  "PlayerStatus": "{} {}",
   "PreMatchTeam1": "{}/{}",
   "PreMatchTeam2": "{}/{}",
   "PreMatchTeam1Label": "Team 1",
@@ -42,5 +45,10 @@
   "ObjectiveCapturingEnemy": "Objective {} being attacked by enemy team",
   "ObjectiveNeutralizing": "Objective {} being neutralized",
   "ObjectiveNeutralizingEnemy": "Objective {} being neutralized by enemy team",
-  "CannotChangeTeamWhenReady": "Cannot change team when ready"
+  "CannotChangeTeamWhenReady": "Cannot change team when ready",
+  "EnterEnemyBase": "Incoming damage X2, close to enemy HQ",
+  "PlayerGotKill": "Player {} got a kill. Total {} kills",
+  "PlayerGotKillAssist": "Player {} got a kill assist",
+  "PlayerGotRevive": "Player {} got a revive",
+  "RestrictedArea": "Restricted Area"
 }
