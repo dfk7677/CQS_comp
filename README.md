@@ -9,14 +9,14 @@ At its current version there may be bugs, but I don’t consider the code itself
 The most important part are the maps. We are given a monumental opportunity with BF6 portal. We as a community, for the first time in Battlefield’s history, are able to make competitive maps for Conquest, that can satisfy all our needs for good competitive gameplay, without having to play in limited in number, not prepared for this kind of game, maps as it was in the previous Battlefields, with the exception of BF2.
 
 ## Principles
-The 6 maps that are already made, follow some simple principles:
+The 7 maps that are already made, follow some simple principles:
 * Flags not in a linear positioning between opponent teams HQs.
 * Small distances between flags and HQs, most are less than 100m.
 * Small capture areas, so there is more fighting and less hiding in them.
-* Faster than base game capture (6s) and neutralize (8s) times.
+* Faster than base game capture (6s) and neutralize (9s) times.
 * For 8v8, only one heavy vehicle per side.
 * 20m time limit and 250 initial tickets.
-* Big areas for HQs ~~along with a reduced damage for the players in them to avoid base rape~~
+* Big areas for HQs
 * 3 flag setups to avoid a 2-2 flag scenario where both teams are afraid to attack.
   
 These were made having in mind both 8v8 with vehicles and 5v5 infantry only.
@@ -27,17 +27,19 @@ All this of course, is work in progress, there may be bugs and not a final propo
 
 ## Current Map list
 * Siege of Cairo (MP_Abbasid)
-* Iberian Offensive (MP_Battery)
-* Operation Firestorm (MP_Firestorm)
-* Liberation Peak (MP_Capstone)
-* Mirak Valley (MP_Tungsten)
 * Blackwell Fields (MP_Badlands)
+* Iberian Offensive (MP_Battery)
+* Liberation Peak (MP_Capstone)
 * Manhattan Bridge (MP_Dumbo)
+* Operation Firestorm (MP_Firestorm)
+* Mirak Valley (MP_Tungsten)
 
 ## Map changelog
 ### MP_Firestorm
 ver 1.3: Added cover west of capture point B, changed letters of objectives, moved Team 1 spawns a little back, so they don't have advantage reaching B.
-
+ver 2.0: All maps have enlarged HQs in 8v8 so there are instances of base rape. Different versions for 5v5 and 8v8.
+### MP_Capstone
+ver 2.1: Added Restricted Areas on all the roofs for 5v5.
 
 
 

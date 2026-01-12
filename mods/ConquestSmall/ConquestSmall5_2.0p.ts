@@ -5,7 +5,7 @@ import * as modlib from 'modlib';
 
 
 
-const VERSION = [2, 0, 2, 0];
+const VERSION = [2, 0, 2, 1];
 
 // Sets core constants
 const INITIAL_TICKETS = 275;
@@ -1495,26 +1495,20 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
             restrictedArea[playerId] = true;
             addRestrictedAreaUI(eventPlayer);
         }
+
+
         const team = mod.GetTeam(eventPlayer);
         
         if (mod.Equals(team, team2) && (mod.GetObjId(eventAreaTrigger) == 7001)) {
             console.log("Entered enemy HQ")
-            if (mod.Equals(mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle), true)) {
-                
-                mod.ForcePlayerExitVehicle(eventPlayer);
-                mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
-            }
-            mod.Kill(eventPlayer);
+            restrictedArea[playerId] = true;
+            addRestrictedAreaUI(eventPlayer);
             
         } 
         else if (mod.Equals(team, team1) && (mod.GetObjId(eventAreaTrigger) == 7002)) {
             console.log("Entered enemy HQ")
-            if (mod.Equals(mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle), true)) {
-                
-                mod.ForcePlayerExitVehicle(eventPlayer);
-                mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
-            }
-            mod.Kill(eventPlayer);
+            restrictedArea[playerId] = true;
+            addRestrictedAreaUI(eventPlayer);
             
         }
         
@@ -1525,8 +1519,8 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
     if (gamePhase == 2) {
         const playerId = mod.GetObjId(eventPlayer);
         const areaId = mod.GetObjId(eventAreaTrigger);
-
-        if (areaId > 20000) {
+        const team = mod.GetTeam(eventPlayer);
+        if (areaId > 20000 || (mod.Equals(team, team2) && (areaId == 7001)) || (mod.Equals(team, team1) && (areaId == 7002))) {
             restrictedArea[playerId] = false;
             removeRestrictedAreaUI(eventPlayer);
         }

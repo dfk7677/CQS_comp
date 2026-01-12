@@ -879,7 +879,7 @@ async function initializeGamePhase() {
         // Live phase logic
         console.log("Phase: Live");
         mod.DeleteAllUIWidgets();
-        
+        const players = mod.AllPlayers();
         const n = mod.CountOf(players);
         for (let i = 0; i < n; i++) {
             const player = mod.ValueInArray(players, i);
@@ -1262,10 +1262,10 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
         mod.AddUIText("FlagLetter" + mod.GetObjId(eventPlayer), mod.CreateVector(0, 0, 0), mod.CreateVector(60, 60, 0), mod.UIAnchor.Center,
             parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.None, mod.Message(capturePoints[id].symbol), 48,
             mod.CreateVector(1, 1, 1), 1, mod.UIAnchor.Center);
-        mod.AddUIText("FriendlyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(30, 30, 0), mod.UIAnchor.CenterLeft,
-            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 26, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
-        mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(30, 30, 0), mod.UIAnchor.CenterRight,
-            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 26, COLOR_ENEMY, 1, mod.UIAnchor.Center);
+        mod.AddUIText("FriendlyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterLeft,
+            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 34, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
+        mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterRight,
+            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 34, COLOR_ENEMY, 1, mod.UIAnchor.Center);
 
         /*
         await mod.Wait(0.1);
@@ -1498,22 +1498,14 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
         
         if (mod.Equals(team, team2) && (mod.GetObjId(eventAreaTrigger) == 7001)) {
             console.log("Entered enemy HQ")
-            if (mod.Equals(mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle), true)) {
-                
-                mod.ForcePlayerExitVehicle(eventPlayer);
-                mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
-            }
-            mod.Kill(eventPlayer);
+            restrictedArea[playerId] = true;
+            addRestrictedAreaUI(eventPlayer);
             
         } 
         else if (mod.Equals(team, team1) && (mod.GetObjId(eventAreaTrigger) == 7002)) {
             console.log("Entered enemy HQ")
-            if (mod.Equals(mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle), true)) {
-                
-                mod.ForcePlayerExitVehicle(eventPlayer);
-                mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
-            }
-            mod.Kill(eventPlayer);
+            restrictedArea[playerId] = true;
+            addRestrictedAreaUI(eventPlayer);
             
         }
         
@@ -1524,8 +1516,8 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
     if (gamePhase == 2) {
         const playerId = mod.GetObjId(eventPlayer);
         const areaId = mod.GetObjId(eventAreaTrigger);
-
-        if (areaId > 20000) {
+        const team = mod.GetTeam(eventPlayer);
+        if (areaId > 20000 || (mod.Equals(team, team2) && (areaId == 7001)) || (mod.Equals(team, team1) && (areaId == 7002))) {
             restrictedArea[playerId] = false;
             removeRestrictedAreaUI(eventPlayer);
         }

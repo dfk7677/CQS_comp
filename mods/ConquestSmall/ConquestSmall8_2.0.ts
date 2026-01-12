@@ -5,15 +5,15 @@ import * as modlib from 'modlib';
 
 
 
-const VERSION = [2, 0, 1, 5];
+const VERSION = [2, 0, 2, 1];
 
 // Sets core constants
 const INITIAL_TICKETS = 350;
 const BLEED_TWO_FLAGS = -.35;
-const BLEED_THREE_FLAGS = -.75;
+const BLEED_THREE_FLAGS = -.8;
 const DEATH_TICKET_LOSS = -1;
 const COUNT_DOWN_TIME = 5;
-const PRELIVE_TIME = 15;
+const PRELIVE_TIME = 10;
 const ROUND_TIME = 1200; // 20 minutes in seconds
 const POSTMATCH_TIME = 10;
 
@@ -29,6 +29,7 @@ const TICK_RATE = 30;
 const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
 
 const playerStatus = Array(64).fill(false);
+const restrictedArea = Array(64).fill(false);
 const playerFirstDeploy = Array(64).fill(true);
 const scoreboard = Array.from({ length: 64 }, () => [0, 0, 0, 0, 0]);
 
@@ -156,6 +157,34 @@ function CheckForAllReady(): void {
     }
     gamePhase = 1;
     phaseTickCount = 0;
+}
+
+function addRestrictedAreaUI (eventPlayer: mod.Player){
+    const id = mod.GetObjId(eventPlayer);
+    mod.AddUIContainer("RestrictedAreaContainer" + id, mod.CreateVector(0,0,0), mod.CreateVector(8000, 4000, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(.3, 0, 0), 0.6,
+        mod.UIBgFill.Solid, mod.UIDepth.AboveGameUI, eventPlayer);
+    
+    mod.AddUIText(
+        "RestrictedAreaText" + mod.GetObjId(eventPlayer),
+        mod.CreateVector(0, 200, 0),
+        mod.CreateVector(600, 200, 0),
+        mod.UIAnchor.TopCenter,
+        mod.FindUIWidgetWithName("RestrictedAreaContainer" + id),
+        true,
+        0,
+        mod.CreateVector(0, 0, 0),
+        0.4,
+        mod.UIBgFill.None,
+        mod.Message(mod.stringkeys.RestrictedArea),
+        80,
+        mod.CreateVector(1, 1, 1),
+        1,
+        mod.UIAnchor.Center
+    )
+}
+
+function removeRestrictedAreaUI (eventPlayer: mod.Player) {
+    mod.DeleteUIWidget(mod.FindUIWidgetWithName("RestrictedAreaContainer" + mod.GetObjId(eventPlayer)));
 }
 
 function addPrematchUI() {    
@@ -789,8 +818,6 @@ async function initializeGamePhase() {
         mod.SetWorldIconText(wIcon6, mod.Message(mod.stringkeys.HQ, 2));
         mod.SetWorldIconColor(wIcon6, mod.CreateVector(1, 0, 0));
         
-        
-        
         mod.SetScoreboardType(mod.ScoreboardType.CustomTwoTeams);
         mod.SetScoreboardColumnNames(mod.Message(mod.stringkeys.ScoreboardScore), mod.Message(mod.stringkeys.ScoreboardKills), 
             mod.Message(mod.stringkeys.ScoreboardDeaths), mod.Message(mod.stringkeys.ScoreboardAssists), mod.Message(mod.stringkeys.ScoreboardRevives));
@@ -799,7 +826,19 @@ async function initializeGamePhase() {
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), false);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), false);
         mod.EnableGameModeObjective(mod.GetCapturePoint(203), false);
+        const n = mod.CountOf(players);
+        for (let i = 0; i < n; i++) {
+            const player = mod.ValueInArray(players, i);
+             
+                
+            if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAISoldier)) {
+                const id = mod.GetObjId(player);
+                playerStatus[id] = true;
+            }
+            
+            
 
+        }
         
 
         await mod.Wait(1.5);
@@ -899,9 +938,11 @@ async function initializeGamePhase() {
             if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
                 mod.EnableAllInputRestrictions(player, true);
                 mod.EnableInputRestriction(player, mod.RestrictedInputs.FireWeapon, true);
+                /*
                 mod.StopSound(sounds[0], player);
                 mod.StopSound(sounds[1], player);
                 mod.StopSound(sounds[2], player);
+                */
             }
         }
         console.log("Phase: EndScreen");
@@ -1178,6 +1219,16 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
     }
 }
 
+export function OngoingPlayer(eventPlayer: mod.Player) {
+    if (gamePhase == 2) {
+        const id = mod.GetObjId(eventPlayer);
+        if (restrictedArea[id]) {
+            mod.DealDamage(eventPlayer, 0.67);
+        }
+    }
+    
+}
+
 export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     if (gamePhase == 2) {
         
@@ -1211,10 +1262,10 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
         mod.AddUIText("FlagLetter" + mod.GetObjId(eventPlayer), mod.CreateVector(0, 0, 0), mod.CreateVector(60, 60, 0), mod.UIAnchor.Center,
             parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.None, mod.Message(capturePoints[id].symbol), 48,
             mod.CreateVector(1, 1, 1), 1, mod.UIAnchor.Center);
-        mod.AddUIText("FriendlyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(30, 30, 0), mod.UIAnchor.CenterLeft,
-            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 26, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
-        mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(30, 30, 0), mod.UIAnchor.CenterRight,
-            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 26, COLOR_ENEMY, 1, mod.UIAnchor.Center);
+        mod.AddUIText("FriendlyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterLeft,
+            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 34, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
+        mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterRight,
+            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 34, COLOR_ENEMY, 1, mod.UIAnchor.Center);
 
         /*
         await mod.Wait(0.1);
@@ -1333,17 +1384,20 @@ export async function OnPlayerJoinGame(eventPlayer: mod.Player): Promise<void> {
     await mod.Wait(3);    
     mod.DeleteAllUIWidgets();
     if (gamePhase == 0) { 
-        mod.DeleteAllUIWidgets();     
+        if (mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsAISoldier)) {
+            const id = mod.GetObjId(eventPlayer);
+            playerStatus[id] = true;
+        }
         addPrematchUI();
         return;        
     }
     if (gamePhase == 1) {
-        mod.DeleteAllUIWidgets();
+        
         addCountdownUI();
         return;
     }
     if (gamePhase == 2) {
-        mod.DeleteAllUIWidgets();
+        
         addLiveUI();
         return;
     }
@@ -1427,6 +1481,13 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
 
 export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
     if (gamePhase == 2) {
+        const playerId = mod.GetObjId(eventPlayer);
+        const areaId = mod.GetObjId(eventAreaTrigger);
+
+        if (areaId > 20000) {
+            restrictedArea[playerId] = true;
+            addRestrictedAreaUI(eventPlayer);
+        }
         const team = mod.GetTeam(eventPlayer);
         
         if (mod.Equals(team, team2) && (mod.GetObjId(eventAreaTrigger) == 7001)) {
@@ -1436,7 +1497,11 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
                 mod.ForcePlayerExitVehicle(eventPlayer);
                 mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
             }
-            mod.Kill(eventPlayer);
+            else {
+                restrictedArea[playerId] = true;
+                addRestrictedAreaUI(eventPlayer);
+            }
+            
             
         } 
         else if (mod.Equals(team, team1) && (mod.GetObjId(eventAreaTrigger) == 7002)) {
@@ -1446,10 +1511,25 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
                 mod.ForcePlayerExitVehicle(eventPlayer);
                 mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
             }
-            mod.Kill(eventPlayer);
+            else {
+                restrictedArea[playerId] = true;
+                addRestrictedAreaUI(eventPlayer);
+            }
             
         }
         
+    }
+}
+
+export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigger: mod.AreaTrigger) {
+    if (gamePhase == 2) {
+        const playerId = mod.GetObjId(eventPlayer);
+        const areaId = mod.GetObjId(eventAreaTrigger);
+        const team = mod.GetTeam(eventPlayer);
+        if (areaId > 20000 || (mod.Equals(team, team2) && (areaId == 7001)) || (mod.Equals(team, team1) && (areaId == 7002))) {
+            restrictedArea[playerId] = false;
+            removeRestrictedAreaUI(eventPlayer);
+        }
     }
 }
 
