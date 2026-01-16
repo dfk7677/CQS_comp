@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_j0jn4"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_qcc4f"]
 [ext_resource type="PackedScene" path="res://objects/entities/SpawnPoint.tscn" id="3_6t26p"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="4_lgord"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="4_lgord"]
 [ext_resource type="PackedScene" path="res://objects/Global/Generic/Common/Props/FlagPole_01_USA.tscn" id="5_8cmoe"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="6_8jvfh"]
 [ext_resource type="Script" uid="uid://47t74odumpid" path="res://scripts/Gameplay/Common/WorldIcon.gd" id="7_umulf"]
@@ -320,7 +320,7 @@ CombatVolume = NodePath("CombatVolume")
 
 [node name="CombatVolume" parent="CombatArea" instance=ExtResource("2_qcc4f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1462.1, 24.0806, -112.354)
-points = PackedVector2Array(-102.381, -125.696, -137.453, -84.6324, -83.8638, -19.3208, -62.5118, 139.773, 58.5238, 149.735, 119.19, 110.885, 96.5817, 54.7832, 37.131, -15.5528, 76.067, -80.4457, -1.2841, -129.529)
+points = PackedVector2Array(-88.4248, -107.388, -137.453, -84.6324, -83.8638, -19.3208, -62.5118, 139.773, 58.5238, 149.735, 119.19, 110.885, 96.5817, 54.7832, 37.131, -15.5528, 76.067, -80.4457, 6.23349, -106.634)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.101056, 0.994881, 0, -0.994881, 0.101056, -7.18642, 417.917, -85.0161)

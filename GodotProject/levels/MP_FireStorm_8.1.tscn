@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_256x120x192.tscn" id="21_1t3f8"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_A_256x120x64.tscn" id="22_o6tpe"]
 [ext_resource type="PackedScene" path="res://objects/Turkmenistan/MP_FireStorm/Generic/Industrial/Props/Container_02_Open_C.tscn" id="23_wbuw6"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="24_2pef1"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="24_2pef1"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_F.tscn" id="25_yksf2"]
 
 [node name="MP_FireStorm" type="Node3D"]

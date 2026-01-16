@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="13_js0ck"]
 [ext_resource type="PackedScene" path="res://objects/Brooklyn/Shared/Generic/Military/Props/BarrierBlockConcrete_02_128_180.tscn" id="14_wfl54"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="15_iyq73"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="16_b7mec"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="16_b7mec"]
 [ext_resource type="PackedScene" path="res://objects/Brooklyn/MP_Dumbo/Generic/Military/Props/BarrierBlockConcrete_01_256x180_A.tscn" id="17_pgmhr"]
 
 [node name="MP_Dumbo" type="Node3D"]

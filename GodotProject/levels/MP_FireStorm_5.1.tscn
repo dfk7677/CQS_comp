@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_256x120x192.tscn" id="21_lwkku"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Industrial/Props/CinderblockWall_01_A_256x120x64.tscn" id="22_ehrih"]
 [ext_resource type="PackedScene" path="res://objects/Turkmenistan/MP_FireStorm/Generic/Industrial/Props/Container_02_Open_C.tscn" id="23_u1os2"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="24_e55m5"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="24_e55m5"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_F.tscn" id="25_k20he"]
 
 [node name="MP_FireStorm" type="Node3D"]
@@ -34,7 +34,7 @@ CombatVolume = NodePath("CombatVolume")
 
 [node name="CombatVolume" parent="CombatArea" instance=ExtResource("2_olba3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -71.4796, 30.6349, -69.0591)
-points = PackedVector2Array(-83.9864, 200.165, 95.3916, 219.299, 180.349, 98.6441, 111.517, -16.1585, 77.9604, -91.4677, -9.60744, -157.722, -50.0644, -154.029, -99.7154, -120.493, -111.096, -39.4548, -110.748, 61.2162)
+points = PackedVector2Array(-78.9688, 147.779, 84.6041, 127.999, 133.295, 49.6358, 111.517, -16.1585, 71.0838, -98.5019, 32.3214, -93.8788, -20.4165, -99.632, -82.7431, -96.276, -111.096, -39.4548, -110.748, 61.2162)
 
 [node name="CapturePointA" parent="CombatArea" node_paths=PackedStringArray("CaptureArea", "InfantrySpawnPoints_Team1", "InfantrySpawnPoints_Team2") instance=ExtResource("3_g20wf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -119.09, 32.4026, 28.1221)
@@ -194,7 +194,7 @@ InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePa
 
 [node name="HQ_Team1" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("2_olba3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.478, 0, -12.463)
-points = PackedVector2Array(47.195, -124.405, -42.0377, -110.752, -70.0827, -26.3655, -69.6604, 51.005, 62.8353, 196.424, 36.0641, 57.4741, 35.6865, -43.3804)
+points = PackedVector2Array(47.195, -124.405, -42.0377, -110.752, -70.0827, -26.3655, -69.6604, 51.005, 67.856, 144.047, 36.0641, 57.4741, 35.6865, -43.3804)
 
 [node name="SpawnPoint_1_1" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("4_02xl1")]
 transform = Transform3D(0.133986, 0, 0.990983, 0, 1, 0, -0.990983, 0, 0.133986, 2.57742, 0.696045, -16.7255)
@@ -277,7 +277,7 @@ InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePa
 
 [node name="HQ_Team2" parent="CombatArea/TEAM_2_HQ" instance=ExtResource("2_olba3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.467, 0, 26.698)
-points = PackedVector2Array(20.6752, -77.9886, -119.876, -89.397, -32.6473, -23.4085, 1.16499, 52.1569, 69.7585, 166.727, 60.9245, -28.0899)
+points = PackedVector2Array(26.9021, -64.0944, -8.44665, -51.7073, -39.5372, -30.4922, 1.16499, 52.1569, 22.7473, 117.745, 60.9245, -28.0899)
 
 [node name="SpawnPoint_2_1" parent="CombatArea/TEAM_2_HQ" instance=ExtResource("4_02xl1")]
 transform = Transform3D(0.545912, 0, -0.837844, 0, 1, 0, 0.837844, 0, 0.545912, -11.9218, 0.238495, -18.1643)

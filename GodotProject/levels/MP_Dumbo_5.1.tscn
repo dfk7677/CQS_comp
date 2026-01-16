@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="13_cl3so"]
 [ext_resource type="PackedScene" path="res://objects/Brooklyn/Shared/Generic/Military/Props/BarrierBlockConcrete_02_128_180.tscn" id="14_xcj7v"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="15_2v71m"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="16_rn7nf"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="16_rn7nf"]
 [ext_resource type="PackedScene" path="res://objects/Brooklyn/MP_Dumbo/Generic/Military/Props/BarrierBlockConcrete_01_256x180_A.tscn" id="17_5expp"]
 
 [node name="MP_Dumbo" type="Node3D"]
@@ -163,7 +163,7 @@ CombatVolume = NodePath("CombatVolume")
 
 [node name="CombatVolume" parent="CombatArea" instance=ExtResource("7_tqmkd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 129.825, 84.381, -105.306)
-points = PackedVector2Array(-31.1142, -17.091, -66.8407, -16.7619, -101.646, 102.005, -122.264, 203.899, -122.399, 214.794, -113.212, 214.709, -112.869, 246.13, -99.7542, 246.967, -100.296, 266.736, -64.1093, 273.703, 59.3391, 228.669, 128.651, 130.481, 127.88, 24.725, 23.113, -17.9056)
+points = PackedVector2Array(-8.27694, 68.2218, -66.8407, -16.7619, -101.646, 102.005, -122.264, 203.899, -122.399, 214.794, -113.212, 214.709, -112.869, 246.13, -99.7542, 246.967, -100.296, 266.736, -64.1093, 273.703, 59.3391, 228.669, 128.651, 130.481, 104.27, 112.486, 46.6239, 111.113)
 height = 100.0
 
 [node name="Camera3D" type="Camera3D" parent="."]

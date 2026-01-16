@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" path="res://static/MP_Abbasid_Assets.tscn" id="13_jc41a"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="14_i5jq4"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="15_fgsvu"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/AreaTrigger.tscn" id="16_u7lfy"]
+[ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="16_u7lfy"]
 
 [node name="MP_Abbasid" type="Node3D"]
 
