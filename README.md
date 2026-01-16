@@ -34,12 +34,19 @@ All this of course, is work in progress, there may be bugs and not a final propo
 * Operation Firestorm (MP_Firestorm)
 * Mirak Valley (MP_Tungsten)
 
+## Code Changelog
+Ver. 2.0.5
+Complete overhaul of the code to deal better with the capture/neutralization time bug. Added Scoreboard and Team Scores progress in the Endscreen and extended its duration to 15sec.
+
 ## Map changelog
 ### MP_Firestorm
 ver 1.3: Added cover west of capture point B, changed letters of objectives, moved Team 1 spawns a little back, so they don't have advantage reaching B.
 ver 2.0: All maps have enlarged HQs in 8v8 so there are instances of base rape. Different versions for 5v5 and 8v8.
 ### MP_Capstone
 ver 2.1: Added Restricted Areas on all the roofs for 5v5.
+
+### Ver 2.0.3
+All maps have been separated to 5v5 and 8v8 versions. Several have different layouts for the flags and all have different combat area and HQ between the 2 modes.
 
 
 
