@@ -50,5 +50,6 @@
   "PlayerGotKill": "Player {} got a kill. Total {} kills",
   "PlayerGotKillAssist": "Player {} got a kill assist",
   "PlayerGotRevive": "Player {} got a revive",
-  "RestrictedArea": "Restricted Area"
+  "RestrictedArea": "Restricted Area",
+  "Player": "Player"
 }
