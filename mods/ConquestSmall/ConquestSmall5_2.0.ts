@@ -5,7 +5,7 @@ import * as modlib from 'modlib';
 
 
 
-const VERSION = [2, 0, 4, 0];
+const VERSION = [2, 0, 5, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 275;
@@ -296,7 +296,6 @@ function addPrematchUI() {
     mod.AddUIContainer("PreMatchContainer", mod.CreateVector(0,70,0), mod.CreateVector(960, 290, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 10, mod.CreateVector(0, 0, 0), 0.4,
         mod.UIBgFill.Solid);
     const parent = mod.FindUIWidgetWithName("PreMatchContainer");
-    mod.SetUIWidgetDepth(parent, mod.UIDepth.AboveGameUI);
     mod.AddUIText(
         "PreMatchHeaderText",
         mod.CreateVector(0, 10, 0),
@@ -1058,7 +1057,7 @@ export function OngoingGlobal() {
             SetUITime();
             ChangeTickets();
             UpdateScoreboard();
-            if (mod.Modulo(phaseTickCount, 20*TICK_RATE) == 0) {
+            if (mod.Modulo(phaseTickCount, 60*TICK_RATE) == 0) {
                 scoresByMinute.push([serverScores[0], serverScores[1]]);
             }
         }

@@ -51,5 +51,7 @@
   "PlayerGotKillAssist": "Player {} got a kill assist",
   "PlayerGotRevive": "Player {} got a revive",
   "RestrictedArea": "Restricted Area",
-  "Player": "Player"
+  "Player": "Player",
+  "CreatedBy": "Created by Dionysis Kapatsoris",
+  "Version": "Version {}.{}.{}"
 }

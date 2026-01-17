@@ -5,7 +5,7 @@ import * as modlib from 'modlib';
 
 
 
-const VERSION = [2, 0, 2, 1];
+const VERSION = [2, 0, 5, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 275;
@@ -15,7 +15,7 @@ const DEATH_TICKET_LOSS = -1;
 const COUNT_DOWN_TIME = 5;
 const PRELIVE_TIME = 5;
 const ROUND_TIME = 1200; // 20 minutes in seconds
-const POSTMATCH_TIME = 10;
+const POSTMATCH_TIME = 15;
 
 const CAPTURE_TIME = 6;
 const NEUTRALIZE_TIME = 9;
@@ -29,9 +29,10 @@ const TICK_RATE = 30;
 const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
 
 const playerStatus = Array(64).fill(false);
-const playerFirstDeploy = Array(64).fill(true);
 const restrictedArea = Array(64).fill(false);
+const playerFirstDeploy = Array(64).fill(true);
 const scoreboard = Array.from({ length: 64 }, () => [0, 0, 0, 0, 0]);
+let scoresByMinute: number[][] = [];
 
 // Defines teams
 const teamNeutral: mod.Team = mod.GetTeam(0);
@@ -70,6 +71,108 @@ let teamVO: mod.VO[] = [];
 
 let globalVO: mod.VO;
 
+function DrawScoresByMinute(){
+    mod.AddUIContainer("ScoresByMinute", mod.CreateVector(0,500,0), mod.CreateVector(1270,INITIAL_TICKETS+50, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0,0,0), .8, mod.UIBgFill.Solid);
+    mod.SetUIWidgetDepth(mod.FindUIWidgetWithName("ScoresByMinute"), mod.UIDepth.AboveGameUI);
+    const parent = mod.FindUIWidgetWithName("ScoresByMinute");
+    for (let i = 0; i < scoresByMinute.length; i++) {
+        const scores = scoresByMinute[i];
+        mod.AddUIContainer(`Score${i}-00`, mod.CreateVector(5+i*60,0,0), mod.CreateVector(25,scores[0], 0), mod.UIAnchor.BottomLeft, parent, true, 0, COLOR_FRIENDLY, 1, mod.UIBgFill.Solid, team1);
+        mod.AddUIText(`Score${i}-00text`, mod.CreateVector(5+i*60,scores[0],0), mod.CreateVector(25,25, 0), mod.UIAnchor.BottomLeft, parent, true, 0,
+         mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.Ceiling(scores[0])), 12, mod.CreateVector(1,1,1), 1, mod.UIAnchor.Center, team1);
+        mod.AddUIContainer(`Score${i}-10`, mod.CreateVector(5+i*60+25,0,0), mod.CreateVector(25,scores[1], 0), mod.UIAnchor.BottomLeft, parent, true, 0, COLOR_ENEMY, 1, mod.UIBgFill.Solid, team1);
+        mod.AddUIText(`Score${i}-10text`, mod.CreateVector(5+i*60+25,scores[1],0), mod.CreateVector(25,25, 0), mod.UIAnchor.BottomLeft, parent, true, 0,
+         mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.Ceiling(scores[1])), 12, mod.CreateVector(1,1,1), 1, mod.UIAnchor.Center, team1);
+        mod.AddUIContainer(`Score${i}-01`, mod.CreateVector(5+i*60,0,0), mod.CreateVector(25,scores[1], 0), mod.UIAnchor.BottomLeft, parent, true, 0, COLOR_FRIENDLY, 1, mod.UIBgFill.Solid, team2);
+        mod.AddUIText(`Score${i}-01text`, mod.CreateVector(5+i*60,scores[1],0), mod.CreateVector(25,25, 0), mod.UIAnchor.BottomLeft, parent, true, 0,
+         mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.Ceiling(scores[1])), 12, mod.CreateVector(1,1,1), 1, mod.UIAnchor.Center, team2);
+        mod.AddUIContainer(`Score${i}-11`, mod.CreateVector(5+i*60+25,0,0), mod.CreateVector(25,scores[0], 0), mod.UIAnchor.BottomLeft, parent, true, 0, COLOR_ENEMY, 1, mod.UIBgFill.Solid, team2);
+        mod.AddUIText(`Score${i}-11text`, mod.CreateVector(5+i*60+25,scores[0],0), mod.CreateVector(25,25, 0), mod.UIAnchor.BottomLeft, parent, true, 0,
+         mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.Ceiling(scores[0])), 12, mod.CreateVector(1,1,1), 1, mod.UIAnchor.Center, team2);
+    }
+}
+
+
+function DrawEndScoreboard() {
+    mod.AddUIContainer("EndScoreboard", mod.CreateVector(0, 160,0), mod.CreateVector(920,300, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 10, mod.CreateVector(0,0,0), .8, mod.UIBgFill.Solid);
+    const parent = mod.FindUIWidgetWithName("EndScoreboard");
+    mod.SetUIWidgetDepth(parent, mod.UIDepth.AboveGameUI);
+    mod.AddUIContainer("HeaderFriendly", mod.CreateVector(-225,0,0), mod.CreateVector(450,30, 0), mod.UIAnchor.TopCenter, parent, true, 0, COLOR_FRIENDLY, 1, mod.UIBgFill.Solid);
+    mod.AddUIContainer("HeaderEnemy", mod.CreateVector(225,0,0), mod.CreateVector(450,30, 0), mod.UIAnchor.TopCenter, parent, true, 0, COLOR_ENEMY, 1, mod.UIBgFill.Solid);
+    mod.AddUIText("HeaderFriendlyPlayer", mod.CreateVector(10,0,0), mod.CreateVector(220,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderFriendly"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.Player), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterLeft);
+    mod.AddUIText("HeaderFriendlyScore", mod.CreateVector(230,0,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderFriendly"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.ScoreboardScore), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight);
+    mod.AddUIText("HeaderFriendlyKills", mod.CreateVector(300,0,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderFriendly"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.ScoreboardKills), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight);
+    mod.AddUIText("HeaderFriendlyDeaths", mod.CreateVector(370,0,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderFriendly"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.ScoreboardDeaths), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight);
+    mod.AddUIText("HeaderEnemyPlayer", mod.CreateVector(10,0,0), mod.CreateVector(220,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderEnemy"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.Player), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterLeft);
+    mod.AddUIText("HeaderEnemyScore", mod.CreateVector(230,0,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderEnemy"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.ScoreboardScore), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight);
+    mod.AddUIText("HeaderEnemyKills", mod.CreateVector(300,0,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderEnemy"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.ScoreboardKills), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight);
+    mod.AddUIText("HeaderEnemyDeaths", mod.CreateVector(370,0,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, mod.FindUIWidgetWithName("HeaderEnemy"), true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(mod.stringkeys.ScoreboardDeaths), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight);
+
+     const players = mod.AllPlayers();
+     const n = mod.CountOf(players);
+     const scoreboard1 = [];
+     const scoreboard2 = [];
+     for (let i = 0; i < n; i++) {
+        const player = mod.ValueInArray(players, i);
+        const id = mod.GetObjId(player);
+        const team = mod.GetTeam(player);
+        if (mod.Equals(team, team1)) {
+            scoreboard1.push([player, scoreboard[id][0], scoreboard[id][1], scoreboard[id][2]]);
+        } else {
+            scoreboard2.push([player, scoreboard[id][0], scoreboard[id][1], scoreboard[id][2]]);
+        }
+        
+        
+
+     }
+     const sortedScoreboard1 = scoreboard1.sort((a, b) => b[1] - a[1]);
+     const sortedScoreboard2 = scoreboard2.sort((a, b) => b[1] - a[1]);
+     for (let i = 0; i < sortedScoreboard1.length; i++) {
+        mod.AddUIText("FriendlyPlayer" + i +1, mod.CreateVector(10,30 + 30*i,0), mod.CreateVector(220,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][0]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterLeft, team1);
+        mod.AddUIText("FriendlyScore" + i +1, mod.CreateVector(230,30 + 30*i,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][1]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team1);
+        mod.AddUIText("FriendlyKills" + i +1, mod.CreateVector(300,30 + 30*i,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][2]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team1);
+        mod.AddUIText("FriendlyDeaths" + i +1, mod.CreateVector(370,30 + 30*i,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][3]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team1);
+        mod.AddUIText("EnemyPlayer" + i +1, mod.CreateVector(450+10,30 + 30*i,0), mod.CreateVector(220,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][0]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterLeft, team2);
+        mod.AddUIText("EnemyScore" + i +1, mod.CreateVector(450+230,30 + 30*i,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][1]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team2);
+        mod.AddUIText("EnemyKills" + i +1, mod.CreateVector(450+300,30 + 30*i,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][2]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team2);
+        mod.AddUIText("EnemyDeaths" + i +1, mod.CreateVector(450+370,30 + 30*i,0), mod.CreateVector(70,30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard1[i][3]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team2);
+    }
+    for (let i = 0; i < sortedScoreboard2.length; i++) {
+        mod.AddUIText("FriendlyPlayer" + i +2, mod.CreateVector(10, 30 + 30 * i,0), mod.CreateVector(220, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][0]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterLeft, team2);
+        mod.AddUIText("FriendlyScore" + i +2, mod.CreateVector(230, 30 + 30 * i,0), mod.CreateVector(70, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][1]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team2);
+        mod.AddUIText("FriendlyKills" + i +2, mod.CreateVector(300, 30 + 30 * i,0), mod.CreateVector(70, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][2]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team2);
+        mod.AddUIText("FriendlyDeaths" + i +2, mod.CreateVector(370, 30 + 30 * i,0), mod.CreateVector(70, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][3]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team2);
+        mod.AddUIText("EnemyPlayer" + i +2, mod.CreateVector(450 +10, 30 + 30 * i,0), mod.CreateVector(220, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][0]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterLeft, team1);
+        mod.AddUIText("EnemyScore" + i +2, mod.CreateVector(450 + 230, 30 + 30 * i,0), mod.CreateVector(70, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][1]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team1);
+        mod.AddUIText("EnemyKills" + i +2, mod.CreateVector(450 + 300, 30 + 30 * i,0), mod.CreateVector(70, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][2]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team1);
+        mod.AddUIText("EnemyDeaths" + i +2, mod.CreateVector(450 + 370, 30 + 30 * i,0), mod.CreateVector(70, 30, 0), mod.UIAnchor.TopLeft, parent, true,
+     0, mod.CreateVector(1,1,1), 0, mod.UIBgFill.None, mod.Message(sortedScoreboard2[i][3]), 24, mod.CreateVector(1,1,1), 1, mod.UIAnchor.CenterRight, team1);
+     }
+
+}
 
 function FlashFlag(id: number) {
 
@@ -190,7 +293,7 @@ function removeRestrictedAreaUI (eventPlayer: mod.Player) {
 
 function addPrematchUI() {    
     
-    mod.AddUIContainer("PreMatchContainer", mod.CreateVector(0,100,0), mod.CreateVector(600, 330, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 30, mod.CreateVector(0, 0, 0), 0.4,
+    mod.AddUIContainer("PreMatchContainer", mod.CreateVector(0,70,0), mod.CreateVector(960, 290, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 10, mod.CreateVector(0, 0, 0), 0.4,
         mod.UIBgFill.Solid);
     const parent = mod.FindUIWidgetWithName("PreMatchContainer");
     mod.AddUIText(
@@ -213,7 +316,7 @@ function addPrematchUI() {
     
     mod.AddUIText(
         "PreMatchTeam1Label",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(20, 0, 0),
         mod.CreateVector(100, 30, 0),
         mod.UIAnchor.TopLeft,
         parent,
@@ -231,7 +334,7 @@ function addPrematchUI() {
 
     mod.AddUIText(
         "PreMatchTeam2Label",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(20, 0, 0),
         mod.CreateVector(100, 30, 0),
         mod.UIAnchor.TopRight,
         parent,
@@ -275,8 +378,8 @@ function addPrematchUI() {
             teamPlayers[0] += 1;
             mod.AddUIText(
                 "Player" + mod.GetObjId(player),
-                mod.CreateVector(0, 0 + 30*teamPlayers[0], 0),
-                mod.CreateVector(100, 30, 0),
+                mod.CreateVector(20, 30*teamPlayers[0], 0),
+                mod.CreateVector(300, 30, 0),
                 mod.UIAnchor.TopLeft,
                 parent,
                 true,
@@ -297,8 +400,8 @@ function addPrematchUI() {
             teamPlayers[1] += 1;
             mod.AddUIText(
                 "Player" + mod.GetObjId(player),
-                mod.CreateVector(0, 0 + 30*teamPlayers[1], 0),
-                mod.CreateVector(100, 30, 0),
+                mod.CreateVector(20, 30*teamPlayers[1], 0),
+                mod.CreateVector(300, 30, 0),
                 mod.UIAnchor.TopRight,
                 parent,
                 true,
@@ -313,8 +416,8 @@ function addPrematchUI() {
                 mod.UIAnchor.CenterRight
             )
         }
-        const height = mod.Max(mod.Max(teamPlayers[0], teamPlayers[1]) * 30 + 90, 330);        
-        mod.SetUIWidgetSize(parent, mod.CreateVector(600, height, 0));
+        const height = mod.Max(mod.Max(teamPlayers[0], teamPlayers[1]) * 30 + 50, 290);        
+        //mod.SetUIWidgetSize(parent, mod.CreateVector(600, height, 0));
         
     }
     
@@ -363,14 +466,14 @@ function addCountdownUI() {
 }
 
 function addLiveUI() {
-    mod.AddUIContainer("LiveContainer", mod.CreateVector(0,50,0), mod.CreateVector(300, 300, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.4,
+    mod.AddUIContainer("LiveContainer", mod.CreateVector(0, 80, 0), mod.CreateVector(300, 300, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.4,
         mod.UIBgFill.None);
     const parent = mod.FindUIWidgetWithName("LiveContainer");
     
-    mod.AddUIContainer("StatusContainer", mod.CreateVector(0,0,0), mod.CreateVector(300, 40, 0), mod.UIAnchor.TopCenter, parent, true, 5, mod.CreateVector(0, 0, 0), 0.4,
-        mod.UIBgFill.Blur);
+    mod.AddUIContainer("StatusContainer", mod.CreateVector(0,80,0), mod.CreateVector(300, 40, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 5, mod.CreateVector(0, 0, 0), 0.6,
+        mod.UIBgFill.Solid);
     const parent2 = mod.FindUIWidgetWithName("StatusContainer");
-
+    mod.SetUIWidgetDepth(parent2, mod.UIDepth.AboveGameUI);
     mod.AddUIText(
         "RemainingTime",
         mod.CreateVector(0, 0, 0),
@@ -465,61 +568,21 @@ function addLiveUI() {
         team2
     )
 
-    mod.AddUIContainer(
-        "FlagContainerA",
-        mod.CreateVector(-100, 60, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.TopCenter,    
-        parent,
-        true,
-        0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None
-
-    )
-
-    mod.AddUIContainer(
-        "FlagContainerB",
-        mod.CreateVector(0, 60, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.TopCenter,    
-        parent,
-        true,
-        0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None
-
-    )
-
-    mod.AddUIContainer(
-        "FlagContainerC",
-        mod.CreateVector(100, 60, 0),
-        mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.TopCenter,    
-        parent,
-        true,
-        0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None
-
-    )
+    
 
     mod.AddUIText(
         "FLAGA1",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(-100, 50, 0),
         mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerA"),
+        mod.UIAnchor.TopCenter,
+        parent,
         true,
         0,
         mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message("A"),
-        30,
+        44,
         getFlagColor(team1, 201),
         1,
         mod.UIAnchor.Center,
@@ -528,17 +591,17 @@ function addLiveUI() {
 
     mod.AddUIText(
         "FLAGB1",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(0, 50, 0),
         mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerB"),
+        mod.UIAnchor.TopCenter,
+        parent,
         true,
         0,
         mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message("B"),
-        30,
+        44,
         getFlagColor(team1, 202),
         1,
         mod.UIAnchor.Center,
@@ -547,17 +610,17 @@ function addLiveUI() {
 
     mod.AddUIText(
         "FLAGC1",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(100, 50, 0),
         mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerC"),
+        mod.UIAnchor.TopCenter,
+        parent,
         true,
         0,
         mod.CreateVector(0, 0, 0),
         0.4,
         mod.UIBgFill.Blur,
         mod.Message("C"),
-        30,
+        45,
         getFlagColor(team1, 203),
         1,
         mod.UIAnchor.Center,
@@ -567,36 +630,36 @@ function addLiveUI() {
 
     mod.AddUIText(
         "FLAGA2",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(-100, 50, 0),
         mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerA"),
+        mod.UIAnchor.TopCenter,
+        parent,
         true,
         0,
         mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message("A"),
-        30,
+        45,
         getFlagColor(team2, 201),
         1,
         mod.UIAnchor.Center,
-        team2            
+        team2         
     )
 
     mod.AddUIText(
         "FLAGB2",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(0, 50, 0),
         mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerB"),
+        mod.UIAnchor.TopCenter,
+        parent,
         true,
         0,
         mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message("B"),
-        30,
+        44,
         getFlagColor(team2, 202),
         1,
         mod.UIAnchor.Center,
@@ -605,17 +668,17 @@ function addLiveUI() {
 
     mod.AddUIText(
         "FLAGC2",
-        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(100, 50, 0),
         mod.CreateVector(50, 50, 0),
-        mod.UIAnchor.Center,
-        mod.FindUIWidgetWithName("FlagContainerC"),
+        mod.UIAnchor.TopCenter,
+        parent,
         true,
         0,
         mod.CreateVector(0, 0, 0),
-        0.4,
-        mod.UIBgFill.Blur,
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message("C"),
-        30,
+        44,
         getFlagColor(team2, 203),
         1,
         mod.UIAnchor.Center,
@@ -624,7 +687,7 @@ function addLiveUI() {
 }
 
 function addEndScreenUI(){
-    mod.AddUIContainer("EndContainer", mod.CreateVector(0,0,0), mod.CreateVector(9000, 4000, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.6,
+    mod.AddUIContainer("EndContainer", mod.CreateVector(0,0,0), mod.CreateVector(9000, 1080, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.6,
         mod.UIBgFill.Solid);
     const parent = mod.FindUIWidgetWithName("EndContainer");
     
@@ -639,6 +702,9 @@ function addEndScreenUI(){
     }
     if (serverScores[1] < 0) {
         serverScores[1] = 0;
+    }
+    if (liveTickCount < 1200 * 30) {
+        scoresByMinute.push([serverScores[0], serverScores[1]]);
     }
 
     mod.AddUIText(
@@ -685,9 +751,9 @@ function addEndScreenUI(){
         parent,
         true,
         0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
+        mod.CreateVector(0, 0, 0),
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message(mod.Ceiling(serverScores[0])),
         48,
         COLOR_FRIENDLY,
@@ -703,9 +769,9 @@ function addEndScreenUI(){
         parent,
         true,
         1,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
+        mod.CreateVector(0, 0, 0),
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message(mod.Ceiling(serverScores[1])),
         48,
         COLOR_ENEMY,
@@ -721,9 +787,9 @@ function addEndScreenUI(){
         parent,
         true,
         0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
+        mod.CreateVector(0, 0, 0),
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message(mod.Ceiling(serverScores[1])),
         48,
         COLOR_FRIENDLY,
@@ -739,9 +805,9 @@ function addEndScreenUI(){
         parent,
         true,
         0,
-        mod.CreateVector(0.2, 0.2, 0.2),
-        1,
-        mod.UIBgFill.None,
+        mod.CreateVector(0, 0, 0),
+        0.6,
+        mod.UIBgFill.Solid,
         mod.Message(mod.Ceiling(serverScores[0])),
         48,
         COLOR_ENEMY,
@@ -767,6 +833,8 @@ function addEndScreenUI(){
         0,
         mod.UIAnchor.Center
     );
+    DrawScoresByMinute();
+    DrawEndScoreboard();
 }
 
 function getFlagColor(team: mod.Team, cpId: number): mod.Vector {
@@ -844,7 +912,7 @@ async function initializeGamePhase() {
         
         
 
-        await mod.Wait(1.5);
+        //await mod.Wait(1.5);
         addPrematchUI();
     } else if (gamePhase == 1) {
         // Countdown phase logic
@@ -971,9 +1039,9 @@ export function OngoingGlobal() {
     if (gamePhase == 1) {
         if (mod.Modulo(phaseTickCount, TICK_RATE) == 0) {
             countDown -= 1;
-            if (countDown < 9) {
-                mod.SetUITextLabel(mod.FindUIWidgetWithName("CountDownText"), mod.Message(countDown));
-            }
+            
+            mod.SetUITextLabel(mod.FindUIWidgetWithName("CountDownText"), mod.Message(countDown));
+            
             
             if (countDown == 0) {
                 gamePhase = 2;
@@ -989,6 +1057,9 @@ export function OngoingGlobal() {
             SetUITime();
             ChangeTickets();
             UpdateScoreboard();
+            if (mod.Modulo(phaseTickCount, 60*TICK_RATE) == 0) {
+                scoresByMinute.push([serverScores[0], serverScores[1]]);
+            }
         }
 
         if (phaseTickCount == TOTAL_TICKS - 30*TICK_RATE) {
@@ -1081,10 +1152,9 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                 const uiWidget = mod.FindUIWidgetWithName("Progress" + mod.GetObjId(player));
                 if (uiWidget)
                 {
-                    mod.SetUIWidgetSize(mod.FindUIWidgetWithName("Progress" + mod.GetObjId(player)), mod.CreateVector(currentProgress *60, 60, 0));
-                    mod.SetUIWidgetSize(mod.FindUIWidgetWithName("Progress2" + mod.GetObjId(player)), mod.CreateVector(60 - currentProgress *60, 60, 0));
-                    mod.SetUIWidgetPosition(mod.FindUIWidgetWithName("Progress2" + mod.GetObjId(player)), mod.CreateVector(120 + currentProgress *60,0,0));
-                    mod.SetUIWidgetBgColor(mod.FindUIWidgetWithName("Progress" + mod.GetObjId(player)), mod.Equals(mod.GetTeam(player), currentCapturer) ? COLOR_FRIENDLY : COLOR_ENEMY);
+                    const width = mod.Ceiling(mod.Multiply(60, currentProgress));                        
+                    mod.SetUIWidgetSize(uiWidget, mod.CreateVector(width, 60, 0));                        
+                    mod.SetUIWidgetBgColor(uiWidget, mod.Equals(mod.GetTeam(player), currentCapturer) ? COLOR_FRIENDLY : COLOR_ENEMY);
                 }
                 if (mod.Equals(mod.GetTeam(player), mod.GetTeam(1))) {
                     teamPlayers[0] += 1;
@@ -1252,20 +1322,21 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
         
         
 
-        mod.AddUIContainer("OnPoint"+ mod.GetObjId(eventPlayer), mod.CreateVector(0,120,0), mod.CreateVector(300, 60,0), mod.UIAnchor.TopLeft,
+        mod.AddUIContainer("OnPoint"+ mod.GetObjId(eventPlayer), mod.CreateVector(0,110,0), mod.CreateVector(300, 60,0), mod.UIAnchor.TopLeft,
             mod.FindUIWidgetWithName("LiveContainer"), true, 0,mod.CreateVector(1,1,1) , 0.4, mod.UIBgFill.None, eventPlayer);
         const parent = mod.FindUIWidgetWithName("OnPoint"+ mod.GetObjId(eventPlayer))
-        mod.AddUIContainer("Progress"+ mod.GetObjId(eventPlayer), mod.CreateVector(120,0,0), mod.CreateVector(currentProgress *60, 60,0), mod.UIAnchor.CenterLeft,
-            parent, true, 0, mod.Equals(mod.GetTeam(eventPlayer), currentCapturer) ? COLOR_FRIENDLY : COLOR_ENEMY, 0.5, mod.UIBgFill.Solid, eventPlayer);
-        mod.AddUIContainer("Progress2"+ mod.GetObjId(eventPlayer), mod.CreateVector(120 + currentProgress *60,0,0), mod.CreateVector(60-currentProgress *60, 60,0), mod.UIAnchor.CenterLeft,
-            parent, true, 0, COLOR_NEUTRAL, 0.5, mod.UIBgFill.Solid, eventPlayer);
+        mod.AddUIContainer("ProgressParent"+ mod.GetObjId(eventPlayer), mod.CreateVector(0,0,0), mod.CreateVector(60, 60,0), mod.UIAnchor.Center,parent,
+         true, 0,mod.CreateVector(.5,.5,.5) , 1, mod.UIBgFill.Solid, eventPlayer);
+        mod.AddUIContainer("Progress"+ mod.GetObjId(eventPlayer), mod.CreateVector(0,0,0), mod.CreateVector(mod.Ceiling(currentProgress *60), 60,0), mod.UIAnchor.CenterLeft,
+            mod.FindUIWidgetWithName("ProgressParent"+ mod.GetObjId(eventPlayer)), true, 0, mod.Equals(mod.GetTeam(eventPlayer), currentCapturer) ? COLOR_FRIENDLY : COLOR_ENEMY, 1, mod.UIBgFill.Solid, eventPlayer);
+          
         mod.AddUIText("FlagLetter" + mod.GetObjId(eventPlayer), mod.CreateVector(0, 0, 0), mod.CreateVector(60, 60, 0), mod.UIAnchor.Center,
-            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.None, mod.Message(capturePoints[id].symbol), 48,
+            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.None, mod.Message(capturePoints[id].symbol), 50,
             mod.CreateVector(1, 1, 1), 1, mod.UIAnchor.Center);
-        mod.AddUIText("FriendlyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(30, 30, 0), mod.UIAnchor.CenterLeft,
-            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 26, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
-        mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(30, 30, 0), mod.UIAnchor.CenterRight,
-            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 26, COLOR_ENEMY, 1, mod.UIAnchor.Center);
+        mod.AddUIText("FriendlyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterLeft,
+            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 34, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
+        mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterRight,
+            parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 34, COLOR_ENEMY, 1, mod.UIAnchor.Center);
 
         /*
         await mod.Wait(0.1);
