@@ -234,8 +234,7 @@ function UpdateScoreboard() {
     for (let i = 0; i < n; i++) {
         const player = mod.ValueInArray(players, i);
         const id = mod.GetObjId(player);
-        mod.SetScoreboardPlayerValues(player, scoreboard[id][0], scoreboard[id][1], scoreboard[id][2], scoreboard[id][3], scoreboard[id][4]);
-        
+        mod.SetScoreboardPlayerValues(player, scoreboard[id][0], scoreboard[id][1], scoreboard[id][2], scoreboard[id][3], scoreboard[id][4]);        
     }
 }
 function SetUITime() {
@@ -890,15 +889,11 @@ async function initializeGamePhase() {
         mod.SetScoreboardType(mod.ScoreboardType.CustomTwoTeams);
         mod.SetScoreboardColumnNames(mod.Message(mod.stringkeys.ScoreboardScore), mod.Message(mod.stringkeys.ScoreboardKills), 
             mod.Message(mod.stringkeys.ScoreboardDeaths), mod.Message(mod.stringkeys.ScoreboardAssists), mod.Message(mod.stringkeys.ScoreboardRevives));
-        
-        
-        
         mod.SetGameModeTimeLimit(60000);
         SetRedeployTimeForAll(0);
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), false);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), false);
         mod.EnableGameModeObjective(mod.GetCapturePoint(203), false);
-
         const n = mod.CountOf(players);
         for (let i = 0; i < n; i++) {
             const player = mod.ValueInArray(players, i);
@@ -912,17 +907,12 @@ async function initializeGamePhase() {
             
 
         }
-
-        
-        
-
         //await mod.Wait(1.5);
         addPrematchUI();
     } else if (gamePhase == 1) {
         // Countdown phase logic
         console.log("Phase: Countdown");
-        countDown = PRELIVE_TIME;
-        
+        countDown = PRELIVE_TIME;        
         
         for (let i = 0; i < 4; i++) {
             mod.EnableWorldIconImage(mod.GetWorldIcon(5001 + i), false);
@@ -1007,7 +997,6 @@ async function initializeGamePhase() {
                 mod.StopSound(sounds[1], player);
                 mod.StopSound(sounds[2], player);
                 */
-
             }
         }
         console.log("Phase: EndScreen");
@@ -1039,10 +1028,8 @@ export function OngoingGlobal() {
     if (gamePhase == 1) {
         if (mod.Modulo(phaseTickCount, TICK_RATE) == 0) {
             countDown -= 1;
-            
             mod.SetUITextLabel(mod.FindUIWidgetWithName("CountDownText"), mod.Message(countDown));
-            
-            
+                        
             if (countDown == 0) {
                 gamePhase = 2;
                 phaseTickCount = 0;
@@ -1063,14 +1050,11 @@ export function OngoingGlobal() {
         }
 
         if (phaseTickCount == TOTAL_TICKS - 30*TICK_RATE) {
-        
-            mod.PlayVO(globalVO, mod.VoiceOverEvents2D.Time30Left, mod.VoiceOverFlags.Delta);            
-        }
-        
+                    mod.PlayVO(globalVO, mod.VoiceOverEvents2D.Time30Left, mod.VoiceOverFlags.Delta);            
+        }        
         else if (phaseTickCount == TOTAL_TICKS - 120*TICK_RATE) {
             mod.PlayVO(globalVO, mod.VoiceOverEvents2D.Time120Left, mod.VoiceOverFlags.Delta);
-        }
-        
+        }        
         else if (phaseTickCount == TOTAL_TICKS - 60*TICK_RATE) {
             mod.PlayVO(globalVO, mod.VoiceOverEvents2D.Time60Left, mod.VoiceOverFlags.Delta);
         } else if (phaseTickCount == TOTAL_TICKS) {
@@ -1490,12 +1474,9 @@ export function OnPlayerEarnedKillAssist(eventPlayer: mod.Player, eventOtherPlay
 
 export function OnPlayerEarnedKill(eventPlayer: mod.Player, eventOtherPlayer: mod.Player, eventDeathType: mod.DeathType, eventWeaponUnlock: mod.WeaponUnlock) {
     if (gamePhase == 2) {
-        const id = mod.GetObjId(eventPlayer);
-        
+        const id = mod.GetObjId(eventPlayer);        
         scoreboard[id][1] += 1;
-        scoreboard[id][0] += 100;
-        
-        
+        scoreboard[id][0] += 100;   
     }
 }
 
@@ -1563,8 +1544,6 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
             restrictedArea[playerId] = true;
             addRestrictedAreaUI(eventPlayer);
         }
-
-
         const team = mod.GetTeam(eventPlayer);
         
         if (mod.Equals(team, team2) && (mod.GetObjId(eventAreaTrigger) == 7001)) {
