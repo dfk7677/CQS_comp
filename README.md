@@ -46,7 +46,8 @@ ver 2.0: All maps have enlarged HQs in 8v8 so there are instances of base rape. 
 ver 2.1: Added Restricted Areas on all the roofs for 5v5.
 ### MP_Tungsten
 ver 2.1: Added some undestructible cover in all capture areas and added rectricted areas instead of blocking above B and C. A small widening of combat area north of A.
-
+### MP_Battery
+ver 2.1: Made the capture area of A little smaller to avoid the area with the bushes.
 
 ### Ver 2.0.3
 All maps have been separated to 5v5 and 8v8 versions. Several have different layouts for the flags and all have different combat area and HQ between the 2 modes.
