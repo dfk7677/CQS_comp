@@ -15,7 +15,7 @@ The 7 maps that are already made, follow some simple principles:
 * Small capture areas, so there is more fighting and less hiding in them.
 * Faster than base game capture (6s) and neutralize (9s) times.
 * For 8v8, only one heavy vehicle per side.
-* 20m time limit and 250 initial tickets.
+* 20m time limit and 275/350 initial tickets.
 * Big areas for HQs
 * 3 flag setups to avoid a 2-2 flag scenario where both teams are afraid to attack.
   
@@ -26,13 +26,15 @@ The above map design decisions were made to avoid one sided matches, difficultie
 All this of course, is work in progress, there may be bugs and not a final proposition. I hope it gains some traction so there is some feedback that will eventually lead to an even better experience.
 
 ## Current Map list
-* Siege of Cairo (MP_Abbasid)
-* Blackwell Fields (MP_Badlands)
-* Iberian Offensive (MP_Battery)
-* Liberation Peak (MP_Capstone)
-* Manhattan Bridge (MP_Dumbo)
-* Operation Firestorm (MP_Firestorm)
-* Mirak Valley (MP_Tungsten)
+
+| Name | Machine Name | 5v5 Code | 8v8 Code |
+| --- | --- | --- | --- |
+| Siege of Cairo | MP_Abbasid | zmu38 | zjuyw |
+| Blackwell Fields | MP_Badlands | zedxh | zjwzt |
+| Iberian Offensive | MP_Battery | zmu3d | zju42 |
+| Liberation Peak | MP_Capstone | zmu3k | zkzab |
+| Manhattan Bridge | MP_Dumbo | zmu4y | zju15 |
+| Mirak Valley | MP_Tungsten | zmu43 | zkzav |
 
 ## Code Changelog
 Ver. 2.0.5
