@@ -34,6 +34,7 @@ All this of course, is work in progress, there may be bugs and not a final propo
 | Iberian Offensive | MP_Battery | zmu3d | zju42 |
 | Liberation Peak | MP_Capstone | zmu3k | zkzab |
 | Manhattan Bridge | MP_Dumbo | zmu4y | zju15 |
+| Operation Firestorm | MP_Firestorm | zmu42 | zkzan |
 | Mirak Valley | MP_Tungsten | zmu43 | zkzav |
 
 ## Code Changelog
