@@ -1,7 +1,7 @@
 
 # License
 
-Copyright © 2026 Dionysis
+Copyright © 2026 Dionysis Kapatsoris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to use,
