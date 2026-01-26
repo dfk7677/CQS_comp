@@ -55,7 +55,6 @@ ver 2.1: Made the capture area of A little smaller to avoid the area with the bu
 ver 2.2: Changes in B flag (spawns, cover).
 ### MP_Abbasid
 ver 2.1: Added restricted areas and blocks in a lot of balconies/windows.
-
 ### Ver 2.0.3
 All maps have been separated to 5v5 and 8v8 versions. Several have different layouts for the flags and all have different combat area and HQ between the 2 modes.
 
