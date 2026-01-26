@@ -5,7 +5,7 @@ import * as modlib from 'modlib';
 
 
 
-const VERSION = [2, 0, 5, 0];
+const VERSION = [2, 0, 6, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 275;
