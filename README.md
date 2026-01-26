@@ -52,6 +52,7 @@ ver 2.2: Added 4 houses for cover between flags B and C in 5v5.
 ver 2.1: Added some undestructible cover in all capture areas and added rectricted areas instead of blocking above B and C. A small widening of combat area north of A.
 ### MP_Battery
 ver 2.1: Made the capture area of A little smaller to avoid the area with the bushes.
+ver 2.2: Changes in B flag (spawns, cover).
 ### MP_Abbasid
 ver 2.1: Added restricted areas and blocks in a lot of balconies/windows.
 
