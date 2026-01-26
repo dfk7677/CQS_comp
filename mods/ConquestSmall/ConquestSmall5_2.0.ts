@@ -1277,7 +1277,7 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
     if (gamePhase == 2) {
         const id = mod.GetObjId(eventPlayer);
         if (restrictedArea[id]) {
-            mod.DealDamage(eventPlayer, 0.67);
+            mod.DealDamage(eventPlayer, 0.33);
         }
     }
     
