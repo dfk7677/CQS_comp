@@ -1290,7 +1290,33 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
     if (gamePhase == 2) {
         const id = mod.GetObjId(eventPlayer);
         if (restrictedArea[id]) {
-            mod.DealDamage(eventPlayer, 0.33);
+            if (mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle))
+            {
+                const vehicle = mod.GetVehicleFromPlayer(eventPlayer);
+                mod.DealDamage(vehicle, 120/TICK_RATE);
+                /*
+                if (mod.CompareVehicleName(vehicle, mod.VehicleList.Abrams)) {
+                    
+                } else if (mod.CompareVehicleName(vehicle, mod.VehicleList.Leopard)){
+                    mod.DealDamage(vehicle, 120/TICK_RATE);
+                } else if (mod.CompareVehicleName(vehicle, mod.VehicleList.M2Bradley)){
+                    mod.DealDamage(vehicle, 100/TICK_RATE);
+                } else if (mod.CompareVehicleName(vehicle, mod.VehicleList.CV90)){
+                    mod.DealDamage(vehicle, 100/TICK_RATE);
+                } else if (mod.CompareVehicleName(vehicle, mod.VehicleList.Flyer60)){
+                    mod.DealDamage(vehicle, 80/TICK_RATE);
+                } else if (mod.CompareVehicleName(vehicle, mod.VehicleList.Vector)){
+                    
+                    mod.DealDamage(vehicle, 80/TICK_RATE);
+                }
+                */
+                
+            } else {
+                mod.DealDamage(eventPlayer, 10/TICK_RATE);
+            }
+            
+            
+
         }
     }
     
@@ -1561,28 +1587,31 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
         
         if (mod.Equals(team, team2) && (mod.GetObjId(eventAreaTrigger) == 7001)) {
             console.log("Entered enemy HQ")
+            restrictedArea[playerId] = true;
+            addRestrictedAreaUI(eventPlayer);
             if (mod.Equals(mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle), true)) {
                 
-                mod.ForcePlayerExitVehicle(eventPlayer);
-                mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
+                //mod.ForcePlayerExitVehicle(eventPlayer);
+                //mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
             }
             else {
-                restrictedArea[playerId] = true;
-                addRestrictedAreaUI(eventPlayer);
+                
             }
             
             
         } 
         else if (mod.Equals(team, team1) && (mod.GetObjId(eventAreaTrigger) == 7002)) {
             console.log("Entered enemy HQ")
+            restrictedArea[playerId] = true;
+            addRestrictedAreaUI(eventPlayer);
             if (mod.Equals(mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle), true)) {
                 
-                mod.ForcePlayerExitVehicle(eventPlayer);
-                mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
+                //mod.ForcePlayerExitVehicle(eventPlayer);
+                //mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
             }
             else {
-                restrictedArea[playerId] = true;
-                addRestrictedAreaUI(eventPlayer);
+                //restrictedArea[playerId] = true;
+                //addRestrictedAreaUI(eventPlayer);
             }
             
         }

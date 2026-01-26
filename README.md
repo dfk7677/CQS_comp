@@ -59,7 +59,7 @@ ver 2.1: Added restricted areas and blocks in a lot of balconies/windows.
 All maps have been separated to 5v5 and 8v8 versions. Several have different layouts for the flags and all have different combat area and HQ between the 2 modes.
 
 ### Ver 2.0.6
-Dealt Damage to players entering enemy HQs reduced to half. Now it takes 10s with full health to die.
+Dealt Damage to players entering enemy HQs reduced to half. Now it takes 10s with full health to die. Same stands for vehicles.
 
 
 
