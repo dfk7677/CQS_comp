@@ -398,6 +398,10 @@ Area = NodePath("../PolygonVolume3")
 ObjId = 20004
 Area = NodePath("../PolygonVolume4")
 
+[node name="AreaTrigger7" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("18_e0o2l")]
+ObjId = 20005
+Area = NodePath("../PolygonVolume5")
+
 [node name="PolygonVolume2" parent="." instance=ExtResource("3_8vhrr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.3224, 67.6866, -28.2674)
 points = PackedVector2Array(-4.67784, -21.3579, -3.48393, 21.4267, 3.30202, 21.5721, 4.85975, -21.6408)
@@ -411,6 +415,10 @@ height = 3.0
 [node name="PolygonVolume4" parent="." instance=ExtResource("3_8vhrr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -197.022, 67.926, -45.87)
 points = PackedVector2Array(-5.25253, -1.17289, -4.23263, 2.2948, 4.74258, 2.70276, 4.74258, -3.82466)
+height = 3.0
+
+[node name="PolygonVolume5" parent="." instance=ExtResource("3_8vhrr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -137.581, 69.6055, 26.5968)
 height = 3.0
 
 [node name="BarrierStoneBlock_01_F" parent="." instance=ExtResource("16_do7xh")]
