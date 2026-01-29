@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://kecc5bnpawyx"]
+[gd_scene load_steps=21 format=3 uid="uid://kecc5bnpawyx"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_o6dgn"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_kwgyf"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="14_neh3h"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_E.tscn" id="15_16txg"]
 [ext_resource type="PackedScene" path="res://objects/Shared/Generic/Common/Architecture/RuinHouseCollapsedWallDebris_01_B.tscn" id="16_d3lsw"]
+[ext_resource type="PackedScene" path="res://objects/Tajikistan/Shared/Architecture/HouseRuralSmall_02.tscn" id="16_kwgyf"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="17_46cq2"]
 [ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="18_lh5pq"]
 [ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_F.tscn" id="19_0eqk3"]
@@ -239,7 +240,7 @@ transform = Transform3D(-0.933531, 0, 0.358498, 0, 1, 0, -0.358498, 0, -0.933531
 transform = Transform3D(-0.991076, 0, -0.133294, 0, 1, 0, 0.133294, 0, -0.991076, 19.9911, -3.08708, 35.5133)
 
 [node name="SpawnPoint5" parent="CapturePointA/Team2" instance=ExtResource("3_j550d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.9077, -2.24902, -20.4872)
+transform = Transform3D(0.437179, 0, -0.899375, 0, 1, 0, 0.899375, 0, 0.437179, 53.0871, -4.35501, -17.4068)
 
 [node name="BarrierStoneBlock_01_E" parent="CapturePointA/Team2" instance=ExtResource("15_16txg")]
 transform = Transform3D(0.895004, 0, -0.446057, 0, 1, 0, 0.446057, 0, 0.895004, 17.9562, -3.14975, 32.8975)
@@ -268,7 +269,7 @@ transform = Transform3D(-0.561708, 0, 0.827336, 0, 1, 0, -0.827336, 0, -0.561708
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.8977, -1.69746, -37.7263)
 
 [node name="SpawnPoint4" parent="CapturePointB/Team1" instance=ExtResource("3_j550d")]
-transform = Transform3D(-0.92783, 0, 0.373004, 0, 1, 0, -0.373004, 0, -0.92783, -34.7498, -0.613396, -15.239)
+transform = Transform3D(0.0770846, 0, -0.997025, 0, 1, 0, 0.997025, 0, 0.0770846, -31.2992, -0.613396, -13.8169)
 
 [node name="SpawnPoint5" parent="CapturePointB/Team1" instance=ExtResource("3_j550d")]
 transform = Transform3D(-0.950402, 0, 0.311025, 0, 1, 0, -0.311025, 0, -0.950402, -19.6744, -0.0278549, 31.1011)
@@ -285,10 +286,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.4091, -3.55946, -40.5366)
 transform = Transform3D(0.641303, 0, 0.767288, 0, 1, 0, -0.767288, 0, 0.641303, 16.2689, -1.97673, 19.2189)
 
 [node name="SpawnPoint4" parent="CapturePointB/Team2" instance=ExtResource("3_j550d")]
-transform = Transform3D(-0.116099, 0, 0.993238, 0, 1, 0, -0.993238, 0, -0.116099, -13.8481, -3.84898, -46.7259)
+transform = Transform3D(0.827669, 0, -0.561217, 0, 1, 0, 0.561217, 0, 0.827669, -12.7414, -2.93945, -44.2291)
 
 [node name="SpawnPoint5" parent="CapturePointB/Team2" instance=ExtResource("3_j550d")]
-transform = Transform3D(-0.884483, 0, -0.466572, 0, 1, 0, 0.466572, 0, -0.884483, 28.0723, -3.64537, 23.7826)
+transform = Transform3D(-0.884483, 0, -0.466572, 0, 1, 0, 0.466572, 0, -0.884483, 21.1443, -0.946693, 23.7826)
 
 [node name="CapturePointC" parent="." node_paths=PackedStringArray("CaptureArea", "InfantrySpawnPoints_Team1", "InfantrySpawnPoints_Team2") instance=ExtResource("14_neh3h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 328.55, 83.9386, -506.408)
@@ -304,24 +305,30 @@ height = 6.0
 [node name="Team1" type="Node3D" parent="CapturePointC"]
 
 [node name="SpawnPoint" parent="CapturePointC/Team1" instance=ExtResource("3_j550d")]
-transform = Transform3D(0.0827387, 0, 0.996571, 0, 1, 0, -0.996571, 0, 0.0827387, -45.0793, -0.102783, -7.71054)
+transform = Transform3D(0.0827387, 0, 0.996571, 0, 1, 0, -0.996571, 0, 0.0827387, -25.9017, -0.102783, -22.5908)
 
 [node name="SpawnPoint2" parent="CapturePointC/Team1" instance=ExtResource("3_j550d")]
-transform = Transform3D(-0.999421, 0, 0.0340274, 0, 1, 0, -0.0340274, 0, -0.999421, -31.0465, -0.534927, -0.0110168)
+transform = Transform3D(-0.898081, 0, 0.43983, 0, 1, 0, -0.43983, 0, -0.898081, -33.8575, 0.0911179, -26.9535)
 
 [node name="SpawnPoint3" parent="CapturePointC/Team1" instance=ExtResource("3_j550d")]
 transform = Transform3D(-0.828823, 0, 0.559511, 0, 1, 0, -0.559511, 0, -0.828823, -22.6834, -0.0494766, 21.4094)
 
 [node name="SpawnPoint4" parent="CapturePointC/Team1" instance=ExtResource("3_j550d")]
-transform = Transform3D(-0.984457, 0, 0.175624, 0, 1, 0, -0.175624, 0, -0.984457, -27.1674, -0.493599, -2.43741)
+transform = Transform3D(-0.433439, 0, 0.901182, 0, 1, 0, -0.901182, 0, -0.433439, -47.1222, -0.227089, -6.91336)
 
 [node name="SpawnPoint5" parent="CapturePointC/Team1" instance=ExtResource("3_j550d")]
-transform = Transform3D(0.54398, 0, 0.839099, 0, 1, 0, -0.839099, 0, 0.54398, -49.1986, -0.112541, 2.06204)
+transform = Transform3D(0.975247, 0, -0.221122, 0, 1, 0, 0.221122, 0, 0.975247, -38.327, -0.369469, -23.5382)
+
+[node name="HouseRuralSmall_02" parent="CapturePointC/Team1" instance=ExtResource("16_kwgyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.3007, 0.192894, -18.5265)
+
+[node name="BarrierStoneBlock_01_E" parent="CapturePointC/Team1" instance=ExtResource("15_16txg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.9264, 0.166405, -27.075)
 
 [node name="Team2" type="Node3D" parent="CapturePointC"]
 
 [node name="SpawnPoint" parent="CapturePointC/Team2" instance=ExtResource("3_j550d")]
-transform = Transform3D(-0.680529, 0, -0.732721, 0, 1, 0, 0.732721, 0, -0.680529, 29.5782, -1.33764, 23.8759)
+transform = Transform3D(-0.680529, 0, -0.732721, 0, 1, 0, 0.732721, 0, -0.680529, 29.5589, -0.651848, 28.1382)
 
 [node name="SpawnPoint2" parent="CapturePointC/Team2" instance=ExtResource("3_j550d")]
 transform = Transform3D(0.336915, 0, -0.941535, 0, 1, 0, 0.941535, 0, 0.336915, 34.7489, 8.03398, -17.8142)

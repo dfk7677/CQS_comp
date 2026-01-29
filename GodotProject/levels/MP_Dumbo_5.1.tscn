@@ -261,13 +261,13 @@ transform = Transform3D(-0.511383, 0, 0.859353, 0, 1, 0, -0.859353, 0, -0.511383
 transform = Transform3D(-0.935826, 0, -0.352462, 0, 1, 0, 0.352462, 0, -0.935826, 43.0371, 1.30669, 24.8783)
 
 [node name="SpawnPoint2" parent="CapturePointB/Team2" instance=ExtResource("2_pgrb7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.2058, -0.730911, -47.0865)
+transform = Transform3D(-0.984353, 0, 0.176208, 0, 1, 0, -0.176208, 0, -0.984353, 31.3507, 4.09534, 54.1298)
 
 [node name="SpawnPoint3" parent="CapturePointB/Team2" instance=ExtResource("2_pgrb7")]
-transform = Transform3D(0.638002, 0, 0.770035, 0, 1, 0, -0.770035, 0, 0.638002, 37.3315, 1.01458, -7.26703)
+transform = Transform3D(-0.651383, 0, -0.758749, 0, 1, 0, 0.758749, 0, -0.651383, 6.10928, 4.29762, 57.9213)
 
 [node name="SpawnPoint4" parent="CapturePointB/Team2" instance=ExtResource("2_pgrb7")]
-transform = Transform3D(0.166304, 0, -0.986075, 0, 1, 0, 0.986075, 0, 0.166304, 21.8915, -0.886662, -54.8208)
+transform = Transform3D(-0.998302, 0, -0.0582608, 0, 1, 0, 0.0582608, 0, -0.998302, 46.0827, 4.20299, 51.785)
 
 [node name="SpawnPoint5" parent="CapturePointB/Team2" instance=ExtResource("2_pgrb7")]
 transform = Transform3D(-0.144944, 0, 0.98944, 0, 1, 0, -0.98944, 0, -0.144944, 29.8749, 1.376, 20.0359)
@@ -586,7 +586,7 @@ transform = Transform3D(0.226243, 0, -0.974071, 0, 1, 0, 0.974071, 0, 0.226243, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.7065, -1.19703, -40.6399)
 
 [node name="SpawnPoint3" parent="CapturePointC/Team1" instance=ExtResource("2_pgrb7")]
-transform = Transform3D(-0.918757, 0, -0.394824, 0, 1, 0, 0.394824, 0, -0.918757, -16.5677, 2.23585, 41.9298)
+transform = Transform3D(-0.341397, 0, -0.939919, 0, 1, 0, 0.939919, 0, -0.341397, -9.95195, -0.926262, -53.5455)
 
 [node name="SpawnPoint4" parent="CapturePointC/Team1" instance=ExtResource("2_pgrb7")]
 transform = Transform3D(0.644804, 0, -0.764348, 0, 1, 0, 0.764348, 0, 0.644804, -14.0632, -1.68526, -52.1747)
