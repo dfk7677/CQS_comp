@@ -448,7 +448,7 @@ Area = NodePath("../PolygonVolume")
 
 [node name="PolygonVolume" parent="." instance=ExtResource("2_l6sok")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79.8156, 129.817, -66.4755)
-points = PackedVector2Array(-25.2954, -22.0197, -25.2954, 7.3684, 14.1687, 8.6279, 14.5885, -21.32)
+points = PackedVector2Array(-50.6499, -44.6231, -51.2468, 48.7547, 47.1845, 48.0882, 21.4412, -43.8034)
 height = 12.0
 
 [node name="AreaTrigger4" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("24_ukosc")]

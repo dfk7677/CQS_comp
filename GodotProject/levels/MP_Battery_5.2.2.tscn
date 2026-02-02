@@ -447,3 +447,12 @@ transform = Transform3D(0.72428, 0, -0.689506, 0, 1, 0, 0.689506, 0, 0.72428, 82
 
 [node name="BarrierStoneBlock_01_E3" parent="." instance=ExtResource("22_32w0w")]
 transform = Transform3D(0.72428, 0, -0.689506, 0, 1, 0, 0.689506, 0, 0.72428, 824.092, 78.1732, 88.3782)
+
+[node name="AreaTrigger14" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("16_ef6lc")]
+ObjId = 20012
+Area = NodePath("../PolygonVolume12")
+
+[node name="PolygonVolume12" parent="." instance=ExtResource("6_32w0w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 778.942, 85.6794, 157.134)
+points = PackedVector2Array(17.2097, -11.6728, -20.474, -1.67345, -17.3337, 11.301, 20.598, 2.04533)
+height = 8.0

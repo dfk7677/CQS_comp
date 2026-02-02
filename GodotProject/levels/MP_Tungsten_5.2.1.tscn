@@ -502,3 +502,12 @@ Area = NodePath("../PolygonVolume11")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 246.71, 90.6785, -435.914)
 points = PackedVector2Array(-3.01402, -9.06909, -9.01503, 0.608215, 3.04105, 8.82581, 8.988, -0.364929)
 height = 8.0
+
+[node name="AreaTrigger14" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("18_lh5pq")]
+ObjId = 20012
+Area = NodePath("../PolygonVolume12")
+
+[node name="PolygonVolume12" parent="." instance=ExtResource("2_kwgyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 264.35, 89.9071, -455.527)
+points = PackedVector2Array(-8.10229, -6.33732, -7.83002, 6.324, 8.00293, 6.3323, 7.92938, -6.31898)
+height = 8.0
