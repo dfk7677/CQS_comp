@@ -94,6 +94,12 @@ P_DefaultRespawnTime = 120
 [node name="GMetroBus_01_Brooklyn" parent="TEAM_1_HQ" instance=ExtResource("9_k8rg5")]
 transform = Transform3D(0.326179, 0, 0.945308, 0, 1, 0, -0.945308, 0, 0.326179, 14.5221, -0.0304909, 1.6716)
 
+[node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_6d2p5")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.088, 0.3508, -3.83484)
+ObjId = 703
+VehicleType = 12
+P_DefaultRespawnTime = 30
+
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_w426r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 139.069, 55.53, -369.278)
 Team = 2
@@ -163,6 +169,12 @@ P_DefaultRespawnTime = 120
 
 [node name="GMetroBus_01_Brooklyn" parent="TEAM_2_HQ" instance=ExtResource("9_k8rg5")]
 transform = Transform3D(0.0792595, 0, -0.996854, 0, 1, 0, 0.996854, 0, 0.0792595, -47.2012, -1.56216, -34.3074)
+
+[node name="TransportSpawner2" parent="TEAM_2_HQ" instance=ExtResource("8_6d2p5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75401, 0.588516, 6.92157)
+ObjId = 704
+VehicleType = 8
+P_DefaultRespawnTime = 30
 
 [node name="CombatArea" parent="." node_paths=PackedStringArray("CombatVolume") instance=ExtResource("9_h4can")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -110.236, 0, -325.59)
@@ -1001,3 +1013,12 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -51.86
 
 [node name="BarrierBlockConcrete_02_128_239" parent="." instance=ExtResource("14_ril3m")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -51.8979, 69.6917, -239.947)
+
+[node name="AreaTrigger3" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("16_0xby5")]
+ObjId = 20001
+Area = NodePath("../PolygonVolume")
+
+[node name="PolygonVolume" parent="." instance=ExtResource("7_aa005")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61.1515, 61.3521, -378.172)
+points = PackedVector2Array(-29.9986, -20.0575, -29.8816, 20.2914, 29.7647, 19.9406, 30.1155, -20.1745)
+height = 12.0

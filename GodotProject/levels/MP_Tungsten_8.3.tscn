@@ -33,7 +33,7 @@ InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePa
 
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("2_tvfwh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.3134, 0, 18.3371)
-points = PackedVector2Array(60.5234, -66.7169, -33.8939, -62.1176, -42.711, 4.00998, -0.102423, 105.685, 16.1839, 19.1391)
+points = PackedVector2Array(82.259, -67.6349, -33.8939, -62.1176, -42.711, 4.00998, -0.102423, 105.685, 16.1839, 19.1391, 51.1206, -50.0163)
 
 [node name="SpawnPoint_1_1" parent="TEAM_1_HQ" instance=ExtResource("3_62lad")]
 transform = Transform3D(0.802839, 0, 0.596197, 0, 1, 0, -0.596197, 0, 0.802839, 9.47912, -1.1572, -25.373)
@@ -89,10 +89,16 @@ iconImagePicker = 7
 iconTeamOwnerId = 1
 
 [node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("9_1l40b")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.03316, -0.880707, -22.2123)
+transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 5.03316, -0.713577, -17.3588)
 ObjId = 701
 VehicleType = 16
 P_DefaultRespawnTime = 120
+
+[node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("9_1l40b")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -3.74802, -0.828583, -15.4552)
+ObjId = 703
+VehicleType = 12
+P_DefaultRespawnTime = 30
 
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_fe8hg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 432.977, 86.7819, -488.998)
@@ -167,12 +173,18 @@ transform = Transform3D(0.896826, 0, 0.442383, 0, 1, 0, -0.442383, 0, 0.896826, 
 [node name="BarrierStoneBlock_01_H2" parent="TEAM_2_HQ" instance=ExtResource("8_0b5r0")]
 transform = Transform3D(0.896826, 0, 0.442383, 0, 1, 0, -0.442383, 0, 0.896826, 2.59979, 0.223412, 3.62991)
 
+[node name="TransportSpawner2" parent="TEAM_2_HQ" instance=ExtResource("9_1l40b")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 13.5946, 1.9389, -3.59836)
+ObjId = 704
+VehicleType = 8
+P_DefaultRespawnTime = 30
+
 [node name="CombatArea" parent="." node_paths=PackedStringArray("CombatVolume") instance=ExtResource("10_w6rsu")]
 CombatVolume = NodePath("CombatVolume")
 
 [node name="CombatVolume" parent="CombatArea" instance=ExtResource("2_tvfwh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 283.707, 100, -421.01)
-points = PackedVector2Array(-164.127, 25.0087, -180.484, 111.117, -4.87173, 104.904, 76.8125, 16.9355, 97.2205, -137.16, -34.634, -121.931, -119.709, -61.2694)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 225.152, 100, -431.024)
+points = PackedVector2Array(-105.572, 35.023, -121.929, 121.131, 53.6834, 114.918, 135.368, 26.9498, 155.776, -127.146, -8.18948, -98.7376, -39.4104, -52.1325, -70.6313, -34.4859)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.101056, 0.994881, 0, -0.994881, 0.101056, -15.5236, 408.54, -265.293)
