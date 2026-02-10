@@ -37,6 +37,7 @@ All this of course, is work in progress, there may be bugs and not a final propo
 | Manhattan Bridge v2 | MP_Dumbo | - | zq7y4 |
 | Operation Firestorm | MP_Firestorm | zmu42 | zkzan |
 | Redline Storage | MP_Granite_MilitaryStorage | zqf6r | - |
+| New Sobek City | MP_Outskirts | - | zqh4w |
 | Mirak Valley | MP_Tungsten | zmu43 | zkzav |
 | Mirak Valley v2 | MP_Tungsten | - | zq7y6 |
 
