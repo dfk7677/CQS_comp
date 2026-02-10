@@ -34,8 +34,11 @@ All this of course, is work in progress, there may be bugs and not a final propo
 | Iberian Offensive | MP_Battery | zmu3d | zju42 |
 | Liberation Peak | MP_Capstone | zmu3k | zkzab |
 | Manhattan Bridge | MP_Dumbo | zmu4y | zju15 |
+| Manhattan Bridge v2 | MP_Dumbo | - | zq7y4 |
 | Operation Firestorm | MP_Firestorm | zmu42 | zkzan |
+| Redline Storage | MP_Granite_MilitaryStorage | zqf6r | - |
 | Mirak Valley | MP_Tungsten | zmu43 | zkzav |
+| Mirak Valley v2 | MP_Tungsten | - | zq7y6 |
 
 ## Code Changelog
 Ver. 2.0.5
