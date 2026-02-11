@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://pmkq8imf6mne"]
+[gd_scene load_steps=20 format=3 uid="uid://pmkq8imf6mne"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_w426r"]
 [ext_resource type="PackedScene" path="res://objects/entities/SpawnPoint.tscn" id="2_k8rg5"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="15_d36h1"]
 [ext_resource type="PackedScene" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/AreaTrigger.tscn" id="16_0xby5"]
 [ext_resource type="PackedScene" path="res://objects/Brooklyn/MP_Dumbo/Generic/Military/Props/BarrierBlockConcrete_01_256x180_A.tscn" id="17_i001t"]
+[ext_resource type="PackedScene" path="res://objects/Global/Props/BarrierStoneBlock_01_H.tscn" id="19_amyel"]
 
 [node name="MP_Dumbo" type="Node3D"]
 
@@ -32,7 +33,7 @@ InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePa
 transform = Transform3D(0.999884, 0, -0.0152535, 0, 1, 0, 0.0152535, 0, 0.999884, 9.90999, -0.0449829, -15.8579)
 
 [node name="SpawnPoint_1_2" parent="TEAM_1_HQ" instance=ExtResource("2_k8rg5")]
-transform = Transform3D(0.153159, 0, 0.988202, 0, 1, 0, -0.988202, 0, 0.153159, -21.7675, -0.186359, -5.53317)
+transform = Transform3D(-0.554597, 0, 0.832119, 0, 1, 0, -0.832119, 0, -0.554597, -28.2397, -0.186359, -2.30087)
 
 [node name="SpawnPoint_1_3" parent="TEAM_1_HQ" instance=ExtResource("2_k8rg5")]
 transform = Transform3D(0.742678, 0, 0.669649, 0, 1, 0, -0.669649, 0, 0.742678, -1.14918, 0.202267, -19.2751)
@@ -86,13 +87,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.268, 0, 16.912)
 points = PackedVector2Array(-23.8839, 87.7686, 30.6872, -40.2654, -80.4125, -39.5174, -78.4105, 143.055, -24.265, 142.17)
 
 [node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_6d2p5")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -14.4875, 0.232624, 1.68359)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -31.3895, 0.232624, 2.45786)
 ObjId = 701
 VehicleType = 16
 P_DefaultRespawnTime = 120
-
-[node name="GMetroBus_01_Brooklyn" parent="TEAM_1_HQ" instance=ExtResource("9_k8rg5")]
-transform = Transform3D(0.326179, 0, 0.945308, 0, 1, 0, -0.945308, 0, 0.326179, 14.5221, -0.0304909, 1.6716)
 
 [node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_6d2p5")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.088, 0.3508, -3.83484)
@@ -122,7 +120,7 @@ transform = Transform3D(-0.648001, 0, -0.761639, 0, 1, 0, 0.761639, 0, -0.648001
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("7_aa005")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.161, 0, -16.798)
-points = PackedVector2Array(14.7695, 45.4444, 2.62755, -17.6006, -68.8235, -51.6916, -33.7985, 93.5454, 20.3736, 118.763)
+points = PackedVector2Array(14.7695, 45.4444, 2.62755, -17.6006, -69.2253, -49.8627, -33.7985, 93.5454, 20.3736, 118.763)
 
 [node name="InteractArea" parent="TEAM_2_HQ" instance=ExtResource("3_amyel")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
@@ -1031,3 +1029,9 @@ Area = NodePath("../PolygonVolume2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.967, 61.5378, -242.782)
 points = PackedVector2Array(-14.6775, -23.1248, -15.0284, 20.616, 22.9816, 20.382, 22.8647, -22.8909)
 height = 20.0
+
+[node name="BarrierStoneBlock_01_H" parent="." instance=ExtResource("19_amyel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104.071, 52.8495, -419.8)
+
+[node name="BarrierStoneBlock_01_H2" parent="." instance=ExtResource("19_amyel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104.071, 52.8495, -425.018)
