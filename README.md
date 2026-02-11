@@ -26,7 +26,6 @@ The above map design decisions were made to avoid one sided matches, difficultie
 All this of course, is work in progress, there may be bugs and not a final proposition. I hope it gains some traction so there is some feedback that will eventually lead to an even better experience.
 
 ## Current Map list
-
 | Name | Machine Name | 5v5 Code | 8v8 Code |
 | --- | --- | --- | --- |
 | Siege of Cairo | MP_Abbasid | zmu38 | zjuyw |
@@ -65,6 +64,8 @@ ver 2.1: Added restricted areas and blocks in a lot of balconies/windows.
 ver 2.0: [8v8] Complete map overhaul.
 ## MP_Granite_MilitaryStorage
 ver 1.0: [5v5] First release.
+## MP_Outskirts
+ver 1.0: [8v8] First release.
 
 ### Ver 2.0.3
 All maps have been separated to 5v5 and 8v8 versions. Several have different layouts for the flags and all have different combat area and HQ between the 2 modes.
