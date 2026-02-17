@@ -1,11 +1,11 @@
 
 // === ConquestSmall.ts ===
-// Conquest Small mode with 3 flags, ticket bleed and UI tracking
+// Conquest Small mode with 3 flags, ticket bleed and UI tracking (8v8)
 import * as modlib from 'modlib';
 
 
 
-const VERSION = [2, 0, 6, 0];
+const VERSION = [2, 0, 7, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 350;
@@ -31,6 +31,7 @@ const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
 const playerStatus = Array(64).fill(false);
 const restrictedArea = Array(64).fill(false);
 const playerFirstDeploy = Array(64).fill(true);
+const playerTimeRA = Array(64).fill(10);
 const scoreboard = Array.from({ length: 64 }, () => [0, 0, 0, 0, 0]);
 let scoresByMinute: number[][] = [];
 
@@ -270,7 +271,7 @@ function addRestrictedAreaUI (eventPlayer: mod.Player){
     mod.AddUIText(
         "RestrictedAreaText" + mod.GetObjId(eventPlayer),
         mod.CreateVector(0, 200, 0),
-        mod.CreateVector(600, 200, 0),
+        mod.CreateVector(600, 100, 0),
         mod.UIAnchor.TopCenter,
         mod.FindUIWidgetWithName("RestrictedAreaContainer" + id),
         true,
@@ -283,6 +284,24 @@ function addRestrictedAreaUI (eventPlayer: mod.Player){
         mod.CreateVector(1, 1, 1),
         1,
         mod.UIAnchor.Center
+    )
+
+    mod.AddUIText(
+        "RestrictedAreaTime" + mod.GetObjId(eventPlayer),
+        mod.CreateVector(-40, 300, 0),
+        mod.CreateVector(200, 80, 0),
+        mod.UIAnchor.TopCenter,
+        mod.FindUIWidgetWithName("RestrictedAreaContainer" + id),
+        true,
+        0,
+        mod.CreateVector(0, 0, 0),
+        0.4,
+        mod.UIBgFill.None,
+        mod.Message(mod.stringkeys.RestrictedAreaTime, "10"),
+        80,
+        mod.CreateVector(1, 1, 1),
+        1,
+        mod.UIAnchor.CenterRight
     )
 }
 
@@ -567,7 +586,6 @@ function addLiveUI() {
         mod.UIAnchor.Center,
         team2
     )
-
     
 
     mod.AddUIText(
@@ -947,7 +965,12 @@ async function initializeGamePhase() {
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(203), true);
-        //await mod.Wait(1.5);
+        mod.SetCapturePointCapturingTime(mod.GetCapturePoint(201), CAPTURE_TIME);
+        mod.SetCapturePointCapturingTime(mod.GetCapturePoint(202), CAPTURE_TIME);
+        mod.SetCapturePointCapturingTime(mod.GetCapturePoint(203), CAPTURE_TIME);
+        mod.SetCapturePointNeutralizationTime(mod.GetCapturePoint(201), NEUTRALIZE_TIME);
+        mod.SetCapturePointNeutralizationTime(mod.GetCapturePoint(202), NEUTRALIZE_TIME);
+        mod.SetCapturePointNeutralizationTime(mod.GetCapturePoint(203), NEUTRALIZE_TIME);
         addCountdownUI();
     } else if (gamePhase == 2) {
         // Live phase logic
@@ -1139,7 +1162,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
         const currentProgress = mod.GetCaptureProgress(eventCapturePoint);
         const currentCapturer = mod.GetOwnerProgressTeam(eventCapturePoint);
         const id = mod.GetObjId(eventCapturePoint);
-        const previousCapturer = capturePoints[id].capturer;
+        //const previousCapturer = capturePoints[id].capturer;
         capturePoints[id].capturer = 0;
         if (n > 0) {
             
@@ -1153,11 +1176,13 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                     mod.SetUIWidgetSize(uiWidget, mod.CreateVector(width, 60, 0));                        
                     mod.SetUIWidgetBgColor(uiWidget, mod.Equals(mod.GetTeam(player), currentCapturer) ? COLOR_FRIENDLY : COLOR_ENEMY);
                 }
-                if (mod.Equals(mod.GetTeam(player), mod.GetTeam(1))) {
-                    teamPlayers[0] += 1;
-                }
-                else {
-                    teamPlayers[1] += 1;
+                if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
+                    if (mod.Equals(mod.GetTeam(player), mod.GetTeam(1))) {
+                        teamPlayers[0] += 1;
+                    }
+                    else {
+                        teamPlayers[1] += 1;
+                    }
                 }
             }
 
@@ -1166,7 +1191,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                 if (mod.Equals(currentCapturer, team1)) {
                     if (currentProgress < 1) {
                         // Capturing
-                        mod.SetCapturePointCapturingTime(eventCapturePoint, CAPTURE_TIME);
+                        //mod.SetCapturePointCapturingTime(eventCapturePoint, CAPTURE_TIME);
                         capturePoints[id].status = 1;
                         capturePoints[id].capturer = 1;
                         FlashFlag(id);
@@ -1179,7 +1204,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                 else {
                     if (currentProgress > 0) {
                         // Neutralizing
-                        mod.SetCapturePointNeutralizationTime(eventCapturePoint, NEUTRALIZE_TIME);
+                        //mod.SetCapturePointNeutralizationTime(eventCapturePoint, NEUTRALIZE_TIME);
                         capturePoints[id].status = 2;
                         capturePoints[id].capturer = 1;
                     }
@@ -1191,7 +1216,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                 if (mod.Equals(currentCapturer, team2)) {
                     if (currentProgress < 1) {
                         // Capturing
-                        mod.SetCapturePointCapturingTime(eventCapturePoint, CAPTURE_TIME);
+                        //mod.SetCapturePointCapturingTime(eventCapturePoint, CAPTURE_TIME);
                         capturePoints[id].status = 1;
                         capturePoints[id].capturer = 2;
                         FlashFlag(id);
@@ -1203,7 +1228,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                 else {
                     if (currentProgress > 0) {
                         // Neutralizing
-                        mod.SetCapturePointNeutralizationTime(eventCapturePoint, NEUTRALIZE_TIME);
+                        //mod.SetCapturePointNeutralizationTime(eventCapturePoint, NEUTRALIZE_TIME);
                         capturePoints[id].status = 2;
                         
                     }
@@ -1245,6 +1270,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
         } else {
             capturePoints[id].capturer = 0;
             UnflashFlag(id);
+            /*
             if (currentProgress < 1 && currentProgress > 0) {
                 const currentOwner = mod.GetCurrentOwnerTeam(eventCapturePoint);
                 
@@ -1258,13 +1284,15 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                 }
                 
             }
+                */
         }
+        /*
         if (previousCapturer != capturePoints[id].capturer) {
             
             for (let i = 0; i < n; i++) {
 
                 const player = mod.ValueInArray(playersOnPoint, i);
-                /*
+                
                 mod.StopSound(sounds[0], player);
                 mod.StopSound(sounds[1], player);
                 mod.StopSound(sounds[2], player);
@@ -1278,11 +1306,12 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                 } else if (capturePoints[id].capturer != 0){
                     mod.PlaySound(sounds[1], 0.2, player);
                 }
-                */
+                
                     
                 
             }
         }
+        */
     }
 }
 
@@ -1312,11 +1341,13 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
                 */
                 
             } else {
-                mod.DealDamage(eventPlayer, 10/TICK_RATE);
+                playerTimeRA[id] -= 1 / TICK_RATE;
+                if (playerTimeRA[id] <= 0) {
+                    mod.Kill(eventPlayer);
+                    playerTimeRA[id] = 0;
+                }
+                mod.SetUITextLabel(mod.FindUIWidgetWithName("RestrictedAreaTime" + id), mod.Message(mod.stringkeys.RestrictedAreaTime, mod.Ceiling(playerTimeRA[id])))
             }
-            
-            
-
         }
     }
     
@@ -1604,15 +1635,6 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
             console.log("Entered enemy HQ")
             restrictedArea[playerId] = true;
             addRestrictedAreaUI(eventPlayer);
-            if (mod.Equals(mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsInVehicle), true)) {
-                
-                //mod.ForcePlayerExitVehicle(eventPlayer);
-                //mod.DealDamage(mod.GetVehicleFromPlayer(eventPlayer), 2000);
-            }
-            else {
-                //restrictedArea[playerId] = true;
-                //addRestrictedAreaUI(eventPlayer);
-            }
             
         }
         
@@ -1627,6 +1649,7 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
         if (areaId > 20000 || (mod.Equals(team, team2) && (areaId == 7001)) || (mod.Equals(team, team1) && (areaId == 7002))) {
             restrictedArea[playerId] = false;
             removeRestrictedAreaUI(eventPlayer);
+            playerTimeRA[playerId] = 10;
         }
     }
 }

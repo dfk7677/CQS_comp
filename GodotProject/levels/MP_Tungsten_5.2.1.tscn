@@ -163,12 +163,6 @@ transform = Transform3D(0.928109, 0, -0.372308, 0, 1, 0, 0.372308, 0, 0.928109, 
 [node name="SpawnPoint_2_4" parent="TEAM_2_HQ" instance=ExtResource("3_j550d")]
 transform = Transform3D(-0.720176, 0, -0.693791, 0, 1, 0, 0.693791, 0, -0.720176, -23.495, -5.30364, 13.5162)
 
-[node name="IFVSpawner" parent="TEAM_2_HQ" instance=ExtResource("9_pfkd3")]
-transform = Transform3D(0.466479, 0, -0.884532, 0, 1, 0, 0.884532, 0, 0.466479, -8.64349, -5.85641, 41.1726)
-ObjId = 702
-VehicleType = 3
-P_DefaultRespawnTime = 120
-
 [node name="CombatArea" parent="." node_paths=PackedStringArray("CombatVolume") instance=ExtResource("10_6fy3p")]
 CombatVolume = NodePath("CombatVolume")
 

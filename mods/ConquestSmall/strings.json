@@ -53,5 +53,6 @@
   "RestrictedArea": "Restricted Area",
   "Player": "Player",
   "CreatedBy": "Created by Dionysis Kapatsoris",
-  "Version": "Version {}.{}.{}"
+  "Version": "Version {}.{}.{}",
+  "RestrictedAreaTime": "{}s"
 }

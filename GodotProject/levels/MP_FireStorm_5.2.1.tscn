@@ -43,8 +43,8 @@ InfantrySpawnPoints_Team1 = [NodePath("Team1/SpawnPoint"), NodePath("Team1/Spawn
 InfantrySpawnPoints_Team2 = [NodePath("Team2/SpawnPoint"), NodePath("Team2/SpawnPoint2"), NodePath("Team2/SpawnPoint3"), NodePath("Team2/SpawnPoint4"), NodePath("Team2/SpawnPoint5")]
 
 [node name="CaptureArea" parent="CombatArea/CapturePointA" instance=ExtResource("2_hdrb6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.117561, 0)
-points = PackedVector2Array(-7.30559, -9.68533, -7.02907, 4.83682, 8.11049, 4.71661, 7.5918, -9.58188)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.341904, -0.117561, -2.42844)
+points = PackedVector2Array(-7.7, -7.2, -7.7, 7.2, 7.7, 7.2, 7.7, -7.2)
 height = 5.0
 
 [node name="Team1" type="Node3D" parent="CombatArea/CapturePointA"]
@@ -92,8 +92,8 @@ InfantrySpawnPoints_Team1 = [NodePath("Team1/SpawnPoint"), NodePath("Team1/Spawn
 InfantrySpawnPoints_Team2 = [NodePath("Team2/SpawnPoint"), NodePath("Team2/SpawnPoint2"), NodePath("Team2/SpawnPoint3"), NodePath("Team2/SpawnPoint4"), NodePath("Team2/SpawnPoint5")]
 
 [node name="CaptureArea" parent="CombatArea/CapturePointB" instance=ExtResource("2_hdrb6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.88255, 0)
-points = PackedVector2Array(-12.6048, -9.65049, -12.5971, 8.16425, 10.3413, 7.64994, 10.2121, -9.58567)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.16212, -1.88255, -0.855492)
+points = PackedVector2Array(-11.5, -9, -11.5, 9, 11.5, 9, 11.5, -9)
 height = 6.0
 
 [node name="Team1" type="Node3D" parent="CombatArea/CapturePointB"]
@@ -141,8 +141,8 @@ InfantrySpawnPoints_Team1 = [NodePath("Team1/SpawnPoint"), NodePath("Team1/Spawn
 InfantrySpawnPoints_Team2 = [NodePath("Team2/SpawnPoint"), NodePath("Team2/SpawnPoint2"), NodePath("Team2/SpawnPoint3"), NodePath("Team2/SpawnPoint4"), NodePath("Team2/SpawnPoint5")]
 
 [node name="CaptureArea" parent="CombatArea/CapturePointC" instance=ExtResource("2_hdrb6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.58723)
-points = PackedVector2Array(-4.1927, -19.7211, -9.71693, 4.20657, 9.49785, 5.16885, 10.5669, -18.8647)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.411285, 0, -3.19144)
+points = PackedVector2Array(-10, -10.5, -10, 10.5, 10, 10.5, 10, -10.5)
 height = 3.0
 
 [node name="Team1" type="Node3D" parent="CombatArea/CapturePointC"]
