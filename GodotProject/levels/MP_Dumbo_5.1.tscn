@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b31c2nmynb7tc"]
+[gd_scene load_steps=19 format=3 uid="uid://b31c2nmynb7tc"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_no2ds"]
 [ext_resource type="PackedScene" path="res://objects/entities/SpawnPoint.tscn" id="2_pgrb7"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="15_2v71m"]
 [ext_resource type="PackedScene" path="res://objects/gameplay/common/AreaTrigger.tscn" id="16_rn7nf"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierBlockConcrete_01_256x180_A.tscn" id="17_5expp"]
+[ext_resource type="PackedScene" path="res://objects/uncategorized/GMetroBus_01_Brooklyn.tscn" id="18_pgrb7"]
 
 [node name="MP_Dumbo" type="Node3D"]
 
@@ -80,7 +81,7 @@ iconImagePicker = 7
 iconTeamOwnerId = 1
 
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("7_tqmkd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.62627, 30, 40.2659)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.626, 0, 40.266)
 points = PackedVector2Array(28.0161, -125.863, -40.939, -125.772, -41.1057, 46.6461, 12.988, 46.7178, 13.0202, 79.1354, 28.0204, 79.1354)
 
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea") instance=ExtResource("1_no2ds")]
@@ -103,7 +104,7 @@ transform = Transform3D(0.839278, 0, -0.543702, 0, 1, 0, 0.543702, 0, 0.839278, 
 transform = Transform3D(0.198067, 0, -0.980188, 0, 1, 0, 0.980188, 0, 0.198067, -16.0759, 0.0849876, 10.2672)
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("7_tqmkd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.89679, 100, -56.9843)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.897, 0, -56.984)
 points = PackedVector2Array(60.273, 70.002, 60.273, -89.995, 38.2389, -89.9946, 38.2443, -20.0118, -16.763, -20.012, -16.7612, 40.0062, -81.7478, 40.0028, -81.7571, 70.0023)
 
 [node name="InteractArea" parent="TEAM_2_HQ" instance=ExtResource("3_522pj")]
@@ -157,7 +158,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -110.236, 0, -325.59)
 CombatVolume = NodePath("CombatVolume")
 
 [node name="CombatVolume" parent="CombatArea" instance=ExtResource("7_tqmkd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.549, 150, 67.136)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.549, 0, 67.136)
 points = PackedVector2Array(30, -100, -5, -180, -65, -180, -65, 25, -80, 25, -80, 55, -55, 55, -55, 100, 30, 100, 30, 70, 95, 70, 95, 10, 150, 10, 150, -60, 115, -60, 115, -80, 55, -80)
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -984,3 +985,6 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -51.86
 
 [node name="BarrierBlockConcrete_02_128_239" parent="." instance=ExtResource("14_xcj7v")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -51.8979, 69.6917, -239.947)
+
+[node name="GMetroBus_01_Brooklyn" parent="." instance=ExtResource("18_pgrb7")]
+transform = Transform3D(0.298025, 0, -0.954558, 0, 1, 0, 0.954558, 0, 0.298025, 32.3512, 60.9627, -179.296)

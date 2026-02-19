@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://kecc5bnpawyx"]
+[gd_scene load_steps=20 format=3 uid="uid://kecc5bnpawyx"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_o6dgn"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_kwgyf"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://3hvpbglts2bi" path="res://scripts/gameplay/common/WorldIcon.gd" id="6_4gpqw"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="7_ggv4f"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_H.tscn" id="8_jry4x"]
-[ext_resource type="PackedScene" path="res://objects/gameplay/common/VehicleSpawner.tscn" id="9_pfkd3"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="10_6fy3p"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="11_orvey"]
 [ext_resource type="PackedScene" path="res://static/MP_Tungsten_Terrain.tscn" id="12_ggq0r"]
@@ -89,12 +88,6 @@ iconTeamOwnerId = 1
 
 [node name="BarrierStoneBlock_01_H" parent="TEAM_1_HQ" instance=ExtResource("8_jry4x")]
 transform = Transform3D(0.882825, 0, -0.469703, 0, 1, 0, 0.469703, 0, 0.882825, 11.5632, -0.561951, 15.802)
-
-[node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("9_pfkd3")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.97388, -1.2351, -10.9246)
-ObjId = 701
-VehicleType = 16
-P_DefaultRespawnTime = 120
 
 [node name="BarrierStoneBlock_01_H2" parent="TEAM_1_HQ" instance=ExtResource("8_jry4x")]
 transform = Transform3D(0.936004, 0, 0.351989, 0, 1, 0, -0.351989, 0, 0.936004, -5.15135, -2.14281, -21.667)

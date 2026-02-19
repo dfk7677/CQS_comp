@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dhqkr876hoei1"]
+[gd_scene load_steps=19 format=3 uid="uid://dhqkr876hoei1"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_6regb"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_h1nif"]
@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" path="res://objects/architecture/GuardTower_House_01.tscn" id="10_77pa2"]
 [ext_resource type="PackedScene" path="res://objects/props/SandBags_01_256x180.tscn" id="11_s6r3t"]
 [ext_resource type="PackedScene" path="res://objects/gameplay/common/AreaTrigger.tscn" id="12_i6y8r"]
+[ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_F.tscn" id="17_ese5t"]
+[ext_resource type="PackedScene" path="res://objects/architecture/FiringRange_Wall_1024_01.tscn" id="18_1itvp"]
 
 [node name="MP_Granite_MilitaryStorage_Portal" type="Node3D"]
 
@@ -359,3 +361,45 @@ Area = NodePath("../PolygonVolume")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 495.307, 152.004, 222.944)
 points = PackedVector2Array(-26.2457, 55.0597, -2.88391, 55.97, -2.58054, 46.2612, 28.0628, 44.4408, 28.6696, -42.9382, -71.7556, -41.4212, -70.8454, -15.6323, -86.9255, -15.6323, -86.0153, 14.4043, -77.2167, 15.011, -77.5201, 52.3292, -46.27, 51.1156)
 height = 10.0
+
+[node name="BarrierStoneBlock_01_F" parent="." instance=ExtResource("17_ese5t")]
+transform = Transform3D(1, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 452.795, 152.575, 208.248)
+
+[node name="FiringRange_Wall_1024_01" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 499.352, 152.62, 212.088)
+
+[node name="FiringRange_Wall_1024_02" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 494.226, 152.62, 212.088)
+
+[node name="FiringRange_Wall_1024_03" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(-1.09278e-08, 0, -1, 0, 1, 0, 0.25, 0, -4.37114e-08, 494.872, 152.62, 210.141)
+
+[node name="FiringRange_Wall_1024_05" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(-4.80825e-08, -1.1, 4.80825e-08, 0, -4.80825e-08, -1.1, 1.1, -4.80825e-08, 2.10175e-15, 517.471, 153.153, 199.011)
+
+[node name="FiringRange_Wall_1024_06" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 494.336, 152.297, 194.136)
+
+[node name="FiringRange_Wall_1024_07" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 494.336, 152.297, 204.291)
+
+[node name="FiringRange_Wall_1024_08" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 494.336, 152.297, 207.235)
+
+[node name="FiringRange_Wall_1024_09" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 494.336, 152.297, 206.572)
+
+[node name="BarrierStoneBlock_01_F2" parent="." instance=ExtResource("17_ese5t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 502.62, 152.53, 208.5)
+
+[node name="BarrierStoneBlock_01_F3" parent="." instance=ExtResource("17_ese5t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 509.284, 152.667, 211.447)
+
+[node name="FiringRange_Wall_1024_04" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 511.946, 152.378, 264.445)
+
+[node name="FiringRange_Wall_1024_10" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 501.93, 152.378, 264.445)
+
+[node name="FiringRange_Wall_1024_11" parent="." instance=ExtResource("18_1itvp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 491.726, 152.378, 264.445)
