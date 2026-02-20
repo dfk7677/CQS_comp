@@ -255,7 +255,7 @@ InfantrySpawnPoints_Team2 = [NodePath("Team2/SpawnPoint"), NodePath("Team2/Spawn
 
 [node name="CaptureArea" parent="CapturePointB" instance=ExtResource("2_tvfwh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169708, -1.20394, -2.99365)
-points = PackedVector2Array(-10.2682, -7.42343, -2.60376, 11.8228, 10.0215, 6.94608, 2.19452, -12.5169)
+points = PackedVector2Array(-10.2682, -7.42343, -2.41809, 11.7507, 10.3316, 6.82504, 2.19452, -12.5169)
 height = 8.0
 
 [node name="Team1" type="Node3D" parent="CapturePointB"]
@@ -315,8 +315,9 @@ InfantrySpawnPoints_Team1 = [NodePath("Team1/SpawnPoint"), NodePath("Team1/Spawn
 InfantrySpawnPoints_Team2 = [NodePath("Team2/SpawnPoint"), NodePath("Team2/SpawnPoint2"), NodePath("Team2/SpawnPoint3"), NodePath("Team2/SpawnPoint4"), NodePath("Team2/SpawnPoint5")]
 
 [node name="CaptureArea" parent="CapturePointC" instance=ExtResource("2_tvfwh")]
-points = PackedVector2Array(-8.19458, 1.97202, 0.426758, 11.002, 8.59863, 3.52469, -3.25058, -10.6536)
-height = 6.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.68441, 0)
+points = PackedVector2Array(-8.49127, 1.70251, -0.00927734, 11.1331, 9.02234, 3.14844, -3.06149, -10.6861)
+height = 8.0
 
 [node name="Team1" type="Node3D" parent="CapturePointC"]
 

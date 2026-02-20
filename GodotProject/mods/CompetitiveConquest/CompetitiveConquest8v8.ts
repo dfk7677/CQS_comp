@@ -1,9 +1,6 @@
-
-// === ConquestSmall.ts ===
-// Conquest Small mode with 3 flags, ticket bleed and UI tracking (8v8)
+// === CompetitiveConquest8v8.ts ===
+// Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (8v8)
 import * as modlib from 'modlib';
-
-
 
 const VERSION = [2, 0, 7, 0];
 
@@ -12,14 +9,12 @@ const INITIAL_TICKETS = 350;
 const BLEED_TWO_FLAGS = -.35;
 const BLEED_THREE_FLAGS = -.8;
 const DEATH_TICKET_LOSS = -1;
-const COUNT_DOWN_TIME = 5;
 const PRELIVE_TIME = 10;
 const ROUND_TIME = 1200; // 20 minutes in seconds
 const POSTMATCH_TIME = 15;
 
 const CAPTURE_TIME = 6;
 const NEUTRALIZE_TIME = 9;
-const CAPTURE_MULTIPLIER = 2;
 const COLOR_NEUTRAL  =   mod.CreateVector(1, 1, 1);
 const COLOR_FRIENDLY =   mod.CreateVector(0.0902, 0.8627, 1);
 const COLOR_ENEMY    =   mod.CreateVector(1, 0.4, 0);
