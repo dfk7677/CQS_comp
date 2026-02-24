@@ -8,7 +8,7 @@ const VERSION = [2, 0, 7, 0];
 // Sets core constants
 const INITIAL_TICKETS = 275;
 const BLEED_TWO_FLAGS = -.3;
-const BLEED_THREE_FLAGS = -.75;
+const BLEED_THREE_FLAGS = -.6;
 const DEATH_TICKET_LOSS = -1;
 const PRELIVE_TIME = 10;
 const ROUND_TIME = 1200; // 20 minutes in seconds
@@ -1160,7 +1160,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                     mod.SetUIWidgetSize(uiWidget, mod.CreateVector(width, 60, 0));                        
                     mod.SetUIWidgetBgColor(uiWidget, mod.Equals(mod.GetTeam(player), currentCapturer) ? COLOR_FRIENDLY : COLOR_ENEMY);
                 }
-                    if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
+                if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
                     if (mod.Equals(mod.GetTeam(player), mod.GetTeam(1))) {
                         teamPlayers[0] += 1;
                     }

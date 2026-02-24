@@ -7,7 +7,7 @@ const VERSION = [2, 0, 7, 0];
 // Sets core constants
 const INITIAL_TICKETS = 350;
 const BLEED_TWO_FLAGS = -.35;
-const BLEED_THREE_FLAGS = -.8;
+const BLEED_THREE_FLAGS = -.7;
 const DEATH_TICKET_LOSS = -1;
 const PRELIVE_TIME = 10;
 const ROUND_TIME = 1200; // 20 minutes in seconds
