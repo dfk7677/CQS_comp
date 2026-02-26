@@ -303,10 +303,12 @@ function addRestrictedAreaUI (eventPlayer: mod.Player){
         1,
         mod.UIAnchor.CenterRight
     )
+    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true)
 }
 
 function removeRestrictedAreaUI (eventPlayer: mod.Player) {
     mod.DeleteUIWidget(mod.FindUIWidgetWithName("RestrictedAreaContainer" + mod.GetObjId(eventPlayer)));
+    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false)
 }
 
 function addPrematchUI() {    

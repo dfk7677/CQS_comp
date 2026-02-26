@@ -36,11 +36,11 @@ All this of course, is work in progress, there may be bugs and not a final propo
 | Siege of Cairo | MP_Abbasid | zmu38 | zjuyw |
 | Iberian Offensive | MP_Battery | zmu3d | zju42 |
 | Liberation Peak | MP_Capstone | zmu3k | zkzab |
-| Manhattan Bridge v2 | MP_Dumbo | - | zq7y4 |
+| Manhattan Bridge | MP_Dumbo | - | zq7y4 |
 | Operation Firestorm | MP_Firestorm | zmu42 | zkzan |
 | Redline Storage | MP_Granite_MilitaryStorage | zqf6r | - |
 | New Sobek City | MP_Outskirts | - | zqh4w |
-| Mirak Valley v2 | MP_Tungsten | - | zq7y6 |
+| Mirak Valley | MP_Tungsten | zmu43 | zq7y6 |
 
 ## Map changelog
 

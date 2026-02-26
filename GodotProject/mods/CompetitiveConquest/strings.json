@@ -13,8 +13,16 @@
   "ScoreboardScore": "Score",
   "ScoreboardAssists": "Assists",
   "ScoreboardRevives": "Revives",
-  "ColorFriendly": [0.0902, 0.8627, 1],
-  "ColorOpponent": [1, 0.4, 0],
+  "ColorFriendly": [
+    0.0902,
+    0.8627,
+    1
+  ],
+  "ColorOpponent": [
+    1,
+    0.4,
+    0
+  ],
   "FriendlyCap": "0",
   "OpponentCap": "0",
   "SwitchTeam": "Switch to Team {}",
@@ -54,5 +62,6 @@
   "Player": "Player",
   "CreatedBy": "Created by Dionysis Kapatsoris",
   "Version": "Version {}.{}.{}",
-  "RestrictedAreaTime": "{}s"
+  "RestrictedAreaTime": "{}s",
+  "ChangeTeam": "Change Team"
 }

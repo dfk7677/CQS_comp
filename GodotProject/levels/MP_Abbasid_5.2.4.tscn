@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b21gugagdf3qx"]
+[gd_scene load_steps=24 format=3 uid="uid://b21gugagdf3qx"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_3pato"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="2_7v50i"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" path="res://static/MP_Abbasid_Assets.tscn" id="13_xibe3"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/DeployCam.tscn" id="14_rsqic"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="15_5fxe8"]
+[ext_resource type="PackedScene" path="res://objects/gameplay/conquest/CapturePoint.tscn" id="15_rv72x"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_F.tscn" id="16_samb3"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_A.tscn" id="17_8soee"]
 [ext_resource type="PackedScene" path="res://objects/gameplay/common/AreaTrigger.tscn" id="18_2r4hx"]
@@ -26,9 +27,9 @@
 [node name="MP_Abbasid" type="Node3D"]
 
 [node name="Sector - This manages the CapturePoint Names" parent="." node_paths=PackedStringArray("SectorArea", "CapturePoints") instance=ExtResource("1_3pato")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.5523, 64.1863, -57.1726)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.5523, -15.2277, 12.8918)
 SectorArea = NodePath("../CombatArea/CollisionPolygon3D")
-CapturePoints = [NodePath("../Obectives/Flags/CapturePointA"), NodePath("../Obectives/Flags/CapturePointB"), NodePath("../Obectives/Flags/CapturePointC")]
+CapturePoints = [NodePath("../Obectives/Flags/CapturePointA"), NodePath("../Obectives/Flags/CapturePointB"), NodePath("../CapturePointC")]
 
 [node name="Sector - Detects Team1 HQ Area" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("1_3pato")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.318, 67.3944, 103.71)
@@ -46,7 +47,7 @@ CombatVolume = NodePath("CollisionPolygon3D")
 
 [node name="CollisionPolygon3D" parent="CombatArea" instance=ExtResource("3_ea0x6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.7139, 50, -9.64038)
-points = PackedVector2Array(-66.0284, -20.3662, -93.2864, -20.36, -93.2141, 4.4366, -64.6223, 4.40412, -64.8938, 119.539, 16.0215, 119.526, 41.6052, 114.405, 71.1606, 114.23, 71.1239, 78.5013, 103.366, 78.4547, 103.363, -49.7505, 83.6437, -49.7283, 83.6437, -46.945, 36.4123, -47.1996, 36.3612, -38.6238, 21.0471, -38.6238, 21.0275, -51.1181, -17.1171, -50.9141, -45.1449, -50.7131, -56.3372, -50.351, -56.3694, -42.1803, -66.0084, -42.1942)
+points = PackedVector2Array(-66.0284, -20.3662, -93.2864, -20.36, -93.2141, 4.4366, -64.6223, 4.40412, -64.8938, 119.539, 16.0215, 119.526, 41.6052, 114.405, 71.1606, 114.23, 71.1239, 78.5013, 103.366, 78.4547, 103.363, -49.7505, 83.6437, -49.7283, 83.6437, -46.945, 65.6431, -46.9624, 65.6431, -83.4708, 39.4858, -83.0511, 39.4858, -47.382, 36.4123, -47.1996, 36.3612, -38.6238, 21.0471, -38.6238, 21.0275, -51.1181, -17.1171, -50.9141, -45.1449, -50.7131, -56.3372, -50.351, -56.3694, -42.1803, -66.0084, -42.1942)
 
 [node name="TEAM_1_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("4_rv72x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -250, 60, 60)
@@ -198,6 +199,49 @@ metadata/_edit_lock_ = true
 [node name="DeployCam" parent="." instance=ExtResource("14_rsqic")]
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -91.6011, 150.747, 3.86193)
 
+[node name="CapturePointC" parent="." node_paths=PackedStringArray("CaptureArea", "InfantrySpawnPoints_Team1", "InfantrySpawnPoints_Team2") instance=ExtResource("15_rv72x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -82.267, 64.1781, -23.127)
+ObjId = 203
+CaptureArea = NodePath("CapturePointArea")
+InfantrySpawnPoints_Team1 = [NodePath("Spawns/Team1/SpawnPoint_1"), NodePath("Spawns/Team1/SpawnPoint_2"), NodePath("Spawns/Team1/SpawnPoint_3")]
+InfantrySpawnPoints_Team2 = [NodePath("Spawns/Team2/SpawnPoint_6"), NodePath("Spawns/Team2/SpawnPoint_7"), NodePath("Spawns/Team2/SpawnPoint_8"), NodePath("Spawns/Team2/SpawnPoint_9"), NodePath("Spawns/Team2/SpawnPoint_10")]
+
+[node name="CapturePointArea" parent="CapturePointC" instance=ExtResource("3_ea0x6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000366211, -2.46731, 0.000379562)
+points = PackedVector2Array(13.5, 15.5, 13.5, -15.5, -13.5, -15.5, -13.5, 15.5)
+height = 6.0
+
+[node name="Spawns" type="Node3D" parent="CapturePointC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.221, -0.128227, -34.4392)
+
+[node name="Team1" type="Node3D" parent="CapturePointC/Spawns"]
+
+[node name="SpawnPoint_1" parent="CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
+transform = Transform3D(0.988311, 0, 0.152451, 0, 1, 0, -0.152451, 0, 0.988311, -2.17199, 0.205528, -17.8984)
+
+[node name="SpawnPoint_2" parent="CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
+transform = Transform3D(0.997767, 0, -0.0667962, 0, 1, 0, 0.0667962, 0, 0.997767, 1.56968, -0.0140839, -31.6737)
+
+[node name="SpawnPoint_3" parent="CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
+transform = Transform3D(0.997767, 0, -0.0667962, 0, 1, 0, 0.0667962, 0, 0.997767, -5.87403, 0.00258636, -20.3998)
+
+[node name="Team2" type="Node3D" parent="CapturePointC/Spawns"]
+
+[node name="SpawnPoint_6" parent="CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
+transform = Transform3D(0.750872, 0, 0.660448, 0, 1, 0, -0.660448, 0, 0.750872, 33.2021, 0.309784, 19.7174)
+
+[node name="SpawnPoint_7" parent="CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
+transform = Transform3D(-0.867627, 0, 0.497216, 0, 1, 0, -0.497216, 0, -0.867627, 33.1121, 0.553841, 38.6796)
+
+[node name="SpawnPoint_8" parent="CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
+transform = Transform3D(0.955062, 0, -0.296408, 0, 1, 0, 0.296408, 0, 0.955062, 28.4203, 0.411797, 0.8741)
+
+[node name="SpawnPoint_9" parent="CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
+transform = Transform3D(0.69029, 0, 0.723535, 0, 1, 0, -0.723535, 0, 0.69029, 37.1407, 0.418144, 49.1904)
+
+[node name="SpawnPoint_10" parent="CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
+transform = Transform3D(-0.916216, 0, -0.400685, 0, 1, 0, 0.400685, 0, -0.916216, 33.8107, 0.0792694, 14.2829)
+
 [node name="Obectives" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 63.0319, 0)
 
@@ -314,59 +358,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.10211, -0.0812912, -1.19254
 [node name="BarrierStoneBlock_01_A2" parent="Obectives/Flags/CapturePointB" instance=ExtResource("17_8soee")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.82327, -0.118118, -1.19254)
 
-[node name="CapturePointC" parent="Obectives/Flags" node_paths=PackedStringArray("CaptureArea", "InfantrySpawnPoints_Team1", "InfantrySpawnPoints_Team2") instance=ExtResource("15_5fxe8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80.046, 1.01802, -27.4918)
-ObjId = 203
-OutlineAbove16Points = true
-TacticalAdviceAirVehicleFriendly = true
-TacticalAdvicePriorityLevel_Team1 = 1
-TacticalAdvicePriorityLevel_Team2 = 1
-CaptureArea = NodePath("CapturePointArea")
-InfantrySpawnPoints_Team1 = [NodePath("Spawns/Team1/SpawnPoint_1"), NodePath("Spawns/Team1/SpawnPoint_2"), NodePath("Spawns/Team1/SpawnPoint_3"), NodePath("Spawns/Team1/SpawnPoint_4"), NodePath("Spawns/Team1/SpawnPoint_5")]
-InfantrySpawnPoints_Team2 = [NodePath("Spawns/Team2/SpawnPoint_6"), NodePath("Spawns/Team2/SpawnPoint_7"), NodePath("Spawns/Team2/SpawnPoint_8"), NodePath("Spawns/Team2/SpawnPoint_9"), NodePath("Spawns/Team2/SpawnPoint_10")]
-
-[node name="Spawns" type="Node3D" parent="Obectives/Flags/CapturePointC"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30.0744)
-
-[node name="Team1" type="Node3D" parent="Obectives/Flags/CapturePointC/Spawns"]
-
-[node name="SpawnPoint_1" parent="Obectives/Flags/CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
-transform = Transform3D(0.947885, 0, 0.318612, 0, 1, 0, -0.318612, 0, 0.947885, -39.2813, 0.413475, 5.4297)
-
-[node name="SpawnPoint_2" parent="Obectives/Flags/CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
-transform = Transform3D(0.99985, 0, -0.0173302, 0, 1, 0, 0.0173302, 0, 0.99985, -27.8911, 1.12687, 16.9617)
-
-[node name="SpawnPoint_3" parent="Obectives/Flags/CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
-transform = Transform3D(-0.477788, 0, 0.878475, 0, 1, 0, -0.878475, 0, -0.477788, -35.5759, 1.60188, 47.6741)
-
-[node name="SpawnPoint_4" parent="Obectives/Flags/CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
-transform = Transform3D(-0.882669, 0, -0.469996, 0, 1, 0, 0.469996, 0, -0.882669, -27.7463, 1.67896, 28.3716)
-
-[node name="SpawnPoint_5" parent="Obectives/Flags/CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
-transform = Transform3D(-0.992525, 0, 0.122043, 0, 1, 0, -0.122043, 0, -0.992525, -42.1119, 0.525139, 17.1543)
-
-[node name="Team2" type="Node3D" parent="Obectives/Flags/CapturePointC/Spawns"]
-
-[node name="SpawnPoint_6" parent="Obectives/Flags/CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
-transform = Transform3D(0.750872, 0, 0.660448, 0, 1, 0, -0.660448, 0, 0.750872, 33.2021, 0.309784, 19.7174)
-
-[node name="SpawnPoint_7" parent="Obectives/Flags/CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
-transform = Transform3D(-0.867627, 0, 0.497216, 0, 1, 0, -0.497216, 0, -0.867627, 33.1121, 0.553841, 38.6796)
-
-[node name="SpawnPoint_8" parent="Obectives/Flags/CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
-transform = Transform3D(0.955062, 0, -0.296408, 0, 1, 0, 0.296408, 0, 0.955062, 28.4203, 0.411797, 0.8741)
-
-[node name="SpawnPoint_9" parent="Obectives/Flags/CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
-transform = Transform3D(0.69029, 0, 0.723535, 0, 1, 0, -0.723535, 0, 0.69029, 37.1407, 0.418144, 49.1904)
-
-[node name="SpawnPoint_10" parent="Obectives/Flags/CapturePointC/Spawns/Team2" instance=ExtResource("5_362xu")]
-transform = Transform3D(-0.916216, 0, -0.400685, 0, 1, 0, 0.400685, 0, -0.916216, 33.8107, 0.0792694, 14.2829)
-
-[node name="CapturePointArea" parent="Obectives/Flags/CapturePointC" instance=ExtResource("3_ea0x6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.22137, -2.33908, 4.36518)
-points = PackedVector2Array(13.5, 15.5, 13.5, -15.5, -13.5, -15.5, -13.5, 15.5)
-height = 6.0
-
 [node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("18_2r4hx")]
 ObjId = 7001
 Area = NodePath("../TEAM_1_HQ/HQ_Team1")
@@ -423,7 +414,7 @@ height = 3.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -138.438, 66.2021, 30.387)
 
 [node name="BarrierStoneBlock_01_F2" parent="." instance=ExtResource("16_samb3")]
-transform = Transform3D(0.0518654, 0, 0.998654, 0, 1, 0, -0.998654, 0, 0.0518654, -109.004, 65.9584, -16.5033)
+transform = Transform3D(0.0518654, 0, 0.998654, 0, 1, 0, -0.998654, 0, 0.0518654, -109.004, 65.8182, -16.8041)
 
 [node name="BarrierStoneBlock_01_F3" parent="." instance=ExtResource("16_samb3")]
 transform = Transform3D(0.994856, 0, 0.101299, 0, 1, 0, -0.101299, 0, 0.994856, -104.951, 64.6094, -48.5343)
@@ -483,28 +474,31 @@ transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.0075
 transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -118.221, 64.0157, -60.7672)
 
 [node name="BarrierStoneBlock_01_H16" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -98.0501, 64.0157, -56.5235)
-
-[node name="BarrierStoneBlock_01_H17" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -92.8805, 64.0157, -56.5235)
-
-[node name="BarrierStoneBlock_01_H31" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -92.3917, 67.4813, -56.5235)
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -99.2522, 64.0157, -56.5235)
 
 [node name="BarrierStoneBlock_01_H33" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -97.5689, 67.4813, -56.5235)
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -99.2431, 67.4813, -56.5235)
 
-[node name="BarrierStoneBlock_01_H18" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -87.7281, 64.0157, -56.5235)
+[node name="BarrierStoneBlock_01_H44" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -93.9642, 64.0157, -93.1456)
 
-[node name="BarrierStoneBlock_01_H19" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -82.5008, 64.0157, -56.5235)
+[node name="BarrierStoneBlock_01_H45" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -88.7309, 64.0157, -93.1456)
 
-[node name="BarrierStoneBlock_01_H20" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -77.3294, 64.0157, -56.5235)
+[node name="BarrierStoneBlock_01_H46" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -83.5428, 64.0157, -93.1456)
+
+[node name="BarrierStoneBlock_01_H47" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -78.3192, 64.0157, -93.1456)
+
+[node name="BarrierStoneBlock_01_H48" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -73.1312, 64.0157, -93.1456)
+
+[node name="BarrierStoneBlock_01_H49" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -73.1312, 64.0157, -93.1456)
 
 [node name="BarrierStoneBlock_01_H21" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -72.1508, 64.0157, -56.5235)
+transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -68.8956, 64.0157, -56.5235)
 
 [node name="BarrierStoneBlock_01_H27" parent="." instance=ExtResource("20_tetmg")]
 transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -69.2824, 66.2192, -56.5235)
@@ -526,6 +520,57 @@ transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.0075
 
 [node name="BarrierStoneBlock_01_H11" parent="." instance=ExtResource("20_tetmg")]
 transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -115.692, 64.0518, -58.8672)
+
+[node name="BarrierStoneBlock_01_H34" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -59.7516)
+
+[node name="BarrierStoneBlock_01_H35" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -64.966)
+
+[node name="BarrierStoneBlock_01_H36" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -70.2053)
+
+[node name="BarrierStoneBlock_01_H37" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -75.4838)
+
+[node name="BarrierStoneBlock_01_H38" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -75.4838)
+
+[node name="BarrierStoneBlock_01_H39" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -80.6976)
+
+[node name="BarrierStoneBlock_01_H40" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -80.6976)
+
+[node name="BarrierStoneBlock_01_H41" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -85.9131)
+
+[node name="BarrierStoneBlock_01_H42" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -91.0804)
+
+[node name="BarrierStoneBlock_01_H50" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -71.1805, 64.0518, -89.845)
+
+[node name="BarrierStoneBlock_01_H51" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -71.1805, 64.0518, -84.6421)
+
+[node name="BarrierStoneBlock_01_H52" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -71.1805, 64.0518, -79.4191)
+
+[node name="BarrierStoneBlock_01_H53" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -71.1805, 64.0518, -74.2965)
+
+[node name="BarrierStoneBlock_01_H54" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -71.1805, 64.0518, -69.0537)
+
+[node name="BarrierStoneBlock_01_H55" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -71.1805, 64.0518, -63.8905)
+
+[node name="BarrierStoneBlock_01_H56" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -71.1805, 64.0518, -58.7466)
+
+[node name="BarrierStoneBlock_01_H43" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -97.2722, 64.0518, -91.0804)
 
 [node name="BarrierStoneBlock_01_H32" parent="." instance=ExtResource("20_tetmg")]
 transform = Transform3D(-0.999966, 0, 0.00827282, 0, 1, 0, -0.00827282, 0, -0.999966, -99.8059, 64.0518, -51.4568)

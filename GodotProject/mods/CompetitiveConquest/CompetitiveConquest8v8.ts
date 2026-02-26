@@ -703,7 +703,7 @@ function addEndScreenUI(){
     mod.AddUIContainer("EndContainer", mod.CreateVector(0,0,0), mod.CreateVector(9000, 1080, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.6,
         mod.UIBgFill.Solid);
     const parent = mod.FindUIWidgetWithName("EndContainer");
-    
+    mod.SetUIWidgetDepth(parent, mod.UIDepth.AboveGameUI)
     const time = liveTickCount / TICK_RATE;
     const minutes = mod.Floor(time / 60);
     const totalseconds = mod.Floor(time % 60);
@@ -1005,7 +1005,8 @@ async function initializeGamePhase() {
         phaseTickCount = 0;
         countDown = POSTMATCH_TIME;
 
-        mod.DeployAllPlayers();
+        mod.UndeployAllPlayers();
+        mod.EnableAllPlayerDeploy(false);
         addEndScreenUI();
         mod.PlaySound(mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_UI_EOR_RoundOutcome_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0)), 1);
         if (serverScores[0] > serverScores[1]) {
@@ -1673,3 +1674,10 @@ export function OnCapturePointCaptured(eventCapturePoint: mod.CapturePoint): voi
 }
 
 
+export function OnPlayerLeaveGame(eventNumber: number): void {
+    if (gamePhase == 0) {
+        mod.DeleteAllUIWidgets();
+        addPrematchUI();
+    }
+    
+}

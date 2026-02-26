@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dhqkr876hoei1"]
+[gd_scene load_steps=21 format=3 uid="uid://dhqkr876hoei1"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_6regb"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_h1nif"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_F.tscn" id="17_ese5t"]
 [ext_resource type="PackedScene" path="res://objects/architecture/FiringRange_Wall_1024_01.tscn" id="18_1itvp"]
 [ext_resource type="PackedScene" path="res://objects/props/ContainerStandardOpen_01_640_A.tscn" id="19_rrch2"]
+[ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_A.tscn" id="20_wqa8p"]
 
 [node name="MP_Granite_MilitaryStorage_Portal" type="Node3D"]
 
@@ -94,7 +95,7 @@ Team = 2
 AltTeam = 0
 ObjId = 2
 HQArea = NodePath("HQ_Team2")
-InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), null]
+InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3")]
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_h1nif")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.256, 20, 10.822)
@@ -388,7 +389,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 494.33
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 494.336, 152.297, 207.235)
 
 [node name="FiringRange_Wall_1024_09" parent="." instance=ExtResource("18_1itvp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 494.336, 152.297, 206.572)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 494.353, 152.297, 206.572)
 
 [node name="BarrierStoneBlock_01_F2" parent="." instance=ExtResource("17_ese5t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 502.62, 152.53, 208.5)
@@ -416,3 +417,9 @@ transform = Transform3D(0.30803, 0.0380565, 0.950615, -0.011731, 0.999276, -0.03
 
 [node name="ContainerStandardOpen_01_640_A2" parent="." instance=ExtResource("19_rrch2")]
 transform = Transform3D(-0.340609, 0, 0.940205, 0, 1, 0, -0.940205, 0, -0.340609, 507.885, 155.026, 158.682)
+
+[node name="BarrierStoneBlock_01_A" parent="." instance=ExtResource("20_wqa8p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 490.126, 155.5, 196.893)
+
+[node name="BarrierStoneBlock_01_A2" parent="." instance=ExtResource("20_wqa8p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 438.852, 155.5, 244.308)

@@ -148,6 +148,30 @@ transform = Transform3D(0.237694, 0.128121, -0.962853, -0.0307065, 0.991759, 0.1
 [node name="BarrierStoneBlock_01_G21" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
 transform = Transform3D(0.845585, 0.00574028, -0.53381, 0.0014119, 0.999915, 0.0129891, 0.533839, -0.011737, 0.845505, -61.1209, 7.87227, -75.7728)
 
+[node name="BarrierStoneBlock_01_G26" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(0.987017, 0.000692707, -0.160613, 0.0014119, 0.999915, 0.0129891, 0.160609, -0.0130471, 0.986932, -123.14, 4.28789, -88.4016)
+
+[node name="BarrierStoneBlock_01_G27" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(0.976381, 0.00142787, -0.216051, 0.0014119, 0.999915, 0.0129891, 0.216052, -0.0129873, 0.976296, -122.651, 4.28789, -91.2343)
+
+[node name="BarrierStoneBlock_01_G28" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(0.665956, 0.00874951, -0.74594, 0.0014119, 0.999915, 0.0129891, 0.74599, -0.0097033, 0.665887, -120.471, 4.28789, -94.6358)
+
+[node name="BarrierStoneBlock_01_G29" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(0.610432, 0.00942641, -0.792013, 0.0014119, 0.999915, 0.0129891, 0.792068, -0.00904714, 0.610366, -116.462, 4.28789, -97.9033)
+
+[node name="BarrierStoneBlock_01_G30" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(-0.490938, 0.0120091, -0.871112, 0.0014119, 0.999915, 0.0129891, 0.871194, 0.00514688, -0.490912, -111.897, 4.30328, -98.5999)
+
+[node name="BarrierStoneBlock_01_G31" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(-0.490938, 0.0120091, -0.871112, 0.0014119, 0.999915, 0.0129891, 0.871194, 0.00514688, -0.490912, -107.541, 4.95476, -96.0757)
+
+[node name="BarrierStoneBlock_01_G32" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(-0.490938, 0.0120091, -0.871112, 0.0014119, 0.999915, 0.0129891, 0.871194, 0.00514688, -0.490912, -103.231, 4.95476, -93.6185)
+
+[node name="BarrierStoneBlock_01_G33" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
+transform = Transform3D(-0.623309, 0.0110371, -0.781898, 0.0014119, 0.999915, 0.0129891, 0.781974, 0.00699222, -0.623272, -99.0476, 4.95476, -90.7598)
+
 [node name="BarrierStoneBlock_01_G25" parent="CombatArea/Team1_HQ/InteractArea" instance=ExtResource("14_wkodg")]
 transform = Transform3D(0.834556, 0.00597773, -0.55089, 0.0014119, 0.999915, 0.0129891, 0.550921, -0.0116179, 0.834477, -58.8295, 7.87227, -78.9839)
 

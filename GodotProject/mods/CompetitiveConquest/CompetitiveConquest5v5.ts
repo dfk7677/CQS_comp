@@ -11,7 +11,7 @@ const BLEED_TWO_FLAGS = -.3;
 const BLEED_THREE_FLAGS = -.6;
 const DEATH_TICKET_LOSS = -1;
 const PRELIVE_TIME = 10;
-const ROUND_TIME = 1200; // 20 minutes in seconds
+const ROUND_TIME = 300; // 20 minutes in seconds
 const POSTMATCH_TIME = 15;
 
 const CAPTURE_TIME = 6;
@@ -299,10 +299,12 @@ function addRestrictedAreaUI (eventPlayer: mod.Player){
         1,
         mod.UIAnchor.CenterRight
     )
+    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true)
 }
 
 function removeRestrictedAreaUI (eventPlayer: mod.Player) {
     mod.DeleteUIWidget(mod.FindUIWidgetWithName("RestrictedAreaContainer" + mod.GetObjId(eventPlayer)));
+    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false)
 }
 
 function addPrematchUI() {    
@@ -704,7 +706,7 @@ function addEndScreenUI(){
     mod.AddUIContainer("EndContainer", mod.CreateVector(0,0,0), mod.CreateVector(9000, 1080, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.6,
         mod.UIBgFill.Solid);
     const parent = mod.FindUIWidgetWithName("EndContainer");
-    
+    mod.SetUIWidgetDepth(parent, mod.UIDepth.AboveGameUI)
     const time = liveTickCount / TICK_RATE;
     const minutes = mod.Floor(time / 60);
     const totalseconds = mod.Floor(time % 60);
@@ -994,7 +996,8 @@ async function initializeGamePhase() {
         phaseTickCount = 0;
         countDown = POSTMATCH_TIME;
 
-        mod.DeployAllPlayers();
+        mod.UndeployAllPlayers();
+        mod.EnableAllPlayerDeploy(false);
         addEndScreenUI();
         mod.PlaySound(mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_UI_EOR_RoundOutcome_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0)), 1);
         if (serverScores[0] > serverScores[1]) {
@@ -1470,7 +1473,7 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
 }
 
 export async function OnPlayerJoinGame(eventPlayer: mod.Player): Promise<void> {
-    mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, eventPlayer, mod.GetObjId(eventPlayer)));    
+    // mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.PlayerJoined, eventPlayer, mod.GetObjId(eventPlayer)));    
     await mod.Wait(3);    
     mod.DeleteAllUIWidgets();
     if (gamePhase == 0) { 
@@ -1630,5 +1633,15 @@ export function OnCapturePointCaptured(eventCapturePoint: mod.CapturePoint): voi
         
     
 }
+
+export function OnPlayerLeaveGame(eventNumber: number): void {
+    if (gamePhase == 0) {
+        mod.DeleteAllUIWidgets();
+        addPrematchUI();
+    }
+    
+}
+
+
 
 
