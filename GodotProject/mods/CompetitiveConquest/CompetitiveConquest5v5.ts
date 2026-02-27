@@ -11,7 +11,7 @@ const BLEED_TWO_FLAGS = -.3;
 const BLEED_THREE_FLAGS = -.6;
 const DEATH_TICKET_LOSS = -1;
 const PRELIVE_TIME = 10;
-const ROUND_TIME = 300; // 20 minutes in seconds
+const ROUND_TIME = 1200; // 20 minutes in seconds
 const POSTMATCH_TIME = 15;
 
 const CAPTURE_TIME = 6;
@@ -474,7 +474,7 @@ function addCountdownUI() {
         mod.CreateVector(0, 0, 0),
         0.4,
         mod.UIBgFill.None,
-        mod.Message(10),
+        mod.Message(countDown),
         100,
         mod.CreateVector(1, 1, 1),
         1,
@@ -1358,6 +1358,11 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
         mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterRight,
             parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 34, COLOR_ENEMY, 1, mod.UIAnchor.Center);
 
+        if (teamPlayers[0] === 1 && mod.Equals(mod.GetCurrentOwnerTeam(eventCapturePoint), team2) && teamPlayers[1] === 0) {
+            mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, capturePoints[id].symbol), team2)
+        } else if (teamPlayers[1] === 1 && mod.Equals(mod.GetCurrentOwnerTeam(eventCapturePoint), team1) && teamPlayers[0] === 0) {
+            mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, capturePoints[id].symbol), team1)
+        }
         /*
         await mod.Wait(0.1);
         if (capturePoints[id].capturer == 3) {

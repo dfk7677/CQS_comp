@@ -35,7 +35,7 @@ const teamNeutral: mod.Team = mod.GetTeam(0);
 const team1: mod.Team = mod.GetTeam(1);
 const team2: mod.Team = mod.GetTeam(2);
 
-const serverScores = [INITIAL_TICKETS, INITIAL_TICKETS];
+const serverScores = [INITIAL_TICKETS * 1.1, INITIAL_TICKETS];
 
 
 let countDown:number;
@@ -907,7 +907,7 @@ async function initializeGamePhase() {
         SetRedeployTimeForAll(0);
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), false);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), false);
-        mod.EnableGameModeObjective(mod.GetCapturePoint(203), false);
+        ///mod.EnableGameModeObjective(mod.GetCapturePoint(203), false);
         const n = mod.CountOf(players);
         for (let i = 0; i < n; i++) {
             const player = mod.ValueInArray(players, i);
@@ -940,22 +940,28 @@ async function initializeGamePhase() {
         mod.EnableInteractPoint(mod.GetInteractPoint(2004), false);
         mod.DeleteAllUIWidgets();
         mod.UndeployAllPlayers();
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
-        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
-        if (vehicleSpawner3) {
-            mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
-            mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
+        for (let i = 701; i < 711; i++) {
+            const vehicleSpawner = mod.GetVehicleSpawner(i)
+            if (vehicleSpawner) {
+                mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, true);
+            }
         }
-        const emplacementSpawner1 = mod.GetEmplacementSpawner(801);    
-        const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
-        if (emplacementSpawner1 && emplacementSpawner2) {
-            mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
-            mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
+
+        for (let i = 751; i < 761; i++) {
+            const vehicleSpawner = mod.GetVehicleSpawner(i)
+            if (vehicleSpawner) {
+                mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, true);
+            }
         }
+
+        for (let i = 801; i < 811; i++) {
+            const emplacementSpawner = mod.GetEmplacementSpawner(i)
+            if (emplacementSpawner) {
+                mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner, true);
+            }
+        } 
+        
+        
 
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), true);
@@ -1114,6 +1120,33 @@ export function OngoingGlobal() {
             phaseTickCount = 0;
             return;
         }
+
+        const players = mod.AllPlayers();
+        const n = mod.CountOf(players);
+
+        for (let i = 0; i < n; i++) {
+            const player = mod.ValueInArray(players, i);
+            const team = mod.GetTeam(player);
+            if (mod.Equals(team, team2) && mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
+                return;
+            }
+
+        }
+        if (mod.Equals(mod.GetCurrentOwnerTeam(mod.GetCapturePoint(201)), team2)) {
+            return;
+        }
+        if (mod.Equals(mod.GetCurrentOwnerTeam(mod.GetCapturePoint(202)), team2)) {
+            return;
+        }
+        if (mod.Equals(mod.GetCurrentOwnerTeam(mod.GetCapturePoint(203)), team2)) {
+            return;
+        } 
+        
+        console.log("Live ends by full cap.");
+        liveTickCount = phaseTickCount;
+        gamePhase = 3;
+        phaseTickCount = 0;
+        serverScores[1] = 0;
     }
 
     if (gamePhase == 3) {
@@ -1654,6 +1687,16 @@ export function OnCapturePointLost(eventCapturePoint: mod.CapturePoint): void {
     const id = mod.GetObjId(eventCapturePoint);
     mod.SetUITextColor(mod.FindUIWidgetWithName(`FLAG${capturePoints[id].symbol}1`), COLOR_NEUTRAL);
     mod.SetUITextColor(mod.FindUIWidgetWithName(`FLAG${capturePoints[id].symbol}2`), COLOR_NEUTRAL);
+
+    if (id === 203) {
+        for (let i = 751; i < 761; i++) {
+            const vehicleSpawner = mod.GetVehicleSpawner(i)
+            if (vehicleSpawner) {
+                mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, false);
+            }
+        }
+    }
+    
     
 }
 
@@ -1669,7 +1712,15 @@ export function OnCapturePointCaptured(eventCapturePoint: mod.CapturePoint): voi
         mod.SetUITextColor(mod.FindUIWidgetWithName(`FLAG${capturePoints[id].symbol}1`), COLOR_ENEMY);
         mod.SetUITextColor(mod.FindUIWidgetWithName(`FLAG${capturePoints[id].symbol}2`), COLOR_FRIENDLY);
     }
-        
+       
+    if (id === 203 && mod.Equals(mod.GetCurrentOwnerTeam(eventCapturePoint), team2)) {
+        for (let i = 751; i < 761; i++) {
+            const vehicleSpawner = mod.GetVehicleSpawner(i)
+            if (vehicleSpawner) {
+                mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, true);
+            }
+        }
+    } 
     
 }
 
