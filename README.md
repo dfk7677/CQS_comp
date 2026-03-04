@@ -17,7 +17,7 @@ The 7 maps that are already made, follow some simple principles:
 * Flags not in a linear positioning between opponent teams HQs.
 * Small distances between flags and HQs, most are less than 100m.
 * Small capture areas, so there is more fighting and less hiding in them.
-* Faster than base game capture (6s) and neutralize (9s) times.
+* Faster than base game capture (8s/10s) and neutralize (12s/15s) times.
 * For 8v8, only one heavy vehicle per side.
 * 20m time limit and 275/350 initial tickets.
 * Big areas for HQs
