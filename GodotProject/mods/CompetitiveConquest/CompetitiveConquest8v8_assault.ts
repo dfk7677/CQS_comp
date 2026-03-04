@@ -2,7 +2,7 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (8v8)
 import * as modlib from 'modlib';
 
-const VERSION = [2, 0, 7, 0];
+const VERSION = [2, 0, 8, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 350;
@@ -13,8 +13,8 @@ const PRELIVE_TIME = 10;
 const ROUND_TIME = 1200; // 20 minutes in seconds
 const POSTMATCH_TIME = 15;
 
-const CAPTURE_TIME = 6;
-const NEUTRALIZE_TIME = 9;
+const CAPTURE_TIME = 12;
+const NEUTRALIZE_TIME = 18;
 const COLOR_NEUTRAL  =   mod.CreateVector(1, 1, 1);
 const COLOR_FRIENDLY =   mod.CreateVector(0.0902, 0.8627, 1);
 const COLOR_ENEMY    =   mod.CreateVector(1, 0.4, 0);
@@ -1689,7 +1689,16 @@ export function OnCapturePointLost(eventCapturePoint: mod.CapturePoint): void {
     mod.SetUITextColor(mod.FindUIWidgetWithName(`FLAG${capturePoints[id].symbol}2`), COLOR_NEUTRAL);
 
     if (id === 203) {
-        for (let i = 751; i < 761; i++) {
+        for (let i = 771; i < 781; i++) {
+            const vehicleSpawner = mod.GetVehicleSpawner(i)
+            if (vehicleSpawner) {
+                mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, false);
+            }
+        }
+    }
+
+    if (id === 202) {
+        for (let i = 761; i < 771; i++) {
             const vehicleSpawner = mod.GetVehicleSpawner(i)
             if (vehicleSpawner) {
                 mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, false);
@@ -1714,7 +1723,15 @@ export function OnCapturePointCaptured(eventCapturePoint: mod.CapturePoint): voi
     }
        
     if (id === 203 && mod.Equals(mod.GetCurrentOwnerTeam(eventCapturePoint), team2)) {
-        for (let i = 751; i < 761; i++) {
+        for (let i = 771; i < 781; i++) {
+            const vehicleSpawner = mod.GetVehicleSpawner(i)
+            if (vehicleSpawner) {
+                mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, true);
+            }
+        }
+    }
+    if (id === 202 && mod.Equals(mod.GetCurrentOwnerTeam(eventCapturePoint), team2)) {
+        for (let i = 761; i < 771; i++) {
             const vehicleSpawner = mod.GetVehicleSpawner(i)
             if (vehicleSpawner) {
                 mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, true);

@@ -37,6 +37,7 @@ All this of course, is work in progress, there may be bugs and not a final propo
 | Iberian Offensive | MP_Battery | zmu3d | zju42 |
 | Liberation Peak | MP_Capstone | zmu3k | zkzab |
 | Manhattan Bridge | MP_Dumbo | zmu4y | zq7y4 |
+| Manhattan Bridge Assault | MP_Dumbo | - | zs5c1 |
 | Operation Firestorm | MP_Firestorm | zmu42 | zkzan |
 | Redline Storage | MP_Granite_MilitaryStorage | zqf6r | - |
 | New Sobek City | MP_Outskirts | - | zqh4w |
@@ -72,6 +73,7 @@ ver 2.1: Added restricted areas and blocks in a lot of balconies/windows.
 ## MP_Dumbo
 
 ver 2.0: [8v8] Complete map overhaul.
+ver 3.0: [8v8] Conquest Assault version.
 
 ## MP_Granite_MilitaryStorage
 
@@ -98,3 +100,7 @@ Dealt Damage to players entering enemy HQs reduced to half. Now it takes 10s wit
 ### Ver 2.0.7
 
 Now entering a restricted area or an enemy HQ deals damage only to vehicles. Players have 10s to get out or be killed. Removed redundant code for neutralizing/capturing speed (bug fixed by DICE). Added check for downed players in capture areas as now they appear in list of players on capture area. Codes for v1 of Manhattan Bridge, Mirak Valley in 8v8 and both 5v5 and 8v8 codes for Blackwell Fields have been removed.
+
+### Ver 2.0.8
+
+Increased capture/neutralized times in both 5v5 and 8v8. New times are 8s/12s and 10s/15s respectively. Added a new conquest assault version of Manhattan Bridge.
