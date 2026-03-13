@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dhqkr876hoei1"]
+[gd_scene load_steps=22 format=3 uid="uid://dhqkr876hoei1"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_6regb"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_h1nif"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" path="res://objects/architecture/FiringRange_Wall_1024_01.tscn" id="18_1itvp"]
 [ext_resource type="PackedScene" path="res://objects/props/ContainerStandardOpen_01_640_A.tscn" id="19_rrch2"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_A.tscn" id="20_wqa8p"]
+[ext_resource type="PackedScene" path="res://objects/props/Container_02_Closed.tscn" id="21_3en60"]
 
 [node name="MP_Granite_MilitaryStorage_Portal" type="Node3D"]
 
@@ -35,13 +36,13 @@ transform = Transform3D(1, 0, -4.65661e-10, 0, 1, 0, 4.65661e-10, 0, 1, 6.194, 2
 points = PackedVector2Array(61.893, -31.5166, -11.0161, -14.9503, -67.1168, -20.4504, -52.1513, 33.1779, 68.4506, 33.7745)
 
 [node name="SpawnPoint_1_1" parent="TEAM_1_HQ" instance=ExtResource("3_qrtsr")]
-transform = Transform3D(0.49101, 0, -0.871154, 0, 1, 0, 0.871154, 0, 0.49101, -19.0717, -3.64259, 1.02399)
+transform = Transform3D(-0.253151, 0, -0.967427, 0, 1, 0, 0.967427, 0, -0.253151, -19.0816, -3.91891, 2.34842)
 
 [node name="SpawnPoint_1_2" parent="TEAM_1_HQ" instance=ExtResource("3_qrtsr")]
-transform = Transform3D(-0.309183, 0, 0.951003, 0, 1, 0, -0.951003, 0, -0.309183, 2.99139, -3.82033, 1.13513)
+transform = Transform3D(-0.805039, 0, 0.593223, 0, 1, 0, -0.593223, 0, -0.805039, 2.66617, -3.94203, 6.26196)
 
 [node name="SpawnPoint_1_3" parent="TEAM_1_HQ" instance=ExtResource("3_qrtsr")]
-transform = Transform3D(-0.0428871, 0, 0.99908, 0, 1, 0, -0.99908, 0, -0.0428871, -22.6701, -3.64627, 5.68152)
+transform = Transform3D(-0.908946, 0, 0.416915, 0, 1, 0, -0.416915, 0, -0.908946, -21.9012, -3.8951, 5.68732)
 
 [node name="InteractArea" parent="TEAM_1_HQ" instance=ExtResource("4_81tfa")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.0332031, -3.92551, 3.53363)
@@ -423,3 +424,156 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 490.126, 155.5, 196.893)
 
 [node name="BarrierStoneBlock_01_A2" parent="." instance=ExtResource("20_wqa8p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 438.852, 155.5, 244.308)
+
+[node name="Container_02_Closed" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 449.57, 148.652, 212.868)
+
+[node name="Container_02_Closed9" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 445.841, 148.652, 228.947)
+
+[node name="Container_02_Closed3" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 462.316, 148.652, 212.868)
+
+[node name="Container_02_Closed6" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 464.959, 148.652, 241.692)
+
+[node name="Container_02_Closed20" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 468.743, 148.652, 236.256)
+
+[node name="Container_02_Closed21" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 468.743, 151.224, 236.256)
+
+[node name="Container_02_Closed10" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 458.211, 148.652, 253.244)
+
+[node name="Container_02_Closed11" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 458.211, 148.652, 255.886)
+
+[node name="Container_02_Closed12" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 451.026, 148.652, 253.244)
+
+[node name="Container_02_Closed13" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 451.026, 148.652, 255.886)
+
+[node name="Container_02_Closed14" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 458.211, 151.253, 253.244)
+
+[node name="Container_02_Closed15" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 458.211, 151.253, 255.886)
+
+[node name="Container_02_Closed33" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 461.45, 148.652, 264.415)
+
+[node name="Container_02_Closed34" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 461.45, 151.253, 264.415)
+
+[node name="Container_02_Closed35" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 448.546, 148.652, 264.415)
+
+[node name="Container_02_Closed36" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 448.546, 151.253, 264.415)
+
+[node name="Container_02_Closed16" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 451.026, 151.253, 253.244)
+
+[node name="Container_02_Closed17" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 451.026, 151.253, 255.886)
+
+[node name="Container_02_Closed7" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 472.135, 148.652, 241.692)
+
+[node name="Container_02_Closed18" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 464.959, 151.238, 241.692)
+
+[node name="Container_02_Closed19" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 472.135, 151.238, 241.692)
+
+[node name="Container_02_Closed2" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 454.186, 148.652, 212.868)
+
+[node name="Container_02_Closed25" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 449.57, 151.267, 212.868)
+
+[node name="Container_02_Closed31" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 431.53, 148.652, 212.868)
+
+[node name="Container_02_Closed32" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 431.53, 151.267, 212.868)
+
+[node name="Container_02_Closed26" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 454.186, 151.267, 212.868)
+
+[node name="Container_02_Closed4" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 459.612, 148.652, 210.288)
+
+[node name="Container_02_Closed5" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 459.612, 148.652, 217.484)
+
+[node name="Container_02_Closed22" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 462.316, 151.216, 212.868)
+
+[node name="Container_02_Closed37" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 470.396, 148.652, 201.963)
+
+[node name="Container_02_Closed38" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 470.396, 151.216, 201.963)
+
+[node name="Container_02_Closed39" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 477.612, 148.652, 201.963)
+
+[node name="Container_02_Closed40" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 477.612, 151.216, 201.963)
+
+[node name="Container_02_Closed41" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 477.612, 148.652, 209.381)
+
+[node name="Container_02_Closed42" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 477.612, 151.216, 209.381)
+
+[node name="Container_02_Closed43" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 497.688, 148.652, 234.115)
+
+[node name="Container_02_Closed44" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 497.688, 151.216, 234.115)
+
+[node name="Container_02_Closed45" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 499.956, 148.652, 231.515)
+
+[node name="Container_02_Closed46" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 499.956, 151.216, 231.515)
+
+[node name="Container_02_Closed47" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 487.566, 148.652, 230.802)
+
+[node name="Container_02_Closed48" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 487.566, 151.216, 230.802)
+
+[node name="Container_02_Closed49" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 487.566, 148.652, 228.219)
+
+[node name="Container_02_Closed50" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 487.566, 151.216, 228.219)
+
+[node name="Container_02_Closed23" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 459.612, 151.216, 210.288)
+
+[node name="Container_02_Closed29" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 478.804, 148.652, 210.288)
+
+[node name="Container_02_Closed30" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 478.804, 151.216, 210.288)
+
+[node name="Container_02_Closed24" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 459.612, 151.216, 217.484)
+
+[node name="Container_02_Closed8" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 453.057, 148.652, 221.834)
+
+[node name="Container_02_Closed27" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 445.841, 151.226, 228.947)
+
+[node name="Container_02_Closed28" parent="." instance=ExtResource("21_3en60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 453.057, 151.226, 221.834)
+
+[node name="BarrierStoneBlock_01_A3" parent="." instance=ExtResource("20_wqa8p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 476.329, 154.292, 279.213)

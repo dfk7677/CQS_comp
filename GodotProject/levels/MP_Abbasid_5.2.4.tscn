@@ -297,17 +297,11 @@ transform = Transform3D(-0.845719, 0, 0.533629, 0, 1, 0, -0.533629, 0, -0.845719
 [node name="SpawnPoint_10" parent="CapturePointB/Spawns/Team2" instance=ExtResource("5_362xu")]
 transform = Transform3D(-0.845719, 0, 0.533629, 0, 1, 0, -0.533629, 0, -0.845719, 35.5078, -2.58096, 31.8686)
 
-[node name="BarrierStoneBlock_01_A" parent="CapturePointB" instance=ExtResource("17_8soee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.10211, -0.0812912, -1.19254)
-
-[node name="BarrierStoneBlock_01_A2" parent="CapturePointB" instance=ExtResource("17_8soee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.82327, -0.118118, -1.19254)
-
 [node name="CapturePointC" parent="." node_paths=PackedStringArray("CaptureArea", "InfantrySpawnPoints_Team1", "InfantrySpawnPoints_Team2") instance=ExtResource("15_rv72x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -81.6963, 64.0958, -20.5048)
 ObjId = 203
 CaptureArea = NodePath("CapturePointArea")
-InfantrySpawnPoints_Team1 = [NodePath("Spawns/Team1/SpawnPoint_1"), NodePath("Spawns/Team1/SpawnPoint_2"), NodePath("Spawns/Team1/SpawnPoint_3"), null, null]
+InfantrySpawnPoints_Team1 = [NodePath("Spawns/Team1/SpawnPoint_1"), NodePath("Spawns/Team1/SpawnPoint_2"), NodePath("Spawns/Team1/SpawnPoint_3"), NodePath("Spawns/Team1/SpawnPoint_4"), NodePath("Spawns/Team1/SpawnPoint_5")]
 InfantrySpawnPoints_Team2 = [NodePath("Spawns/Team2/SpawnPoint_6"), NodePath("Spawns/Team2/SpawnPoint_7"), NodePath("Spawns/Team2/SpawnPoint_8"), NodePath("Spawns/Team2/SpawnPoint_9"), NodePath("Spawns/Team2/SpawnPoint_10")]
 
 [node name="CapturePointArea" parent="CapturePointC" instance=ExtResource("3_ea0x6")]
@@ -330,7 +324,10 @@ transform = Transform3D(0.997767, 0, -0.0667962, 0, 1, 0, 0.0667962, 0, 0.997767
 transform = Transform3D(0.997767, 0, -0.0667962, 0, 1, 0, 0.0667962, 0, 0.997767, -5.87403, 0.00258636, -20.3998)
 
 [node name="SpawnPoint_4" parent="CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
-transform = Transform3D(0.997767, 0, -0.0667962, 0, 1, 0, 0.0667962, 0, 0.997767, -22.1542, 1.95264, 38.1368)
+transform = Transform3D(0.879483, 0, -0.475931, 0, 1, 0, 0.475931, 0, 0.879483, -36.9281, 0.467461, -1.01483)
+
+[node name="SpawnPoint_5" parent="CapturePointC/Spawns/Team1" instance=ExtResource("5_362xu")]
+transform = Transform3D(-0.989632, 0, -0.143631, 0, 1, 0, 0.143631, 0, -0.989632, -28.0006, 1.56634, 27.1942)
 
 [node name="Team2" type="Node3D" parent="CapturePointC/Spawns"]
 
@@ -413,6 +410,12 @@ transform = Transform3D(0.994856, 0, 0.101299, 0, 1, 0, -0.101299, 0, 0.994856, 
 [node name="ContainerStandard_01_1280" parent="." instance=ExtResource("19_nskaf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -81.7691, 64.2649, -24.401)
 
+[node name="BarrierStoneBlock_01_A" parent="." instance=ExtResource("17_8soee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -121.612, 65.9084, 34.0581)
+
+[node name="BarrierStoneBlock_01_A2" parent="." instance=ExtResource("17_8soee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -129.537, 65.8716, 34.0581)
+
 [node name="ContainerStandard_01_1281" parent="." instance=ExtResource("19_nskaf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -81.7691, 67.0532, -24.401)
 
@@ -459,10 +462,10 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -161.8
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -135.503, 65.2853, 109.205)
 
 [node name="BarrierStoneBlock_01_H71" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.18925, 0, 0.981929, 0, 1, 0, -0.981929, 0, -0.18925, -116.454, 65.2853, 109.205)
+transform = Transform3D(-0.18925, 0, 0.981929, 0, 1, 0, -0.981929, 0, -0.18925, -116.454, 63.9215, 109.205)
 
 [node name="BarrierStoneBlock_01_H72" parent="." instance=ExtResource("20_tetmg")]
-transform = Transform3D(-0.18925, 0, 0.981929, 0, 1, 0, -0.981929, 0, -0.18925, -112.841, 65.2853, 108.435)
+transform = Transform3D(-0.18925, 0, 0.981929, 0, 1, 0, -0.981929, 0, -0.18925, -112.841, 63.9215, 108.435)
 
 [node name="BarrierStoneBlock_01_H5" parent="." instance=ExtResource("20_tetmg")]
 transform = Transform3D(-0.00750479, 0, 0.999972, 0, 1, 0, -0.999972, 0, -0.00750479, -143.754, 65.296, -60.7672)
@@ -664,3 +667,30 @@ transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 
 
 [node name="BarrierStoneBlock_01_H76" parent="." instance=ExtResource("20_tetmg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96.1259, 67.3977, 101.22)
+
+[node name="BarrierStoneBlock_01_H79" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -131.024, 66.1726, -7.02621)
+
+[node name="BarrierStoneBlock_01_H80" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -126.257, 69.6817, -8.03447)
+
+[node name="BarrierStoneBlock_01_H81" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -126.257, 69.6817, -10.9405)
+
+[node name="BarrierStoneBlock_01_H82" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -127.956, 69.6817, -13.6551)
+
+[node name="BarrierStoneBlock_01_H83" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -131.921, 69.6817, -15.1864)
+
+[node name="BarrierStoneBlock_01_H84" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60.4627, 64.3186, 17.5047)
+
+[node name="BarrierStoneBlock_01_H85" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65.7647, 67.2663, 20.4157)
+
+[node name="BarrierStoneBlock_01_H86" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -64.1285, 67.2663, 24.0368)
+
+[node name="BarrierStoneBlock_01_H87" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -60.136, 67.2663, 26.0936)

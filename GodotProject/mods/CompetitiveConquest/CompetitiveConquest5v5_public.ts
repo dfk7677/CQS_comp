@@ -5,7 +5,7 @@ import * as modlib from 'modlib';
 
 
 
-const VERSION = [2, 0, 7, 0];
+const VERSION = [2, 0, 8, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 275;
@@ -16,8 +16,8 @@ const DEATH_TICKET_LOSS = -1;
 const ROUND_TIME = 1200; // 20 minutes in seconds
 const POSTMATCH_TIME = 15;
 
-const CAPTURE_TIME = 6;
-const NEUTRALIZE_TIME = 9;
+const CAPTURE_TIME = 8;
+const NEUTRALIZE_TIME = 12;
 
 const COLOR_NEUTRAL  =   mod.CreateVector(1, 1, 1);
 const COLOR_FRIENDLY =   mod.CreateVector(0.0902, 0.8627, 1);

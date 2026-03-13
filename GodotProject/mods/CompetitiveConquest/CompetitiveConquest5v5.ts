@@ -1357,13 +1357,13 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
             parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 34, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
         mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterRight,
             parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 34, COLOR_ENEMY, 1, mod.UIAnchor.Center);
-
+        /*
         if (teamPlayers[0] === 1 && mod.Equals(mod.GetCurrentOwnerTeam(eventCapturePoint), team2) && teamPlayers[1] === 0) {
             mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, capturePoints[id].symbol), team2)
         } else if (teamPlayers[1] === 1 && mod.Equals(mod.GetCurrentOwnerTeam(eventCapturePoint), team1) && teamPlayers[0] === 0) {
             mod.DisplayHighlightedWorldLogMessage(mod.Message(mod.stringkeys.ObjectiveCapturingEnemy, capturePoints[id].symbol), team1)
         }
-        /*
+        
         await mod.Wait(0.1);
         if (capturePoints[id].capturer == 3) {
             mod.PlaySound(sounds[2], 0.2, eventPlayer);

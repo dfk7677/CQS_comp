@@ -14,12 +14,13 @@ const ROUND_TIME = 1200; // 20 minutes in seconds
 const POSTMATCH_TIME = 15;
 
 const CAPTURE_TIME = 10;
-const NEUTRALIZE_TIME = 15;
+const NEUTRALIZE_TIME = 14;
+const MAX_CAPTURE_MUTLIPLIER = 2;
 const COLOR_NEUTRAL  =   mod.CreateVector(1, 1, 1);
 const COLOR_FRIENDLY =   mod.CreateVector(0.0902, 0.8627, 1);
 const COLOR_ENEMY    =   mod.CreateVector(1, 0.4, 0);
 
-const REDEPLOY_TIME = 10;
+const REDEPLOY_TIME = 12;
 const TICK_RATE = 30;
 const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
 
@@ -966,6 +967,9 @@ async function initializeGamePhase() {
         mod.SetCapturePointNeutralizationTime(mod.GetCapturePoint(201), NEUTRALIZE_TIME);
         mod.SetCapturePointNeutralizationTime(mod.GetCapturePoint(202), NEUTRALIZE_TIME);
         mod.SetCapturePointNeutralizationTime(mod.GetCapturePoint(203), NEUTRALIZE_TIME);
+        mod.SetMaxCaptureMultiplier(mod.GetCapturePoint(201), MAX_CAPTURE_MUTLIPLIER);
+        mod.SetMaxCaptureMultiplier(mod.GetCapturePoint(202), MAX_CAPTURE_MUTLIPLIER);
+        mod.SetMaxCaptureMultiplier(mod.GetCapturePoint(203), MAX_CAPTURE_MUTLIPLIER);
         addCountdownUI();
     } else if (gamePhase == 2) {
         // Live phase logic

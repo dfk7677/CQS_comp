@@ -98,7 +98,7 @@ P_DefaultRespawnTime = 120
 [node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_50jmv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60651, 0.3508, -7.71457)
 ObjId = 703
-VehicleType = 11
+VehicleType = 12
 P_DefaultRespawnTime = 30
 P_KeepAliveAbandonRadius = 10
 
@@ -284,7 +284,7 @@ VehicleType = 1
 P_DefaultRespawnTime = 120
 
 [node name="InteractArea" parent="CapturePointC" instance=ExtResource("3_mnci5")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15.2786, 0, -23.2425)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15.2786, -0.640461, -23.2425)
 
 [node name="InteractPointChangeTeam" parent="CapturePointC/InteractArea" instance=ExtResource("4_04jrg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
