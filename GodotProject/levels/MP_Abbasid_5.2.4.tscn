@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b21gugagdf3qx"]
+[gd_scene load_steps=25 format=3 uid="uid://b21gugagdf3qx"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="1_3pato"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="2_7v50i"]
@@ -22,6 +22,8 @@
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_H.tscn" id="20_tetmg"]
 [ext_resource type="PackedScene" path="res://objects/uncategorized/GCarSUV_01.tscn" id="21_ea0x6"]
 [ext_resource type="PackedScene" path="res://objects/uncategorized/GCarSedan_02.tscn" id="22_rv72x"]
+[ext_resource type="PackedScene" path="res://objects/gameplay/common/HQ_PlayerSpawner.tscn" id="23_rv72x"]
+[ext_resource type="PackedScene" path="res://objects/gameplay/common/FixedCamera.tscn" id="24_362xu"]
 
 [node name="MP_Abbasid" type="Node3D"]
 
@@ -50,7 +52,8 @@ points = PackedVector2Array(-66.0284, -20.3662, -93.2864, -20.36, -93.2141, 4.43
 
 [node name="TEAM_1_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("4_rv72x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -223.239, 66.5514, 62.9568)
-ObjId = 1
+AltTeam = 0
+ObjId = 51
 HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), NodePath("SpawnPoint_1_4")]
 
@@ -113,12 +116,15 @@ iconColor = [0.0, 0.0, 1.0]
 iconImagePicker = 7
 iconTeamOwnerId = 1
 
+[node name="InteractPointSpectate" parent="TEAM_1_HQ/FlagPole_01_USA" instance=ExtResource("8_k5kn3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.0544, 1, -0.153732)
+ObjId = 6001
+
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("4_rv72x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 60, 0)
 Team = 2
 AltTeam = 0
-VehicleSpawnersEnabled = true
-ObjId = 2
+ObjId = 52
 HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), NodePath("SpawnPoint_2_4")]
 
@@ -400,6 +406,9 @@ height = 3.0
 
 [node name="BarrierStoneBlock_01_F" parent="." instance=ExtResource("16_samb3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -138.438, 66.2021, 30.387)
+
+[node name="BarrierStoneBlock_01_F4" parent="." instance=ExtResource("16_samb3")]
+transform = Transform3D(0.0208726, 0, -0.999782, 0, 1, 0, 0.999782, 0, 0.0208726, -171.513, 64.2989, -3.4188)
 
 [node name="BarrierStoneBlock_01_F2" parent="." instance=ExtResource("16_samb3")]
 transform = Transform3D(0.0518654, 0, 0.998654, 0, 1, 0, -0.998654, 0, 0.0518654, -109.004, 65.8182, -16.8041)
@@ -694,3 +703,30 @@ transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 
 
 [node name="BarrierStoneBlock_01_H87" parent="." instance=ExtResource("20_tetmg")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -60.136, 67.2663, 26.0936)
+
+[node name="BarrierStoneBlock_01_H88" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -163.383, 68.2502, -4.19646)
+
+[node name="BarrierStoneBlock_01_H89" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(-0.00347318, 0, -0.999994, 0, 1, 0, 0.999994, 0, -0.00347318, -169.038, 68.2502, 1.37273)
+
+[node name="BarrierStoneBlock_01_H90" parent="." instance=ExtResource("20_tetmg")]
+transform = Transform3D(0.64407, 0, -0.764966, 0, 1, 0, 0.764966, 0, 0.64407, -165.082, 68.2502, -0.0506973)
+
+[node name="HQ_PlayerSpawner" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("23_rv72x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -245.878, 66.6394, 81.982)
+Team = 3
+AltTeam = 0
+ObjId = 53
+HQArea = NodePath("PolygonVolume")
+InfantrySpawns = [NodePath("SpawnPoint")]
+
+[node name="SpawnPoint" parent="HQ_PlayerSpawner" instance=ExtResource("5_362xu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.91362, -0.138763, 0)
+
+[node name="PolygonVolume" parent="HQ_PlayerSpawner" instance=ExtResource("3_ea0x6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.18554, 0)
+
+[node name="FixedCamera" parent="." instance=ExtResource("24_362xu")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -207.703, 96.021, 69.0153)
+ObjId = 901

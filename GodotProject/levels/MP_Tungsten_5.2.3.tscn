@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://raa4p0kymlo1"]
+[gd_scene load_steps=21 format=3 uid="uid://raa4p0kymlo1"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_1eta3"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_tua1e"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_E.tscn" id="14_10oxp"]
 [ext_resource type="PackedScene" path="res://objects/architecture/HouseRuralSmall_02.tscn" id="15_7o7t1"]
 [ext_resource type="PackedScene" path="res://objects/architecture/RuinHouseCollapsedWallDebris_01_B.tscn" id="16_jpdqx"]
+[ext_resource type="PackedScene" path="res://objects/nature/RockLarge_06_B.tscn" id="16_tua1e"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="17_hg12s"]
 [ext_resource type="PackedScene" path="res://objects/gameplay/common/AreaTrigger.tscn" id="18_1gnir"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_F.tscn" id="19_04dd1"]
@@ -290,7 +291,7 @@ height = 6.0
 [node name="Team1" type="Node3D" parent="CapturePointC"]
 
 [node name="SpawnPoint" parent="CapturePointC/Team1" instance=ExtResource("3_vmg8p")]
-transform = Transform3D(0.0827387, 0, 0.996571, 0, 1, 0, -0.996571, 0, 0.0827387, -25.9017, -0.102783, -22.5908)
+transform = Transform3D(0.0827387, 0, 0.996571, 0, 1, 0, -0.996571, 0, 0.0827387, -25.9017, 0.238052, -22.5908)
 
 [node name="SpawnPoint2" parent="CapturePointC/Team1" instance=ExtResource("3_vmg8p")]
 transform = Transform3D(-0.898081, 0, 0.43983, 0, 1, 0, -0.43983, 0, -0.898081, -33.8575, 0.0911179, -26.9535)
@@ -299,16 +300,19 @@ transform = Transform3D(-0.898081, 0, 0.43983, 0, 1, 0, -0.43983, 0, -0.898081, 
 transform = Transform3D(0.780768, 0, 0.62482, 0, 1, 0, -0.62482, 0, 0.780768, -28.378, -0.504333, 4.47778)
 
 [node name="SpawnPoint4" parent="CapturePointC/Team1" instance=ExtResource("3_vmg8p")]
-transform = Transform3D(-0.433439, 0, 0.901182, 0, 1, 0, -0.901182, 0, -0.433439, -47.1222, -0.227089, -6.91336)
+transform = Transform3D(-0.728239, 0, 0.685322, 0, 1, 0, -0.685322, 0, -0.728239, -46.747, -0.282532, -7.90811)
 
 [node name="SpawnPoint5" parent="CapturePointC/Team1" instance=ExtResource("3_vmg8p")]
-transform = Transform3D(0.975247, 0, -0.221122, 0, 1, 0, 0.221122, 0, 0.975247, -38.327, -0.369469, -23.5382)
+transform = Transform3D(0.975247, 0, -0.221122, 0, 1, 0, 0.221122, 0, 0.975247, -37.5063, -0.369469, -23.5382)
 
 [node name="HouseRuralSmall_02" parent="CapturePointC/Team1" instance=ExtResource("15_7o7t1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.3007, 0.192894, -18.5265)
 
 [node name="BarrierStoneBlock_01_E" parent="CapturePointC/Team1" instance=ExtResource("14_10oxp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.9264, 0.166405, -27.075)
+
+[node name="RockLarge_06_B" parent="CapturePointC/Team1" instance=ExtResource("16_tua1e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.9003, -0.631233, -7.51425)
 
 [node name="Team2" type="Node3D" parent="CapturePointC"]
 

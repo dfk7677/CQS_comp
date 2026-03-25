@@ -27,6 +27,7 @@ const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
 const playerStatus = Array(64).fill(false);
 const restrictedArea = Array(64).fill(false);
 const playerFirstDeploy = Array(64).fill(true);
+const isSpectator = Array(64).fill(false);
 const playerTimeRA = Array(64).fill(10);
 const scoreboard = Array.from({ length: 64 }, () => [0, 0, 0, 0, 0]);
 let scoresByMinute: number[][] = [];
@@ -1428,6 +1429,27 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
             playerStatus[id] = !playerStatus[id];
             CheckForAllReady();
         }
+        /*
+        else if (mod.GetObjId(eventInteractPoint) == 6001) {
+            isSpectator[id] = true
+            playerStatus[id] = true;
+            //mod.UndeployPlayer(eventPlayer);
+            //mod.SetTeam(eventPlayer, mod.GetTeam(3));
+            const players = mod.AllPlayers();
+            const n = mod.CountOf(players);
+            for (let i = 0; i < n; i++) {
+                const player = mod.ValueInArray(players, i);
+                if (mod.NotEqualTo(player, eventPlayer)) {
+                    //mod.SetCameraTypeForPlayer(eventPlayer,mod.Cameras.Fixed)
+                    (mod as any).SetCameraTargetForPlayer(eventPlayer, player);
+                    mod.UndeployPlayer(eventPlayer)
+                    mod.EnablePlayerDeploy(eventPlayer, false)
+                    break;
+                }
+            }
+            CheckForAllReady();
+        }
+            */
         mod.DeleteAllUIWidgets();
         addPrematchUI();
         

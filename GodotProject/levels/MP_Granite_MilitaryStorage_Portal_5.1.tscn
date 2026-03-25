@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dhqkr876hoei1"]
+[gd_scene load_steps=23 format=3 uid="uid://dhqkr876hoei1"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_6regb"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_h1nif"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://objects/props/ContainerStandardOpen_01_640_A.tscn" id="19_rrch2"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_A.tscn" id="20_wqa8p"]
 [ext_resource type="PackedScene" path="res://objects/props/Container_02_Closed.tscn" id="21_3en60"]
+[ext_resource type="PackedScene" path="res://objects/gameplay/common/FixedCamera.tscn" id="22_gu0rc"]
 
 [node name="MP_Granite_MilitaryStorage_Portal" type="Node3D"]
 
@@ -84,6 +85,10 @@ iconTextVisible = true
 iconColor = [0.0, 0.0, 1.0]
 iconImagePicker = 7
 iconTeamOwnerId = 1
+
+[node name="InteractPointSpectate2" parent="TEAM_1_HQ/InteractArea" instance=ExtResource("5_ese5t")]
+transform = Transform3D(1, 0, -5.12227e-09, 0, 1, 0, 5.12227e-09, 0, 1, -68.0787, 4.79028, 4.41016)
+ObjId = 6001
 
 [node name="AreaTrigger" parent="TEAM_1_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("12_i6y8r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.93731)
@@ -577,3 +582,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 453.057, 151.226, 221.834)
 
 [node name="BarrierStoneBlock_01_A3" parent="." instance=ExtResource("20_wqa8p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 476.329, 154.292, 279.213)
+
+[node name="FixedCamera" parent="." instance=ExtResource("22_gu0rc")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 477.832, 183.434, 225.925)
+ObjId = 901
