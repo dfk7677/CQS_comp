@@ -84,7 +84,7 @@ ObjId = 6001
 [node name="IFVSpawner" parent="CombatArea/Team1_HQ" instance=ExtResource("10_jmb81")]
 transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 0, 11.3046)
 ObjId = 701
-VehicleType = 16
+VehicleType = 17
 P_DefaultRespawnTime = 120
 
 [node name="InteractArea" parent="CombatArea/Team1_HQ" instance=ExtResource("11_hidwm")]

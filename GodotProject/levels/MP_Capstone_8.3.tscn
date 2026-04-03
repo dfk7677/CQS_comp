@@ -97,8 +97,9 @@ P_DefaultRespawnTime = 120
 [node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_hqba5")]
 transform = Transform3D(0.970279, 0, 0.24199, 0, 1, 0, -0.24199, 0, 0.970279, 9.62229, -2.504, -9.99993)
 ObjId = 703
-VehicleType = 12
+VehicleType = 13
 P_DefaultRespawnTime = 30
+P_KeepAliveAbandonRadius = 10
 
 [node name="AreaTrigger" parent="TEAM_1_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("9_ddopj")]
 ObjId = 7001
@@ -182,8 +183,9 @@ P_DefaultRespawnTime = 120
 [node name="TransportSpawner" parent="TEAM_2_HQ" instance=ExtResource("8_hqba5")]
 transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 26.73, 0.215424, 8.14642)
 ObjId = 704
-VehicleType = 8
+VehicleType = 9
 P_DefaultRespawnTime = 30
+P_KeepAliveAbandonRadius = 10
 
 [node name="CombatArea" parent="." node_paths=PackedStringArray("CombatVolume") instance=ExtResource("10_e0ucl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1458.32, 33.5003, 0)

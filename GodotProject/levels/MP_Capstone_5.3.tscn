@@ -167,9 +167,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1458.32, 33.5003, 0)
 CombatVolume = NodePath("CombatVolume")
 
 [node name="CombatVolume" parent="CombatArea" instance=ExtResource("4_c6utn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1405.39, 96.838, 256.698)
-points = PackedVector2Array(21.1597, -261.838, 2.74538, -214.458, -4.6456, -137.89, 31.3925, -113.657, 30.6993, -46.353, 126.81, 11.6208, 164.375, -26.3721, 196.797, -30.9427, 187.173, -123.912, 181.116, -161.608, 95.6033, -241.083, 61.6971, -257.916)
-height = 200.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1314.15, 96.838, 122.997)
+points = PackedVector2Array(-70.0839, -128.137, -88.4982, -80.7572, -95.8892, -4.18924, -59.8511, 20.0438, -60.5443, 87.3478, 35.5664, 145.322, 73.1314, 107.329, 105.553, 102.758, 95.9295, 9.78876, 89.8724, -27.9072, 4.35975, -107.382, -29.5465, -124.215)
 
 [node name="DeployCam" parent="." instance=ExtResource("12_ygels")]
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 128.645, 232.894, 125.419)
@@ -216,6 +215,12 @@ transform = Transform3D(-0.957259, 0, -0.289232, 0, 1, 0, 0.289232, 0, -0.957259
 
 [node name="SpawnPoint3" parent="CapturePointA/Spawns/Team2" instance=ExtResource("5_0hrof")]
 transform = Transform3D(-0.133294, 0, 0.991076, 0, 1, 0, -0.991076, 0, -0.133294, -40.6124, 6.26881, 45.3894)
+
+[node name="SpawnPoint4" parent="CapturePointA/Spawns/Team2" instance=ExtResource("5_0hrof")]
+transform = Transform3D(-0.133294, 0, 0.991076, 0, 1, 0, -0.991076, 0, -0.133294, -8.33032, 8.56744, 54.9429)
+
+[node name="SpawnPoint5" parent="CapturePointA/Spawns/Team2" instance=ExtResource("5_0hrof")]
+transform = Transform3D(-0.910142, 0, 0.414296, 0, 1, 0, -0.414296, 0, -0.910142, 43.2659, -4.39032, -22.4924)
 
 [node name="CapturePointB" parent="." node_paths=PackedStringArray("CaptureArea", "InfantrySpawnPoints_Team1", "InfantrySpawnPoints_Team2") instance=ExtResource("13_p3cr1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 178.226, 134.703, 90.068)

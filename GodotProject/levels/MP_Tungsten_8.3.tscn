@@ -91,14 +91,15 @@ iconTeamOwnerId = 1
 [node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("9_1l40b")]
 transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 5.03316, -0.713577, -17.3588)
 ObjId = 701
-VehicleType = 16
+VehicleType = 17
 P_DefaultRespawnTime = 120
 
 [node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("9_1l40b")]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -3.74802, -0.828583, -15.4552)
 ObjId = 703
-VehicleType = 12
+VehicleType = 13
 P_DefaultRespawnTime = 30
+P_KeepAliveAbandonRadius = 10
 
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_fe8hg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 432.977, 86.7819, -488.998)
@@ -176,8 +177,9 @@ transform = Transform3D(0.896826, 0, 0.442383, 0, 1, 0, -0.442383, 0, 0.896826, 
 [node name="TransportSpawner2" parent="TEAM_2_HQ" instance=ExtResource("9_1l40b")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 13.5946, 1.9389, -3.59836)
 ObjId = 704
-VehicleType = 8
+VehicleType = 9
 P_DefaultRespawnTime = 30
+P_KeepAliveAbandonRadius = 10
 
 [node name="CombatArea" parent="." node_paths=PackedStringArray("CombatVolume") instance=ExtResource("10_w6rsu")]
 CombatVolume = NodePath("CombatVolume")

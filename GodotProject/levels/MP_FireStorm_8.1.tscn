@@ -216,8 +216,9 @@ P_DefaultRespawnTime = 120
 [node name="TransportSpawner" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("7_ca24h")]
 transform = Transform3D(0.292806, 0, 0.956172, 0, 1, 0, -0.956172, 0, 0.292806, -6.53046, 1.60898, 23.8356)
 ObjId = 703
-VehicleType = 12
+VehicleType = 13
 P_DefaultRespawnTime = 30
+P_KeepAliveAbandonRadius = 10
 
 [node name="InteractArea" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("8_qxpl1")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.32623, 1.28966, 3.05049)
@@ -344,8 +345,9 @@ P_AbandonVehiclesOutOfCombatArea = false
 [node name="TransportSpawner2" parent="CombatArea/TEAM_2_HQ" instance=ExtResource("7_ca24h")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7.06049, 0, 6.92157)
 ObjId = 704
-VehicleType = 8
+VehicleType = 9
 P_DefaultRespawnTime = 30
+P_KeepAliveAbandonRadius = 10
 
 [node name="BarrierConstruction_01_256_120_B" parent="CombatArea/TEAM_2_HQ" instance=ExtResource("13_2drmc")]
 transform = Transform3D(-0.0925618, 0, 0.995707, 0, 1, 0, -0.995707, 0, -0.0925618, 5.74241, -0.466347, 0.315704)
@@ -418,7 +420,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.4304, 135.31, -142.304)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -121.141, 135.27, -131.732)
 
 [node name="BarrierStoneBlock_01_A2" parent="AddedAssets" instance=ExtResource("5_wuhtb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -162.787, 135.294, -58.9243)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -162.787, 129.853, -58.9243)
 
 [node name="BarrierStoneBlock_01_A3" parent="AddedAssets" instance=ExtResource("5_wuhtb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.093, 135.294, -58.1209)

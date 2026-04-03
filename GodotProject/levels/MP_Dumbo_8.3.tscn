@@ -92,13 +92,13 @@ points = PackedVector2Array(130.913, 153.552, 132.145, -30.4637, -47.7627, -31.2
 [node name="IFVSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_50jmv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4306, 0.232624, -8.03867)
 ObjId = 701
-VehicleType = 16
+VehicleType = 17
 P_DefaultRespawnTime = 120
 
 [node name="TransportSpawner" parent="TEAM_1_HQ" instance=ExtResource("8_50jmv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60651, 0.3508, -7.71457)
 ObjId = 703
-VehicleType = 12
+VehicleType = 13
 P_DefaultRespawnTime = 30
 P_KeepAliveAbandonRadius = 10
 
@@ -226,7 +226,7 @@ transform = Transform3D(0.0293873, 0, 0.999568, 0, 1, 0, -0.999568, 0, 0.0293873
 [node name="TransportSpawner2" parent="CapturePointB" instance=ExtResource("8_50jmv")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 63.3148, -0.256546, -5.52664)
 ObjId = 761
-VehicleType = 11
+VehicleType = 12
 P_DefaultRespawnTime = 30
 P_KeepAliveAbandonRadius = 10
 
