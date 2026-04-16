@@ -246,16 +246,6 @@ transform = Transform3D(-0.535237, 0, -0.844702, 0, 1, 0, 0.844702, 0, -0.535237
 SectorArea = NodePath("../CombatArea/CombatVolume2")
 CapturePoints = [NodePath("../CapturePointA"), NodePath("../CapturePointB"), NodePath("../CapturePointC")]
 
-[node name="Sector - Detects Team1 HQ Area" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("20_q24fl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.32, 67.3944, 103.71)
-ObjId = 3001
-SectorArea = NodePath("../TEAM_1_HQ2/HQ_Team1")
-
-[node name="Sector - Detects Team2 HQ Area" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("20_q24fl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.318, 67.3944, 103.71)
-ObjId = 3002
-SectorArea = NodePath("../TEAM_2_HQ2/HQ_Team2")
-
 [node name="BarrierStoneBlock_01_E" parent="." instance=ExtResource("21_4xw1o")]
 transform = Transform3D(0.126147, 0, 0.992012, 0, 1, 0, -0.992012, 0, 0.126147, 101.046, 121.265, 2.04753)
 

@@ -186,7 +186,7 @@ transform = Transform3D(-0.884483, 0, -0.466572, 0, 1, 0, 0.466572, 0, -0.884483
 [node name="TEAM_1_HQ" parent="CombatArea" node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("7_hdjpr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -161.639, 36.9942, -62.8784)
 AltTeam = 0
-ObjId = 1
+ObjId = 101
 HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), null]
 
@@ -248,7 +248,7 @@ transform = Transform3D(-0.594767, 0, 0.803899, 0, 1, 0, -0.803899, 0, -0.594767
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.0637, 28.392, -100.153)
 Team = 2
 AltTeam = 0
-ObjId = 2
+ObjId = 102
 HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), null, NodePath("SpawnPoint_2_4")]
 

@@ -2,7 +2,7 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (5v5)
 import * as modlib from 'modlib';
 
-const VERSION = [2, 0, 8, 0];
+const VERSION = [2, 0, 9, 0];
 
 
 // Sets core constants
@@ -28,6 +28,7 @@ const playerStatus = Array(64).fill(false);
 const restrictedArea = Array(64).fill(false);
 const playerFirstDeploy = Array(64).fill(true);
 const isSpectator = Array(64).fill(false);
+const isDeployed = Array(64).fill(false);
 const playerTimeRA = Array(64).fill(10);
 const scoreboard = Array.from({ length: 64 }, () => [0, 0, 0, 0, 0]);
 let scoresByMinute: number[][] = [];
@@ -245,6 +246,7 @@ function SetRedeployTimeForAll(time: number) {
     for (let i = 0; i < n; i++) {
         const player = mod.ValueInArray(players, i);
         mod.SetRedeployTime(player, time);
+        
     }
 }
 
@@ -879,6 +881,8 @@ function getRemainingTime(): mod.Message {
     return mod.Message("{}:{}{}", minutes, seconds10, seconds);
 }
 
+
+
 async function initializeGamePhase() {
     const players = mod.AllPlayers();
     if (gamePhase == 0) {
@@ -945,10 +949,13 @@ async function initializeGamePhase() {
         mod.DeleteAllUIWidgets();
         mod.UndeployAllPlayers();
         
-
+        //mod.SetCapturePointOwner(mod.GetCapturePoint(201), teamNeutral)
+        //mod.SetCapturePointOwner(mod.GetCapturePoint(202), teamNeutral)
+        //mod.SetCapturePointOwner(mod.GetCapturePoint(203), teamNeutral)
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(203), true);
+        
         mod.SetCapturePointCapturingTime(mod.GetCapturePoint(201), CAPTURE_TIME);
         mod.SetCapturePointCapturingTime(mod.GetCapturePoint(202), CAPTURE_TIME);
         mod.SetCapturePointCapturingTime(mod.GetCapturePoint(203), CAPTURE_TIME);
@@ -964,9 +971,15 @@ async function initializeGamePhase() {
         const n = mod.CountOf(players);
         for (let i = 0; i < n; i++) {
             const player = mod.ValueInArray(players, i);
-            if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
+            mod.SetRedeployTime(player, REDEPLOY_TIME);
+            
+            const id = mod.GetObjId(player)
+            if (isDeployed[id]) {
                 mod.EnableAllInputRestrictions(player, false);
                 mod.EnableInputRestriction(player, mod.RestrictedInputs.FireWeapon, false);
+                console.log(`Player ${id} is alive`)
+                playerFirstDeploy[id] = false
+                
                 if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAISoldier)) {
                     mod.AIBattlefieldBehavior(player);
                 }
@@ -975,7 +988,7 @@ async function initializeGamePhase() {
 
         }
         addLiveUI();
-        SetRedeployTimeForAll(10);
+        //SetRedeployTimeForAll(10);
 
         // Sounds
         sounds.push(mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTick_IsFriendly_SimpleLoop2D, 
@@ -1013,7 +1026,8 @@ async function initializeGamePhase() {
         const n = mod.CountOf(players);
         for (let i = 0; i < n; i++) {
             const player = mod.ValueInArray(players, i);
-            if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
+            const id = mod.GetObjId(player)
+            if (isDeployed[id]) {
                 mod.EnableAllInputRestrictions(player, true);
                 mod.EnableInputRestriction(player, mod.RestrictedInputs.FireWeapon, true);
                 /*
@@ -1157,6 +1171,7 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
             let teamPlayers = [0, 0];
             for (let i = 0; i < n; i++) {
                 const player = mod.ValueInArray(playersOnPoint, i);
+                const playerId = mod.GetObjId(player)
                 const uiWidget = mod.FindUIWidgetWithName("Progress" + mod.GetObjId(player));
                 if (uiWidget)
                 {
@@ -1164,7 +1179,9 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
                     mod.SetUIWidgetSize(uiWidget, mod.CreateVector(width, 60, 0));                        
                     mod.SetUIWidgetBgColor(uiWidget, mod.Equals(mod.GetTeam(player), currentCapturer) ? COLOR_FRIENDLY : COLOR_ENEMY);
                 }
+                
                 if (mod.GetSoldierState(player, mod.SoldierStateBool.IsAlive)) {
+                    
                     if (mod.Equals(mod.GetTeam(player), mod.GetTeam(1))) {
                         teamPlayers[0] += 1;
                     }
@@ -1508,17 +1525,22 @@ export async function OnPlayerJoinGame(eventPlayer: mod.Player): Promise<void> {
             const id = mod.GetObjId(eventPlayer);
             playerStatus[id] = true;
         }
+        
         addPrematchUI();
+        mod.SetRedeployTime(eventPlayer, 0)
         return;        
     }
     if (gamePhase == 1) {
         
         addCountdownUI();
+        
+        mod.SetRedeployTime(eventPlayer, 0)
         return;
     }
     if (gamePhase == 2) {
         
         addLiveUI();
+        mod.SetRedeployTime(eventPlayer, REDEPLOY_TIME)
         return;
     }
     
@@ -1552,9 +1574,10 @@ export function OnRevived(eventPlayer: mod.Player, eventOtherPlayer: mod.Player)
 }
 
 export function OnPlayerUndeploy(eventPlayer: mod.Player) {
-    
+    const id = mod.GetObjId(eventPlayer);
+    isDeployed[id] = false
     if (gamePhase == 2) {
-        const id = mod.GetObjId(eventPlayer);
+        
         scoreboard[id][2] += 1;
         
         
@@ -1565,13 +1588,15 @@ export function OnPlayerUndeploy(eventPlayer: mod.Player) {
 
 export function OnPlayerDeployed(eventPlayer: mod.Player): void {
     const id = mod.GetObjId(eventPlayer);
+    isDeployed[id] = true
     if (gamePhase == 0) {
-        mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true);  
+        mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true);
+        //ReadyUpRestrictions(eventPlayer)
     }
     
     else if (gamePhase == 1) {        
-        mod.SetRedeployTime(eventPlayer, REDEPLOY_TIME);
-        playerFirstDeploy[id] = false;
+        //mod.SetRedeployTime(eventPlayer, REDEPLOY_TIME);
+        //playerFirstDeploy[id] = false;
         mod.EnableAllInputRestrictions(eventPlayer, true);
     }
 
@@ -1580,7 +1605,7 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
         
         
         if (!playerFirstDeploy[id]) {
-            if (modlib.Equals(team, team1)) 
+            if (modlib.Equals(team, team1) && !isSpectator[id]) 
             {
                     serverScores[0] += DEATH_TICKET_LOSS; 
             }
@@ -1590,11 +1615,12 @@ export function OnPlayerDeployed(eventPlayer: mod.Player): void {
             return;
         } 
         else {
+            playerFirstDeploy[id] = false;
             mod.EnableAllInputRestrictions(eventPlayer, false);
             mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false);
         }
         
-        playerFirstDeploy[id] = false;
+        
     }
 }
 

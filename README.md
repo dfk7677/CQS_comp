@@ -35,6 +35,7 @@ All this of course, is work in progress, there may be bugs and not a final propo
 | --- | --- | --- | --- |
 | Siege of Cairo | MP_Abbasid | zmu38 | zjuyw |
 | Iberian Offensive | MP_Battery | zmu3d | zju42 |
+| Iberian Offensive V2 | MP_Battery | - | zvyc5 |
 | Liberation Peak | MP_Capstone | zmu3k | zkzab |
 | Manhattan Bridge | MP_Dumbo | zmu4y | zq7y4 |
 | Manhattan Bridge Assault | MP_Dumbo | - | zs5c1 |

@@ -25,7 +25,7 @@
 [node name="TEAM_1_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_no2ds")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -113.08, 54.0586, -352.856)
 AltTeam = 0
-ObjId = 1
+ObjId = 101
 HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), NodePath("SpawnPoint_1_4")]
 
@@ -90,7 +90,7 @@ points = PackedVector2Array(28.0161, -125.863, -40.939, -125.772, -41.1057, 46.6
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 79.1793, 61.6228, -171.474)
 Team = 2
 AltTeam = 0
-ObjId = 2
+ObjId = 102
 HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), null]
 
