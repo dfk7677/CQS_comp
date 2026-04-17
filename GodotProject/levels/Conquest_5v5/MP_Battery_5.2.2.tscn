@@ -101,7 +101,7 @@ Team = 2
 AltTeam = 0
 ObjId = 102
 HQArea = NodePath("PolygonVolume2")
-InfantrySpawns = [NodePath("Spawns/SpawnPoint3")]
+InfantrySpawns = [NodePath("Spawns/SpawnPoint3"), NodePath("Spawns/SpawnPoint2"), NodePath("Spawns/SpawnPoint3")]
 
 [node name="PolygonVolume2" parent="TEAM_2_HQ" instance=ExtResource("6_32w0w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.0252, 22.5807, 45.522)
@@ -493,7 +493,10 @@ transform = Transform3D(0.983464, 0, 0.181102, 0, 1, 0, -0.181102, 0, 0.983464, 
 transform = Transform3D(0.731199, 0, 0.682164, 0, 1, 0, -0.682164, 0, 0.731199, 868.152, 85.6896, 144.882)
 
 [node name="BarrierStoneBlock_01_H92" parent="AddedAssets" instance=ExtResource("22_a1cjy")]
-transform = Transform3D(0.793024, 0, 0.609191, 0, 1, 0, -0.609191, 0, 0.793024, 890.263, 90.3859, 185.379)
+transform = Transform3D(0.793024, 0, 0.609191, 0, 1, 0, -0.609191, 0, 0.793024, 890.263, 91.0463, 185.379)
+
+[node name="BarrierStoneBlock_01_H127" parent="AddedAssets" instance=ExtResource("22_a1cjy")]
+transform = Transform3D(0.793024, 0, 0.609191, 0, 1, 0, -0.609191, 0, 0.793024, 890.263, 88.1988, 185.379)
 
 [node name="BarrierStoneBlock_01_H93" parent="AddedAssets" instance=ExtResource("22_a1cjy")]
 transform = Transform3D(0.793024, 0, 0.609191, 0, 1, 0, -0.609191, 0, 0.793024, 893.359, 90.2681, 189.038)
@@ -779,20 +782,23 @@ transform = Transform3D(0.72428, 0, -0.689506, 0, 1, 0, 0.689506, 0, 0.72428, 82
 
 [node name="RestrictedAreas" type="Node3D" parent="."]
 
-[node name="AreaTrigger14" parent="RestrictedAreas" node_paths=PackedStringArray("Area") instance=ExtResource("16_ef6lc")]
+[node name="AreaTrigger" parent="RestrictedAreas" node_paths=PackedStringArray("Area") instance=ExtResource("16_ef6lc")]
 ObjId = 20001
-Area = NodePath("../PolygonVolume12")
+Area = NodePath("../PolygonVolume")
 
-[node name="PolygonVolume12" parent="RestrictedAreas" instance=ExtResource("6_32w0w")]
+[node name="PolygonVolume" parent="RestrictedAreas" instance=ExtResource("6_32w0w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 778.942, 85.6794, 157.134)
 points = PackedVector2Array(17.2097, -11.6728, -20.474, -1.67345, -17.3337, 11.301, 20.598, 2.04533)
 height = 8.0
 
-[node name="Sector - Detects Team1 HQ Area" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("1_mvi22")]
-SectorArea = NodePath("../TEAM_1_HQ/PolygonVolume")
+[node name="AreaTrigger2" parent="RestrictedAreas" node_paths=PackedStringArray("Area") instance=ExtResource("16_ef6lc")]
+ObjId = 20001
+Area = NodePath("../PolygonVolume")
 
-[node name="Sector - Detects Team2 HQ Area" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("1_mvi22")]
-SectorArea = NodePath("../TEAM_2_HQ/PolygonVolume2")
+[node name="PolygonVolume2" parent="RestrictedAreas" instance=ExtResource("6_32w0w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 896.634, 81.3554, 185.103)
+points = PackedVector2Array(3.98136, -22.9626, -12.2846, -18.9551, -14.8777, -14.3975, -14.0919, -9.99704, -6.94118, -2.1391, 2.2526, 11.2194, 7.6746, 23.9492, 16.7898, 18.3701, 17.497, 14.9126)
+height = 20.0
 
 [node name="Static" type="Node3D" parent="."]
 

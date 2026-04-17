@@ -1688,6 +1688,7 @@ export function OnCapturePointCaptured(eventCapturePoint: mod.CapturePoint): voi
 }
 
 export function OnPlayerLeaveGame(eventNumber: number): void {
+    isDeployed[eventNumber] = false
     if (gamePhase == 0) {
         mod.DeleteAllUIWidgets();
         addPrematchUI();
