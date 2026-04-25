@@ -111,7 +111,7 @@ Team = 2
 AltTeam = 0
 ObjId = 2
 HQArea = NodePath("HQ_Team2")
-InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), NodePath("SpawnPoint_2_4")]
+InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_5"), NodePath("SpawnPoint_2_2"), NodePath("SpawnPoint_2_3"), NodePath("SpawnPoint_2_4")]
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_3sfma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.402, 0, -1.493)

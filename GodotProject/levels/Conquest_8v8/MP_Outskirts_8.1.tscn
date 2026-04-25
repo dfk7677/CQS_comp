@@ -108,7 +108,7 @@ transform = Transform3D(0.87795, 0, -0.478754, 0, 1, 0, 0.478754, 0, 0.87795, -6
 transform = Transform3D(-0.997604, 0, 0.0691822, 0, 1, 0, -0.0691822, 0, -0.997604, -16.9767, 0, 10.4628)
 
 [node name="SpawnPoint_2_3" parent="TEAM_2_HQ" instance=ExtResource("3_atyo5")]
-transform = Transform3D(-0.474319, 0, -0.880353, 0, 1, 0, 0.880353, 0, -0.474319, 5.92232, -0.156662, -3.67893)
+transform = Transform3D(-0.0976006, 0, -0.995226, 0, 1, 0, 0.995226, 0, -0.0976006, 6.17514, 0.072998, -3.39222)
 
 [node name="ΜΒΤSpawner2" parent="TEAM_2_HQ" instance=ExtResource("4_orei1")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.51764, 0.710632, -2.11028)
@@ -298,16 +298,16 @@ height = 8.0
 [node name="Team1" type="Node3D" parent="CapturePointC"]
 
 [node name="SpawnPoint" parent="CapturePointC/Team1" instance=ExtResource("3_atyo5")]
-transform = Transform3D(0.158761, 0, 0.987317, 0, 1, 0, -0.987317, 0, 0.158761, -37.8196, 0.210884, -45.0704)
+transform = Transform3D(0.768685, 0, 0.639627, 0, 1, 0, -0.639627, 0, 0.768685, -29.2836, 0.801926, -52.4583)
 
 [node name="SpawnPoint2" parent="CapturePointC/Team1" instance=ExtResource("3_atyo5")]
-transform = Transform3D(0.645192, 0, 0.764021, 0, 1, 0, -0.764021, 0, 0.645192, -25.9071, -0.801643, -58.7839)
+transform = Transform3D(0.645192, 0, 0.764021, 0, 1, 0, -0.764021, 0, 0.645192, 1.38927, -1.51823, -58.7839)
 
 [node name="SpawnPoint3" parent="CapturePointC/Team1" instance=ExtResource("3_atyo5")]
-transform = Transform3D(0.957087, 0, -0.2898, 0, 1, 0, 0.2898, 0, 0.957087, -41.2073, 0.310654, -41.6959)
+transform = Transform3D(0.957087, 0, -0.2898, 0, 1, 0, 0.2898, 0, 0.957087, -41.8792, 0.20015, -41.6959)
 
 [node name="SpawnPoint4" parent="CapturePointC/Team1" instance=ExtResource("3_atyo5")]
-transform = Transform3D(0.999409, 0, -0.0343761, 0, 1, 0, 0.0343761, 0, 0.999409, -62.1552, 2.11054, -22.8651)
+transform = Transform3D(0.481035, 0, 0.876702, 0, 1, 0, -0.876702, 0, 0.481035, 17.2054, -1.5182, -57.6101)
 
 [node name="SpawnPoint5" parent="CapturePointC/Team1" instance=ExtResource("3_atyo5")]
 transform = Transform3D(-0.950402, 0, 0.311025, 0, 1, 0, -0.311025, 0, -0.950402, -43.2381, -0.0426941, -0.15007)
