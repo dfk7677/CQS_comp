@@ -21,7 +21,7 @@
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_A.tscn" id="20_rvutr"]
 [ext_resource type="PackedScene" path="res://objects/props/ContainerStandard_01_640.tscn" id="21_mnci5"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_E.tscn" id="22_04jrg"]
-[ext_resource type="PackedScene" path="res://objects/gameplay/common/StationaryEmplacementSpawner.tscn" id="22_rvutr"]
+[ext_resource type="PackedScene" path="res://objects/entities/StationaryEmplacementSpawner.tscn" id="22_rvutr"]
 
 [node name="MP_Dumbo" type="Node3D"]
 

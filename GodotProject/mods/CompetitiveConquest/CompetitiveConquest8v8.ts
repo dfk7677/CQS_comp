@@ -2,7 +2,7 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (8v8)
 import * as modlib from 'modlib';
 
-const VERSION = [2, 0, 10, 0];
+const VERSION = [2, 0, 11, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 350;
@@ -301,12 +301,12 @@ function addRestrictedAreaUI (eventPlayer: mod.Player){
         1,
         mod.UIAnchor.CenterRight
     )
-    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true)
+    //mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true)
 }
 
 function removeRestrictedAreaUI (eventPlayer: mod.Player) {
     mod.DeleteUIWidget(mod.FindUIWidgetWithName("RestrictedAreaContainer" + mod.GetObjId(eventPlayer)));
-    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false)
+    //mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false)
 }
 
 function addPrematchUI() {    
@@ -945,22 +945,19 @@ async function initializeGamePhase() {
         mod.EnableInteractPoint(mod.GetInteractPoint(2004), false);
         mod.DeleteAllUIWidgets();
         mod.UndeployAllPlayers();
-        const vehicleSpawner1 = mod.GetVehicleSpawner(701);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner1, true);
-        const vehicleSpawner2 = mod.GetVehicleSpawner(702);
-        mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner2, true);
-        const vehicleSpawner3 = mod.GetVehicleSpawner(703);
-        const vehicleSpawner4 = mod.GetVehicleSpawner(704);
-        if (vehicleSpawner3) {
-            mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner3, true);
-            mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner4, true);
+        for (let i = 701; i < 711; i++) {
+            const vehicleSpawner = mod.GetVehicleSpawner(i);
+            if (vehicleSpawner) {
+                mod.SetVehicleSpawnerAutoSpawn(vehicleSpawner, true);
+            }
         }
-        const emplacementSpawner1 = mod.GetEmplacementSpawner(801);    
-        const emplacementSpawner2 = mod.GetEmplacementSpawner(802);
-        if (emplacementSpawner1 && emplacementSpawner2) {
-            mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner1, true);
-            mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner2, true);
+        for (let i = 801; i < 811; i++) {
+            const emplacementSpawner = mod.GetEmplacementSpawner(i);
+            if (emplacementSpawner) {
+                mod.SetEmplacementSpawnerAutoSpawn(emplacementSpawner, true);
+            }
         }
+        
 
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), true);
@@ -1634,6 +1631,7 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
             restrictedArea[playerId] = true;
             addRestrictedAreaUI(eventPlayer);
         }
+        /*
         const team = mod.GetTeam(eventPlayer);
         
         if (mod.Equals(team, team2) && (mod.GetObjId(eventAreaTrigger) == 7001)) {
@@ -1648,7 +1646,7 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
             addRestrictedAreaUI(eventPlayer);
             
         }
-        
+        */
     }
 }
 
