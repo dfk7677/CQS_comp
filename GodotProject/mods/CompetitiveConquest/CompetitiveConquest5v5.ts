@@ -2,7 +2,7 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (5v5)
 import * as modlib from 'modlib';
 
-const VERSION = [2, 0, 10, 0];
+const VERSION = [2, 0, 12, 0];
 
 
 // Sets core constants
@@ -302,12 +302,18 @@ function addRestrictedAreaUI (eventPlayer: mod.Player){
         1,
         mod.UIAnchor.CenterRight
     )
-    //mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true)
+    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, true)
 }
 
-function removeRestrictedAreaUI (eventPlayer: mod.Player) {
+async function removeRestrictedAreaUI (eventPlayer: mod.Player) {
     mod.DeleteUIWidget(mod.FindUIWidgetWithName("RestrictedAreaContainer" + mod.GetObjId(eventPlayer)));
-    //mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false)
+    mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false)
+    await mod.Wait(2)
+    const id = mod.GetObjId(eventPlayer)
+    if (!restrictedArea[id]) {
+        mod.EnableInputRestriction(eventPlayer, mod.RestrictedInputs.FireWeapon, false)
+    }
+    
 }
 
 function addPrematchUI() {    
@@ -907,6 +913,7 @@ async function initializeGamePhase() {
         mod.SetWorldIconColor(wIcon6, mod.CreateVector(1, 0, 0));
         
         mod.SetScoreboardType(mod.ScoreboardType.CustomTwoTeams);
+        mod.SetScoreboardHeader(mod.Message(mod.stringkeys.PreMatchTeam1Label), mod.Message(mod.stringkeys.PreMatchTeam2Label))
         mod.SetScoreboardColumnNames(mod.Message(mod.stringkeys.ScoreboardScore), mod.Message(mod.stringkeys.ScoreboardKills), 
             mod.Message(mod.stringkeys.ScoreboardDeaths), mod.Message(mod.stringkeys.ScoreboardAssists), mod.Message(mod.stringkeys.ScoreboardRevives));
         mod.SetGameModeTimeLimit(60000);
@@ -1627,20 +1634,7 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
             restrictedArea[playerId] = true;
             addRestrictedAreaUI(eventPlayer);
         }
-        const team = mod.GetTeam(eventPlayer);
         
-        if (mod.Equals(team, team2) && (mod.GetObjId(eventAreaTrigger) == 7001)) {
-            console.log("Entered enemy HQ")
-            restrictedArea[playerId] = true;
-            addRestrictedAreaUI(eventPlayer);
-            
-        } 
-        else if (mod.Equals(team, team1) && (mod.GetObjId(eventAreaTrigger) == 7002)) {
-            console.log("Entered enemy HQ")
-            restrictedArea[playerId] = true;
-            addRestrictedAreaUI(eventPlayer);
-            
-        }
         
     }
 }
@@ -1649,8 +1643,7 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
     if (gamePhase == 2) {
         const playerId = mod.GetObjId(eventPlayer);
         const areaId = mod.GetObjId(eventAreaTrigger);
-        const team = mod.GetTeam(eventPlayer);
-        if (areaId > 20000 || (mod.Equals(team, team2) && (areaId == 7001)) || (mod.Equals(team, team1) && (areaId == 7002))) {
+        if (areaId > 20000 ) {
             restrictedArea[playerId] = false;
             removeRestrictedAreaUI(eventPlayer);
             playerTimeRA[playerId] = 10;

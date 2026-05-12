@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://da0fl7xyjv064"]
+[gd_scene load_steps=26 format=3 uid="uid://da0fl7xyjv064"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="1_7if0b"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_q7ive"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="9_t2rkv"]
 [ext_resource type="Script" uid="uid://3hvpbglts2bi" path="res://scripts/gameplay/common/WorldIcon.gd" id="10_50jnf"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="11_m75nl"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/StationaryEmplacementSpawner.tscn" id="12_1jvpk"]
+[ext_resource type="PackedScene" path="res://objects/entities/StationaryEmplacementSpawner.tscn" id="12_1jvpk"]
 [ext_resource type="PackedScene" path="res://objects/nature/RockLarge_06_B.tscn" id="13_q7ive"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierConstruction_01_256_120_B.tscn" id="13_tpe4b"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_G.tscn" id="14_373j8"]
@@ -24,7 +24,6 @@
 [ext_resource type="PackedScene" path="res://objects/props/CinderblockWall_01_256x120x192.tscn" id="21_2uxcc"]
 [ext_resource type="PackedScene" path="res://objects/props/CinderblockWall_01_A_256x120x64.tscn" id="22_kgaqu"]
 [ext_resource type="PackedScene" path="res://objects/props/Container_02_Open_C.tscn" id="23_hgmx2"]
-[ext_resource type="PackedScene" path="res://objects/gameplay/common/AreaTrigger.tscn" id="24_76wdy"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_F.tscn" id="25_mtamc"]
 
 [node name="MP_FireStorm" type="Node3D"]
@@ -480,14 +479,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180.966, 126.991, 63.4575)
 
 [node name="Container_02_Open_C" parent="." instance=ExtResource("23_hgmx2")]
 transform = Transform3D(0.0392147, 0.0967144, 0.994539, -0.00381049, 0.995312, -0.0966393, -0.999224, 0, 0.0393994, -61.9994, 121.929, 9.14885)
-
-[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("24_76wdy")]
-ObjId = 7001
-Area = NodePath("../CombatArea/TEAM_1_HQ/HQ_Team1")
-
-[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("24_76wdy")]
-ObjId = 7002
-Area = NodePath("../CombatArea/TEAM_2_HQ/HQ_Team2")
 
 [node name="BarrierConstruction_01_256_120_B" parent="." instance=ExtResource("13_tpe4b")]
 transform = Transform3D(0.000122146, 0, 1, 0, 1, 0, -1, 0, 0.000122146, -311.015, 133.916, 1.89181)

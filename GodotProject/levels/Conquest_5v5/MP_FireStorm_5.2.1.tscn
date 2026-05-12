@@ -191,7 +191,7 @@ HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), null]
 
 [node name="InteractArea" parent="CombatArea/TEAM_1_HQ" instance=ExtResource("8_le6sp")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.32623, 1.28966, 3.05049)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.32623, 0.984573, 3.05049)
 
 [node name="InteractPointChangeTeam" parent="CombatArea/TEAM_1_HQ/InteractArea" instance=ExtResource("9_bcs4n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
@@ -253,10 +253,10 @@ HQArea = NodePath("HQ_Team2")
 InfantrySpawns = [NodePath("SpawnPoint_2_1"), NodePath("SpawnPoint_2_2"), null, NodePath("SpawnPoint_2_4")]
 
 [node name="InteractArea" parent="CombatArea/TEAM_2_HQ" instance=ExtResource("8_le6sp")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15.3539, 1.061, -0.0194092)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15.3539, 0.807419, -0.0194092)
 
 [node name="InteractPointChangeTeam" parent="CombatArea/TEAM_2_HQ/InteractArea" instance=ExtResource("9_bcs4n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.55855, -3.8147e-06)
 ObjId = 2003
 
 [node name="WorldIcon" type="Node3D" parent="CombatArea/TEAM_2_HQ/InteractArea/InteractPointChangeTeam"]
@@ -269,7 +269,7 @@ iconImageVisible = true
 iconTeamOwnerId = 2
 
 [node name="InteractPointReady" parent="CombatArea/TEAM_2_HQ/InteractArea" instance=ExtResource("9_bcs4n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.733009, 0)
 ObjId = 2004
 
 [node name="WorldIcon" type="Node3D" parent="CombatArea/TEAM_2_HQ/InteractArea/InteractPointReady"]

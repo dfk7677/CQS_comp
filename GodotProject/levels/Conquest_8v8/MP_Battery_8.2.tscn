@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0b7mm4t8lobl"]
+[gd_scene load_steps=18 format=3 uid="uid://c0b7mm4t8lobl"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="1_kqgyk"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_6vcf8"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" path="res://objects/entities/SpawnPoint.tscn" id="7_w5pcx"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/InteractPoint.tscn" id="8_0hqyr"]
 [ext_resource type="PackedScene" path="res://objects/gameplay/common/VehicleSpawner.tscn" id="9_36ay1"]
-[ext_resource type="PackedScene" path="res://objects/gameplay/common/AreaTrigger.tscn" id="9_n7o5l"]
 [ext_resource type="PackedScene" path="res://objects/props/FlagPole_01_USA.tscn" id="10_rh3hu"]
 [ext_resource type="Script" uid="uid://3hvpbglts2bi" path="res://scripts/gameplay/common/WorldIcon.gd" id="11_qq67c"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="12_opf6g"]
@@ -27,11 +26,6 @@ AltTeam = 0
 ObjId = 101
 HQArea = NodePath("PolygonVolume")
 InfantrySpawns = [NodePath("SpawnPoint"), NodePath("SpawnPoint2"), NodePath("SpawnPoint3"), NodePath("SpawnPoint4")]
-
-[node name="AreaTrigger" parent="TEAM_1_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("9_n7o5l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10791, 0, 11.6766)
-ObjId = 7001
-Area = NodePath("../PolygonVolume")
 
 [node name="PolygonVolume" parent="TEAM_1_HQ" instance=ExtResource("2_6vcf8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.8895, 103.591, 35.0902)
@@ -112,11 +106,6 @@ AltTeam = 0
 ObjId = 102
 HQArea = NodePath("PolygonVolume")
 InfantrySpawns = [NodePath("SpawnPoint"), NodePath("SpawnPoint2"), NodePath("SpawnPoint3"), NodePath("SpawnPoint4")]
-
-[node name="AreaTrigger2" parent="TEAM_2_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("9_n7o5l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4996, 100, 45.0577)
-ObjId = 7002
-Area = NodePath("../PolygonVolume")
 
 [node name="PolygonVolume" parent="TEAM_2_HQ" instance=ExtResource("2_6vcf8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4996, 100, 45.0577)

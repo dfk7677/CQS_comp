@@ -2,7 +2,7 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (8v8)
 import * as modlib from 'modlib';
 
-const VERSION = [2, 0, 11, 0];
+const VERSION = [2, 0, 12, 0];
 
 // Sets core constants
 const INITIAL_TICKETS = 350;
@@ -721,7 +721,7 @@ function addEndScreenUI(){
     if (serverScores[1] < 0) {
         serverScores[1] = 0;
     }
-    if (liveTickCount < 1200 * TICK_RATE) {
+    if (liveTickCount < ROUND_TIME * TICK_RATE) {
         scoresByMinute.push([serverScores[0], serverScores[1]]);
     }
 
@@ -906,6 +906,7 @@ async function initializeGamePhase() {
         mod.SetWorldIconColor(wIcon6, mod.CreateVector(1, 0, 0));
         
         mod.SetScoreboardType(mod.ScoreboardType.CustomTwoTeams);
+        mod.SetScoreboardHeader(mod.Message(mod.stringkeys.PreMatchTeam1Label), mod.Message(mod.stringkeys.PreMatchTeam2Label))
         mod.SetScoreboardColumnNames(mod.Message(mod.stringkeys.ScoreboardScore), mod.Message(mod.stringkeys.ScoreboardKills), 
             mod.Message(mod.stringkeys.ScoreboardDeaths), mod.Message(mod.stringkeys.ScoreboardAssists), mod.Message(mod.stringkeys.ScoreboardRevives));
         mod.SetGameModeTimeLimit(60000);
@@ -1655,7 +1656,7 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
         const playerId = mod.GetObjId(eventPlayer);
         const areaId = mod.GetObjId(eventAreaTrigger);
         const team = mod.GetTeam(eventPlayer);
-        if (areaId > 20000 || (mod.Equals(team, team2) && (areaId == 7001)) || (mod.Equals(team, team1) && (areaId == 7002))) {
+        if (areaId > 20000 ) {
             restrictedArea[playerId] = false;
             removeRestrictedAreaUI(eventPlayer);
             playerTimeRA[playerId] = 10;

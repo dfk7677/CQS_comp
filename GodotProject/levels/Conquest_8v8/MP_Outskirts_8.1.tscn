@@ -89,10 +89,6 @@ iconColor = [0.0, 0.0, 1.0]
 iconImagePicker = 7
 iconTeamOwnerId = 1
 
-[node name="AreaTrigger" parent="TEAM_1_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("9_kimc7")]
-ObjId = 7001
-Area = NodePath("../HQ_Team1")
-
 [node name="TEAM_2_HQ" parent="." node_paths=PackedStringArray("HQArea", "InfantrySpawns") instance=ExtResource("1_g2ulb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 209.461, 90.2087, 2.33194)
 Team = 2
@@ -159,11 +155,6 @@ ObjId = 704
 VehicleType = 9
 P_DefaultRespawnTime = 30
 P_KeepAliveAbandonRadius = 10
-
-[node name="AreaTrigger2" parent="TEAM_2_HQ" node_paths=PackedStringArray("Area") instance=ExtResource("9_kimc7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15.4764)
-ObjId = 7002
-Area = NodePath("../HQ_Team2")
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_p4fnq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.2906, 9.5893, -20.9614)

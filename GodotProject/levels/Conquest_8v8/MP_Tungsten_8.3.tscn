@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bi81ub3h78e7t"]
+[gd_scene load_steps=21 format=3 uid="uid://bi81ub3h78e7t"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_fe8hg"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_tvfwh"]
@@ -18,7 +18,6 @@
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_A.tscn" id="16_i6t36"]
 [ext_resource type="PackedScene" path="res://objects/architecture/RuinHouseCollapsedWallDebris_01_B.tscn" id="17_yr771"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="18_y1q12"]
-[ext_resource type="PackedScene" path="res://objects/gameplay/common/AreaTrigger.tscn" id="19_v4643"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_F.tscn" id="20_quoly"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_C.tscn" id="21_6ctmw"]
 
@@ -367,16 +366,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.2768, 8.53598, -15.6716)
 [node name="Sector" parent="." node_paths=PackedStringArray("SectorArea", "CapturePoints") instance=ExtResource("18_y1q12")]
 SectorArea = NodePath("../CombatArea/CombatVolume")
 CapturePoints = [NodePath("../CapturePointA"), NodePath("../CapturePointB"), NodePath("../CapturePointC")]
-
-[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("19_v4643")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.0752, 123.848, 8.03396)
-ObjId = 7001
-Area = NodePath("../TEAM_1_HQ/HQ_Team1")
-
-[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("19_v4643")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198.837, 136.055, 232.846)
-ObjId = 7002
-Area = NodePath("../TEAM_2_HQ/HQ_Team2")
 
 [node name="BarrierStoneBlock_01_E" parent="." instance=ExtResource("15_peak8")]
 transform = Transform3D(0.940407, 0, 0.340051, 0, 1, 0, -0.340051, 0, 0.940407, 295.493, 89.9408, -443.624)
