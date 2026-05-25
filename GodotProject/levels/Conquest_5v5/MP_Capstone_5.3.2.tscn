@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c8noiw4hr1e5d"]
+[gd_scene load_steps=24 format=3 uid="uid://c8noiw4hr1e5d"]
 
 [ext_resource type="PackedScene" path="res://static/MP_Capstone_Terrain.tscn" id="1_bdmfp"]
 [ext_resource type="PackedScene" path="res://static/MP_Capstone_Assets.tscn" id="2_p8klo"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" path="res://objects/props/ContainerStandard_01_640.tscn" id="20_q5kut"]
 [ext_resource type="PackedScene" path="res://objects/uncategorized/Guard_Tower.tscn" id="21_oxb4i"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_H.tscn" id="22_xv3eh"]
+[ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_D.tscn" id="23_p8klo"]
 
 [node name="MP_Capstone" type="Node3D"]
 
@@ -597,3 +598,6 @@ transform = Transform3D(0.67009, 0, 0.74228, 0, 1, 0, -0.74228, 0, 0.67009, -51.
 
 [node name="BarrierStoneBlock_01_H7" parent="StaticAssets" instance=ExtResource("22_xv3eh")]
 transform = Transform3D(0.67009, 0, 0.74228, 0, 1, 0, -0.74228, 0, 0.67009, -47.8564, -68.0389, -206.299)
+
+[node name="BarrierStoneBlock_01_D" parent="." instance=ExtResource("23_p8klo")]
+transform = Transform3D(0.599527, 0, 0.800355, 0, 1, 0, -0.800355, 0, 0.599527, 182.763, 138.036, 187.377)
