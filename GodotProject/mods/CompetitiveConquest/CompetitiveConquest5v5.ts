@@ -1633,8 +1633,18 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
         if (areaId > 20000) {
             restrictedArea[playerId] = true;
             addRestrictedAreaUI(eventPlayer);
+        }/* else if (areaId == 7001) {
+            if (mod.Equals(mod.GetTeam(eventPlayer), team2)) {
+                restrictedArea[playerId] = true;
+                addRestrictedAreaUI(eventPlayer);
+            }
+        } else if (areaId == 7002) {
+            if (mod.Equals(mod.GetTeam(eventPlayer), team1)) {
+                restrictedArea[playerId] = true;
+                addRestrictedAreaUI(eventPlayer);
+            }
         }
-        
+        */
         
     }
 }
@@ -1647,7 +1657,19 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
             restrictedArea[playerId] = false;
             removeRestrictedAreaUI(eventPlayer);
             playerTimeRA[playerId] = 10;
-        }
+        } /*else if (areaId == 7001) {
+            if (mod.Equals(mod.GetTeam(eventPlayer), team2)) {
+                restrictedArea[playerId] = false;
+                removeRestrictedAreaUI(eventPlayer);
+                playerTimeRA[playerId] = 10;
+            }
+        } else if (areaId == 7002) {
+            if (mod.Equals(mod.GetTeam(eventPlayer), team1)) {
+                restrictedArea[playerId] = false;
+                removeRestrictedAreaUI(eventPlayer);
+                playerTimeRA[playerId] = 10;
+            }
+        }*/
     }
 }
 

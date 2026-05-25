@@ -313,12 +313,6 @@ transform = Transform3D(0.949732, 0, 0.313064, 0, 1, 0, -0.313064, 0, 0.949732, 
 SectorArea = NodePath("../CombatArea/CombatVolume")
 CapturePoints = [NodePath("../CapturePointA"), NodePath("../CapturePointB"), NodePath("../CapturePointC")]
 
-[node name="Sector2" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("14_3k5wm")]
-SectorArea = NodePath("../TEAM_1_HQ/HQ_Team1")
-
-[node name="Sector3" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("14_3k5wm")]
-SectorArea = NodePath("../TEAM_2_HQ/HQ_Team2")
-
 [node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("15_ki46l")]
 ObjId = 7001
 Area = NodePath("../TEAM_1_HQ/HQ_Team1")

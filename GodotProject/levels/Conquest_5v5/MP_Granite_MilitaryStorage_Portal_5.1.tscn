@@ -179,8 +179,7 @@ metadata/_edit_lock_ = true
 [node name="MP_Granite_MilitaryStorage_Portal_Assets" parent="Static" instance=ExtResource("7_s6r3t")]
 metadata/_edit_lock_ = true
 
-[node name="CombatAreaSector" parent="." node_paths=PackedStringArray("SectorArea", "CapturePoints") instance=ExtResource("8_qrtsr")]
-SectorArea = NodePath("../CombatArea/CombatVolume")
+[node name="CombatAreaSector" parent="." node_paths=PackedStringArray("CapturePoints") instance=ExtResource("8_qrtsr")]
 CapturePoints = [NodePath("../CapturePointA"), NodePath("../CapturePointB"), NodePath("../CapturePointC")]
 
 [node name="CapturePointA" parent="." node_paths=PackedStringArray("CaptureArea", "InfantrySpawnPoints_Team1", "InfantrySpawnPoints_Team2") instance=ExtResource("9_f7iu5")]

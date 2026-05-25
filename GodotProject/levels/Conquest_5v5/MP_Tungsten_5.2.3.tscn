@@ -31,8 +31,8 @@ HQArea = NodePath("HQ_Team1")
 InfantrySpawns = [NodePath("SpawnPoint_1_1"), NodePath("SpawnPoint_1_2"), NodePath("SpawnPoint_1_3"), NodePath("SpawnPoint_1_4")]
 
 [node name="HQ_Team1" parent="TEAM_1_HQ" instance=ExtResource("2_tua1e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.084, 0, -14.751)
-points = PackedVector2Array(15.1183, 36.0916, 27.6398, -30.7259, -19.7211, -30.1842, -34.5512, 3.9646, -11.2785, 95.3182, 27.0968, 101.529)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8013, 0, 14.5812)
+points = PackedVector2Array(14.401, 6.75938, 26.9224, -60.0581, -20.4384, -59.5164, -35.2686, -25.3676, -11.9958, 65.986, 26.3794, 72.1968)
 
 [node name="SpawnPoint_1_1" parent="TEAM_1_HQ" instance=ExtResource("3_vmg8p")]
 transform = Transform3D(0.802839, 0, 0.596197, 0, 1, 0, -0.596197, 0, 0.802839, -8.70369, -1.1572, -25.373)
@@ -145,8 +145,8 @@ iconImagePicker = 7
 iconTeamOwnerId = 2
 
 [node name="HQ_Team2" parent="TEAM_2_HQ" instance=ExtResource("2_tua1e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.957, 0, 2.927)
-points = PackedVector2Array(54.4148, -23.8219, -22.8837, -71.9978, -38.4919, -1.31036, -60.136, 43.7589, 47.9341, 29.7917)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.7896, 0, -1.78888)
+points = PackedVector2Array(58.2473, -19.106, -19.0512, -67.2819, -34.6594, 3.40553, -56.3035, 48.4748, 51.7666, 34.5076)
 
 [node name="SpawnPoint_2_1" parent="TEAM_2_HQ" instance=ExtResource("3_vmg8p")]
 transform = Transform3D(0.754539, 0, 0.656257, 0, 1, 0, -0.656257, 0, 0.754539, -22.8844, -5.35899, 15.7327)
@@ -349,22 +349,6 @@ transform = Transform3D(0.783357, 0, 0.621572, 0, 1, 0, -0.621572, 0, 0.783357, 
 [node name="Sector" parent="." node_paths=PackedStringArray("SectorArea", "CapturePoints") instance=ExtResource("17_hg12s")]
 SectorArea = NodePath("../CombatArea/CombatVolume")
 CapturePoints = [NodePath("../CapturePointA"), NodePath("../CapturePointB"), NodePath("../CapturePointC")]
-
-[node name="Sector2" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("17_hg12s")]
-SectorArea = NodePath("../TEAM_1_HQ/HQ_Team1")
-
-[node name="Sector3" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("17_hg12s")]
-SectorArea = NodePath("../TEAM_2_HQ/HQ_Team2")
-
-[node name="AreaTrigger" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("18_1gnir")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.0752, 123.848, 8.03396)
-ObjId = 7001
-Area = NodePath("../TEAM_1_HQ/HQ_Team1")
-
-[node name="AreaTrigger2" parent="." node_paths=PackedStringArray("Area") instance=ExtResource("18_1gnir")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198.837, 136.055, 232.846)
-ObjId = 7002
-Area = NodePath("../TEAM_2_HQ/HQ_Team2")
 
 [node name="BarrierStoneBlock_01_F" parent="." instance=ExtResource("19_04dd1")]
 transform = Transform3D(-0.0110826, 0, 0.999939, 0, 1, 0, -0.999939, 0, -0.0110826, 270.467, 87.015, -457.725)

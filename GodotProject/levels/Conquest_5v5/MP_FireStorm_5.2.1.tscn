@@ -418,12 +418,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.76447, 120.431, -76.6211)
 SectorArea = NodePath("../CombatArea/CombatVolume")
 CapturePoints = [NodePath("../CombatArea/CapturePointA"), NodePath("../CombatArea/CapturePointB"), NodePath("../CombatArea/CapturePointC")]
 
-[node name="Sector2" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("18_87x8f")]
-SectorArea = NodePath("../CombatArea/TEAM_1_HQ/HQ_Team1")
-
-[node name="Sector3" parent="." node_paths=PackedStringArray("SectorArea") instance=ExtResource("18_87x8f")]
-SectorArea = NodePath("../CombatArea/TEAM_2_HQ/HQ_Team2")
-
 [node name="CinderblockWall_01_256x120x192" parent="." instance=ExtResource("19_44s04")]
 transform = Transform3D(0.0513076, 0, 0.998683, 0, 1, 0, -0.998683, 0, 0.0513076, -170.826, 125.772, 62.8852)
 

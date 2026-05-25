@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c0b7mm4t8lobl"]
+[gd_scene load_steps=17 format=3 uid="uid://c0b7mm4t8lobl"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/CombatArea.tscn" id="1_kqgyk"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_6vcf8"]
@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://3hvpbglts2bi" path="res://scripts/gameplay/common/WorldIcon.gd" id="11_qq67c"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/WorldIcon.tscn" id="12_opf6g"]
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="14_6vtp6"]
-[ext_resource type="PackedScene" path="res://objects/props/BarrierBlockConcrete_03_128_120.tscn" id="15_nnie0"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_F.tscn" id="18_f1bhc"]
 
 [node name="MP_Battery" type="Node3D"]
@@ -490,24 +489,6 @@ transform = Transform3D(0.248588, 0, -0.968609, 0, 1, 0, 0.968609, 0, 0.248588, 
 
 [node name="BarrierStoneBlock_01_H44" parent="Extra_Assets" instance=ExtResource("6_nnie0")]
 transform = Transform3D(0.248588, 0, -0.968609, 0, 1, 0, 0.968609, 0, 0.248588, 776.118, 85.4401, 151.638)
-
-[node name="BarrierBlockConcrete_03_128_120" parent="Extra_Assets" instance=ExtResource("15_nnie0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 707.474, 75.0397, 73.4728)
-
-[node name="BarrierBlockConcrete_03_128_121" parent="Extra_Assets" instance=ExtResource("15_nnie0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 706.176, 75.0397, 73.4728)
-
-[node name="BarrierBlockConcrete_03_128_122" parent="Extra_Assets" instance=ExtResource("15_nnie0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 704.868, 75.0397, 73.4728)
-
-[node name="BarrierBlockConcrete_03_128_123" parent="Extra_Assets" instance=ExtResource("15_nnie0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 707.474, 76.245, 73.4728)
-
-[node name="BarrierBlockConcrete_03_128_124" parent="Extra_Assets" instance=ExtResource("15_nnie0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 706.176, 76.245, 73.4728)
-
-[node name="BarrierBlockConcrete_03_128_125" parent="Extra_Assets" instance=ExtResource("15_nnie0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 704.868, 76.245, 73.4728)
 
 [node name="BarrierStoneBlock_01_F" parent="Extra_Assets" instance=ExtResource("18_f1bhc")]
 transform = Transform3D(0.0315285, 0.282597, -0.958721, -0.993834, 0.110879, -7.24375e-10, 0.106302, 0.952809, 0.28435, 786.365, 85.4325, 154.787)
