@@ -596,8 +596,8 @@ transform = Transform3D(0.67009, 0, 0.74228, 0, 1, 0, -0.74228, 0, 0.67009, -55.
 [node name="BarrierStoneBlock_01_H6" parent="StaticAssets" instance=ExtResource("22_xv3eh")]
 transform = Transform3D(0.67009, 0, 0.74228, 0, 1, 0, -0.74228, 0, 0.67009, -51.537, -68.4216, -209.607)
 
+[node name="BarrierStoneBlock_01_D" parent="StaticAssets" instance=ExtResource("23_p8klo")]
+transform = Transform3D(0.599527, 0, 0.800355, 0, 1, 0, -0.800355, 0, 0.599527, 182.763, 138.036, 187.377)
+
 [node name="BarrierStoneBlock_01_H7" parent="StaticAssets" instance=ExtResource("22_xv3eh")]
 transform = Transform3D(0.67009, 0, 0.74228, 0, 1, 0, -0.74228, 0, 0.67009, -47.8564, -68.0389, -206.299)
-
-[node name="BarrierStoneBlock_01_D" parent="." instance=ExtResource("23_p8klo")]
-transform = Transform3D(0.599527, 0, 0.800355, 0, 1, 0, -0.800355, 0, 0.599527, 182.763, 138.036, 187.377)

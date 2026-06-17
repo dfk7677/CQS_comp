@@ -59,8 +59,6 @@ GodotProject/levels/MP_Contaminated.tscn
 /GodotProject/mods/AcePursuit
 /GodotProject/mods/BumperCars
 /GodotProject/mods/GibraltarGrandprix
-/GodotProject/levels/MP_Battery_test.tscn
-GodotProject/levels/MP_Badlands_8.1.tscn
 
 /GodotProject/levels/MP_Granite_Underground_Portal.tscn
 /GodotProject/levels/MP_Subsurface.tscn
@@ -70,3 +68,7 @@ GodotProject/levels/MP_Badlands_8.1.tscn
 /docs
 /GodotProject/mods/CustomCQ
 /GodotProject/mods/HybridExample
+/GodotProject/levels
+/Godot_v4.6.1-stable_win64.exe
+/GodotProject/mods/GolmudTrainExample
+/GodotProject/mods/NightModeExample

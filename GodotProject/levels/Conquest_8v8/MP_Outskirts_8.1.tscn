@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cwwx3yglt6yy5"]
+[gd_scene load_steps=20 format=3 uid="uid://cwwx3yglt6yy5"]
 
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/HQ_PlayerSpawner.tscn" id="1_g2ulb"]
 [ext_resource type="PackedScene" uid="uid://jv31so3xcr7p" path="res://addons/bf_portal/portal_tools/types/PolygonVolume/PolygonVolume.tscn" id="2_p4fnq"]
@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="16_bkbyy"]
 [ext_resource type="PackedScene" path="res://objects/props/ConcretePipe_01_512x256.tscn" id="16_orei1"]
 [ext_resource type="PackedScene" path="res://objects/props/BarrierStoneBlock_01_H.tscn" id="17_gtwbn"]
+[ext_resource type="PackedScene" path="res://objects/architecture/OutskirtsBuildingBackdropMedium_01.tscn" id="18_rjcrl"]
+[ext_resource type="PackedScene" path="res://objects/architecture/OutskirtsBuildingBackdropMedium_02.tscn" id="19_7vnjg"]
 
 [node name="MP_Outskirts" type="Node3D"]
 
@@ -370,3 +372,21 @@ Area = NodePath("../PolygonVolume4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.87517, 98.4353, -178.22)
 points = PackedVector2Array(-11.1381, -5.08006, -11.1381, 11.424, 5.93029, 11.424, 5.78923, -4.79794)
 height = 20.0
+
+[node name="OutskirtsBuildingBackdropMedium_01" parent="." instance=ExtResource("18_rjcrl")]
+transform = Transform3D(0.0983124, 0, 0.995156, 0, 1, 0, -0.995156, 0, 0.0983124, 85.5758, 93.1906, -98.767)
+
+[node name="OutskirtsBuildingBackdropMedium_05" parent="." instance=ExtResource("18_rjcrl")]
+transform = Transform3D(0.0983124, 0, 0.995156, 0, 1, 0, -0.995156, 0, 0.0983124, 132.705, 93.1906, -98.767)
+
+[node name="OutskirtsBuildingBackdropMedium_03" parent="." instance=ExtResource("18_rjcrl")]
+transform = Transform3D(0.221174, 0, 0.975234, 0, 1, 0, -0.975234, 0, 0.221174, 65.3503, 93.1906, -169.941)
+
+[node name="OutskirtsBuildingBackdropMedium_04" parent="." instance=ExtResource("18_rjcrl")]
+transform = Transform3D(0.0834692, 0, 0.99651, 0, 1, 0, -0.99651, 0, 0.0834692, 105.897, 90.7376, -148.179)
+
+[node name="OutskirtsBuildingBackdropMedium_02" parent="." instance=ExtResource("18_rjcrl")]
+transform = Transform3D(-0.999976, 0, 0.00694631, 0, 1, 0, -0.00694631, 0, -0.999976, 107.807, 90.972, -198.39)
+
+[node name="OutskirtsBuildingBackdropMedium_06" parent="." instance=ExtResource("19_7vnjg")]
+transform = Transform3D(0.0856256, 0, 0.996327, 0, 1, 0, -0.996327, 0, 0.0856256, 160.711, 80.5845, -166.219)

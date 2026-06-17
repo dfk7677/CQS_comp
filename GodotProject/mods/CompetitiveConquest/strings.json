@@ -61,7 +61,8 @@
   "RestrictedArea": "Restricted Area",
   "Player": "Player",
   "CreatedBy": "Created by Dionysis Kapatsoris",
-  "Version": "Version {}.{}.{}",
+  "Version": "Code ver. {}.{}.{}",
+  "MapVersion": "Map ver. {}.{}.{}",
   "RestrictedAreaTime": "{}s",
   "ChangeTeam": "Change Team"
 }

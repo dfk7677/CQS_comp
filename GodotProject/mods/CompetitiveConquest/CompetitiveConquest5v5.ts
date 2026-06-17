@@ -2,7 +2,8 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (5v5)
 import * as modlib from 'modlib';
 
-const VERSION = [2, 0, 12, 0];
+let codeVersion = [2, 0, 13, 0];
+let mapVersion = [1, 0, 0]
 
 
 // Sets core constants
@@ -72,7 +73,7 @@ let teamVO: mod.VO[] = [];
 let globalVO: mod.VO;
 
 function DrawScoresByMinute(){
-    mod.AddUIContainer("ScoresByMinute", mod.CreateVector(0,500,0), mod.CreateVector(1270,INITIAL_TICKETS+50, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0,0,0), .8, mod.UIBgFill.Solid);
+    mod.AddUIContainer("ScoresByMinute", mod.CreateVector(0,500,0), mod.CreateVector(ROUND_TIME + 70,INITIAL_TICKETS+50, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0,0,0), .8, mod.UIBgFill.Solid);
     mod.SetUIWidgetDepth(mod.FindUIWidgetWithName("ScoresByMinute"), mod.UIDepth.AboveGameUI);
     const parent = mod.FindUIWidgetWithName("ScoresByMinute");
     for (let i = 0; i < scoresByMinute.length; i++) {
@@ -321,6 +322,42 @@ function addPrematchUI() {
     mod.AddUIContainer("PreMatchContainer", mod.CreateVector(0,70,0), mod.CreateVector(960, 290, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 10, mod.CreateVector(0, 0, 0), 0.4,
         mod.UIBgFill.Solid);
     const parent = mod.FindUIWidgetWithName("PreMatchContainer");
+
+    mod.AddUIText(
+        "CodeVersionText",
+        mod.CreateVector(10, 20, 0),
+        mod.CreateVector(200, 20, 0),
+        mod.UIAnchor.TopLeft,
+        mod.GetUIRoot(),
+        true,
+        0,
+        mod.CreateVector(0, 0, 0),
+        0.4,
+        mod.UIBgFill.None,
+        mod.Message(mod.stringkeys.Version, codeVersion[0], codeVersion[1], codeVersion[2]),
+        16,
+        mod.CreateVector(1, 1, 1),
+        1,
+        mod.UIAnchor.CenterLeft
+    )
+
+    mod.AddUIText(
+        "MapVersionText",
+        mod.CreateVector(10, 40, 0),
+        mod.CreateVector(200, 20, 0),
+        mod.UIAnchor.TopLeft,
+        mod.GetUIRoot(),
+        true,
+        0,
+        mod.CreateVector(0, 0, 0),
+        0.4,
+        mod.UIBgFill.None,
+        mod.Message(mod.stringkeys.Version, mapVersion[0], mapVersion[1], mapVersion[2]),
+        16,
+        mod.CreateVector(1, 1, 1),
+        1,
+        mod.UIAnchor.CenterLeft
+    )
     mod.AddUIText(
         "PreMatchHeaderText",
         mod.CreateVector(0, 10, 0),
@@ -728,7 +765,7 @@ function addEndScreenUI(){
     if (serverScores[1] < 0) {
         serverScores[1] = 0;
     }
-    if (liveTickCount < 1200 * TICK_RATE) {
+    if (liveTickCount < ROUND_TIME * TICK_RATE) {
         scoresByMinute.push([serverScores[0], serverScores[1]]);
     }
     
@@ -935,6 +972,13 @@ async function initializeGamePhase() {
 
         }
         //await mod.Wait(1.5);
+        const verObj = mod.GetSpatialObject(1001);
+        if (verObj) {
+            const pos = mod.GetObjectPosition(verObj)
+            mapVersion[0] = mod.Floor(mod.XComponentOf(pos));
+            mapVersion[1] = mod.Floor(mod.YComponentOf(pos));
+            mapVersion[2] = mod.Floor(mod.ZComponentOf(pos));
+        }
         addPrematchUI();
     } else if (gamePhase == 1) {
         // Countdown phase logic

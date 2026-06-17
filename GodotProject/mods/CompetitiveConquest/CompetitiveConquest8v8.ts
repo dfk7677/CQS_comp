@@ -2,8 +2,8 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (8v8)
 import * as modlib from 'modlib';
 
-const VERSION = [2, 0, 12, 0];
-
+let codeVersion = [2, 0, 13, 0];
+let mapVersion = [0, 0, 0]
 // Sets core constants
 const INITIAL_TICKETS = 350;
 const BLEED_TWO_FLAGS = -.5;
@@ -21,7 +21,7 @@ const COLOR_FRIENDLY =   mod.CreateVector(0.0902, 0.8627, 1);
 const COLOR_ENEMY    =   mod.CreateVector(1, 0.4, 0);
 
 const REDEPLOY_TIME = 12;
-const TICK_RATE = 30;
+const TICK_RATE = 60;
 const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
 
 const playerStatus = Array(64).fill(false);
@@ -71,7 +71,7 @@ let teamVO: mod.VO[] = [];
 let globalVO: mod.VO;
 
 function DrawScoresByMinute(){
-    mod.AddUIContainer("ScoresByMinute", mod.CreateVector(0,500,0), mod.CreateVector(1270,INITIAL_TICKETS+50, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0,0,0), .8, mod.UIBgFill.Solid);
+    mod.AddUIContainer("ScoresByMinute", mod.CreateVector(0,500,0), mod.CreateVector(ROUND_TIME + 70,INITIAL_TICKETS+50, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0,0,0), .8, mod.UIBgFill.Solid);
     mod.SetUIWidgetDepth(mod.FindUIWidgetWithName("ScoresByMinute"), mod.UIDepth.AboveGameUI);
     const parent = mod.FindUIWidgetWithName("ScoresByMinute");
     for (let i = 0; i < scoresByMinute.length; i++) {
@@ -314,6 +314,43 @@ function addPrematchUI() {
     mod.AddUIContainer("PreMatchContainer", mod.CreateVector(0,70,0), mod.CreateVector(960, 290, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 10, mod.CreateVector(0, 0, 0), 0.4,
         mod.UIBgFill.Solid);
     const parent = mod.FindUIWidgetWithName("PreMatchContainer");
+    
+    mod.AddUIText(
+        "CodeVersionText",
+        mod.CreateVector(10, 20, 0),
+        mod.CreateVector(200, 20, 0),
+        mod.UIAnchor.TopLeft,
+        mod.GetUIRoot(),
+        true,
+        0,
+        mod.CreateVector(0, 0, 0),
+        0.4,
+        mod.UIBgFill.None,
+        mod.Message(mod.stringkeys.Version, codeVersion[0], codeVersion[1], codeVersion[2]),
+        16,
+        mod.CreateVector(1, 1, 1),
+        1,
+        mod.UIAnchor.CenterLeft
+    )
+
+    mod.AddUIText(
+        "MapVersionText",
+        mod.CreateVector(10, 40, 0),
+        mod.CreateVector(200, 20, 0),
+        mod.UIAnchor.TopLeft,
+        mod.GetUIRoot(),
+        true,
+        0,
+        mod.CreateVector(0, 0, 0),
+        0.4,
+        mod.UIBgFill.None,
+        mod.Message(mod.stringkeys.MapVersion, mapVersion[0], mapVersion[1], mapVersion[2]),
+        16,
+        mod.CreateVector(1, 1, 1),
+        1,
+        mod.UIAnchor.CenterLeft
+    )
+    
     mod.AddUIText(
         "PreMatchHeaderText",
         mod.CreateVector(0, 10, 0),
@@ -928,7 +965,9 @@ async function initializeGamePhase() {
 
         }
         //await mod.Wait(1.5);
-        addPrematchUI();
+        
+        
+        //addPrematchUI();
     } else if (gamePhase == 1) {
         // Countdown phase logic
         console.log("Phase: Countdown");
@@ -1527,9 +1566,28 @@ export async function OnPlayerJoinGame(eventPlayer: mod.Player): Promise<void> {
     await mod.Wait(3);    
     mod.DeleteAllUIWidgets();
     if (gamePhase == 0) { 
+        const id = mod.GetObjId(eventPlayer);
         if (mod.GetSoldierState(eventPlayer, mod.SoldierStateBool.IsAISoldier)) {
-            const id = mod.GetObjId(eventPlayer);
+            
             playerStatus[id] = true;
+            
+        }
+        else {
+            if (id === 0) {
+                const verObj = mod.GetSpatialObject(1001);
+                
+                if (verObj) {
+                    
+                    const pos = mod.GetObjectPosition(verObj)
+                    mapVersion[0] = mod.Floor(mod.XComponentOf(pos));
+                    mapVersion[1] = mod.Floor(mod.YComponentOf(pos));
+                    mapVersion[2] = mod.Floor(mod.ZComponentOf(pos));
+                    
+                }
+                    
+                    
+                
+            }
         }
         addPrematchUI();
         mod.SetRedeployTime(eventPlayer, 0)
@@ -1570,11 +1628,13 @@ export function OnPlayerEarnedKill(eventPlayer: mod.Player, eventOtherPlayer: mo
 }
 
 export function OnRevived(eventPlayer: mod.Player, eventOtherPlayer: mod.Player): void {
+    /*
     if (gamePhase == 2) {
         const id = mod.GetObjId(eventOtherPlayer);
         scoreboard[id][0] += 100;
         scoreboard[id][4] += 1;
     }
+        */
 }
 
 export function OnPlayerUndeploy(eventPlayer: mod.Player) {
