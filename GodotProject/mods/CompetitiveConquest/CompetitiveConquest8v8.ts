@@ -2,7 +2,7 @@
 // Competitive Conquest mode with 3 flags, ticket bleed and UI tracking (8v8)
 import * as modlib from 'modlib';
 
-let codeVersion = [2, 0, 13, 0];
+let codeVersion = [2, 1, 1, 0];
 let mapVersion = [0, 0, 0]
 // Sets core constants
 const INITIAL_TICKETS = 350;
@@ -21,7 +21,7 @@ const COLOR_FRIENDLY =   mod.CreateVector(0.0902, 0.8627, 1);
 const COLOR_ENEMY    =   mod.CreateVector(1, 0.4, 0);
 
 const REDEPLOY_TIME = 12;
-const TICK_RATE = 60;
+const TICK_RATE = 30;
 const TOTAL_TICKS = ROUND_TIME * TICK_RATE;
 
 const playerStatus = Array(64).fill(false);
@@ -34,16 +34,17 @@ const scoreboard = Array.from({ length: 64 }, () => [0, 0, 0, 0, 0]);
 let scoresByMinute: number[][] = [];
 
 // Defines teams
-const teamNeutral: mod.Team = mod.GetTeam(0);
 const team1: mod.Team = mod.GetTeam(1);
 const team2: mod.Team = mod.GetTeam(2);
+
+//const capturePoints: mod.CapturePoint[] = [mod.GetCapturePoint(201), mod.GetCapturePoint(202), mod.GetCapturePoint(203)]
 
 const serverScores = [INITIAL_TICKETS, INITIAL_TICKETS];
 
 
 let countDown:number;
 let liveTickCount:number;
-
+/*
 type CapturePoint = {
     status: number;
     capturer: number;
@@ -59,7 +60,7 @@ const capturePoints: CapturePoints = {
     202: { status: 0, capturer: 0, onPoint: [0,0], symbol: "B", fade: mod.Pi() },
     203: { status: 0, capturer: 0, onPoint: [0,0], symbol: "C", fade: mod.Pi() }
 };
-
+*/
 
 let gamePhase = 0;
 let gameModeStarted = false;
@@ -172,7 +173,7 @@ function DrawEndScoreboard() {
      }
 
 }
-
+/*
 function FlashFlag(id: number) {
 
     
@@ -190,6 +191,7 @@ function UnflashFlag(id: number) {
     }
     
 }
+*/
 
 function ChangeTickets() {
     let teamcps = [0,0];
@@ -217,13 +219,14 @@ function ChangeTickets() {
     else if (teamcps[1] == 3) {
         serverScores[0] += BLEED_THREE_FLAGS / 10;
     }
-
+    /*
     mod.SetUITextLabel(mod.FindUIWidgetWithName("TeamFriendlyScore1"), mod.Message(mod.Ceiling(serverScores[0])));
     mod.SetUITextLabel(mod.FindUIWidgetWithName("TeamFriendlyScore2"), mod.Message(mod.Ceiling(serverScores[1])));
     mod.SetUITextLabel(mod.FindUIWidgetWithName("TeamOpponentScore1"), mod.Message(mod.Ceiling(serverScores[1])));
     mod.SetUITextLabel(mod.FindUIWidgetWithName("TeamOpponentScore2"), mod.Message(mod.Ceiling(serverScores[0])));
-
-    
+    */
+    mod.SetGameModeScore(team1, mod.Ceiling(serverScores[0]))
+    mod.SetGameModeScore(team2, mod.Ceiling(serverScores[1]))
 }
 
 
@@ -521,6 +524,30 @@ function addCountdownUI() {
     )
 }
 
+function addTimeUI() {
+    mod.AddUIContainer("TimeContainer", mod.CreateVector(20, 20, 0), mod.CreateVector(60, 30, 0), mod.UIAnchor.TopLeft, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.5,
+        mod.UIBgFill.None);
+    const parent = mod.FindUIWidgetWithName("TimeContainer");
+    mod.AddUIText(
+        "RemainingTime",
+        mod.CreateVector(0, 0, 0),
+        mod.CreateVector(60, 30, 0),
+        mod.UIAnchor.TopCenter,
+        parent,
+        true,
+        0,
+        mod.CreateVector(0, 0, 0),
+        0.5,
+        mod.UIBgFill.Solid,
+        getRemainingTime(),
+        20,
+        mod.CreateVector(1, 1, 1),
+        1,
+        mod.UIAnchor.Center
+    )
+    
+}
+/*
 function addLiveUI() {
     mod.AddUIContainer("LiveContainer", mod.CreateVector(0, 80, 0), mod.CreateVector(300, 300, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.4,
         mod.UIBgFill.None);
@@ -740,7 +767,7 @@ function addLiveUI() {
         team2            
     )
 }
-
+*/
 function addEndScreenUI(){
     mod.AddUIContainer("EndContainer", mod.CreateVector(0,0,0), mod.CreateVector(9000, 1080, 0), mod.UIAnchor.TopCenter, mod.GetUIRoot(), true, 0, mod.CreateVector(0, 0, 0), 0.6,
         mod.UIBgFill.Solid);
@@ -764,7 +791,7 @@ function addEndScreenUI(){
 
     mod.AddUIText(
         "TotalTime",
-        mod.CreateVector(0, 85, 0),
+        mod.CreateVector(0, 120, 0),
         mod.CreateVector(100, 50, 0),
         mod.UIAnchor.TopCenter,
         parent,
@@ -776,11 +803,11 @@ function addEndScreenUI(){
         mod.Message("{}:{}{}", minutes, seconds10, seconds),
         20,
         mod.CreateVector(1, 1, 1),
-        0,
+        1,
         mod.UIAnchor.Center
     );
     
-
+    /*
     mod.AddUIText(
         "FinalScoreText",
         mod.CreateVector(0, 50, 0),
@@ -798,6 +825,7 @@ function addEndScreenUI(){
         0,
         mod.UIAnchor.Center
     );
+    */
     mod.AddUIText(
         "Team1EndFriendlyScore",
         mod.CreateVector(-200, 100, 0),
@@ -812,7 +840,7 @@ function addEndScreenUI(){
         mod.Message(mod.Ceiling(serverScores[0])),
         48,
         COLOR_FRIENDLY,
-        0,
+        1,
         mod.UIAnchor.Center,
         team1
     );
@@ -830,7 +858,7 @@ function addEndScreenUI(){
         mod.Message(mod.Ceiling(serverScores[1])),
         48,
         COLOR_ENEMY,
-        0,
+        1,
         mod.UIAnchor.Center,
         team1
     );
@@ -848,7 +876,7 @@ function addEndScreenUI(){
         mod.Message(mod.Ceiling(serverScores[1])),
         48,
         COLOR_FRIENDLY,
-        0,
+        1,
         mod.UIAnchor.Center,
         team2
     );
@@ -866,11 +894,11 @@ function addEndScreenUI(){
         mod.Message(mod.Ceiling(serverScores[0])),
         48,
         COLOR_ENEMY,
-        0,
+        1,
         mod.UIAnchor.Center,
         team2
     );
-
+    /*
     mod.AddUIText(
         "PostMatchDash",
         mod.CreateVector(0, 100, 0),
@@ -888,9 +916,11 @@ function addEndScreenUI(){
         0,
         mod.UIAnchor.Center
     );
+    */
     DrawScoresByMinute();
     DrawEndScoreboard();
 }
+/*
 
 function getFlagColor(team: mod.Team, cpId: number): mod.Vector {
     const capturePoint = mod.GetCapturePoint(cpId);
@@ -907,7 +937,7 @@ function getFlagColor(team: mod.Team, cpId: number): mod.Vector {
         }
     }
 }
-
+*/
 function getRemainingTime(): mod.Message {
     const remainingTime = ROUND_TIME - phaseTickCount / TICK_RATE;
     let minutes = mod.Floor(remainingTime / 60);
@@ -925,7 +955,12 @@ async function initializeGamePhase() {
         const wIcon1 = mod.GetWorldIcon(5001);
         const wIcon2 = mod.GetWorldIcon(5002);
         const wIcon5 = mod.GetWorldIcon(5011);
-
+        
+        mod.SetGameModeTargetScore(-1)
+        mod.SetGameModeInitialScore(team1, serverScores[0])
+        mod.SetGameModeInitialScore(team2, serverScores[1])
+        mod.SetGameModeCriteria(mod.ScoreCriteria.LowestProgress)
+        
         
         mod.SetWorldIconText(wIcon1, mod.Message(mod.stringkeys.SwitchTeam2));
         mod.SetWorldIconText(wIcon2, mod.Message(mod.stringkeys.Ready));
@@ -948,9 +983,12 @@ async function initializeGamePhase() {
             mod.Message(mod.stringkeys.ScoreboardDeaths), mod.Message(mod.stringkeys.ScoreboardAssists), mod.Message(mod.stringkeys.ScoreboardRevives));
         mod.SetGameModeTimeLimit(60000);
         SetRedeployTimeForAll(0);
-        mod.EnableGameModeObjective(mod.GetCapturePoint(201), false);
-        mod.EnableGameModeObjective(mod.GetCapturePoint(202), false);
-        mod.EnableGameModeObjective(mod.GetCapturePoint(203), false);
+        
+
+        for (let i = 201; i < 204; i++) {
+            mod.EnableGameModeObjective(mod.GetCapturePoint(i), false);
+        }
+        
         const n = mod.CountOf(players);
         for (let i = 0; i < n; i++) {
             const player = mod.ValueInArray(players, i);
@@ -970,8 +1008,10 @@ async function initializeGamePhase() {
         //addPrematchUI();
     } else if (gamePhase == 1) {
         // Countdown phase logic
+        const start = Date.now();
         console.log("Phase: Countdown");
         countDown = PRELIVE_TIME;
+        mod.SetGameModeTimeLimit(60000);
         
         for (let i = 0; i < 4; i++) {
             mod.EnableWorldIconImage(mod.GetWorldIcon(5001 + i), false);
@@ -979,12 +1019,15 @@ async function initializeGamePhase() {
 
             //mod.EnableInteractPoint(mod.GetInteractPoint(2001 + i), false);
         }
+        
         mod.EnableWorldIconText(mod.GetWorldIcon(5011), false);
         mod.EnableWorldIconText(mod.GetWorldIcon(5012), false);
         mod.EnableInteractPoint(mod.GetInteractPoint(2002), false);
         mod.EnableInteractPoint(mod.GetInteractPoint(2004), false);
+        
         mod.DeleteAllUIWidgets();
         mod.UndeployAllPlayers();
+        
         for (let i = 701; i < 711; i++) {
             const vehicleSpawner = mod.GetVehicleSpawner(i);
             if (vehicleSpawner) {
@@ -998,7 +1041,14 @@ async function initializeGamePhase() {
             }
         }
         
-
+        for (let i = 201; i < 204; i++) {
+            mod.EnableGameModeObjective(mod.GetCapturePoint(i), true)
+            mod.SetCapturePointCapturingTime(mod.GetCapturePoint(i), CAPTURE_TIME);
+            mod.SetCapturePointNeutralizationTime(mod.GetCapturePoint(i), NEUTRALIZE_TIME);
+        }
+        
+        
+        /*
         mod.EnableGameModeObjective(mod.GetCapturePoint(201), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(202), true);
         mod.EnableGameModeObjective(mod.GetCapturePoint(203), true);
@@ -1011,11 +1061,20 @@ async function initializeGamePhase() {
         mod.SetMaxCaptureMultiplier(mod.GetCapturePoint(201), MAX_CAPTURE_MUTLIPLIER);
         mod.SetMaxCaptureMultiplier(mod.GetCapturePoint(202), MAX_CAPTURE_MUTLIPLIER);
         mod.SetMaxCaptureMultiplier(mod.GetCapturePoint(203), MAX_CAPTURE_MUTLIPLIER);
+        */
         addCountdownUI();
+        
+        mod.SetHUDTicker(mod.GameModeTicker.Ticker_Conquest)
+        
+        mod.SetAllObjectivesUIEnabled(true)
+        
     } else if (gamePhase == 2) {
         // Live phase logic
         console.log("Phase: Live");
+        
+        //mod.ResetGameModeTime();
         mod.DeleteAllUIWidgets();
+        
         const players = mod.AllPlayers();
         const n = mod.CountOf(players);
         for (let i = 0; i < n; i++) {
@@ -1035,7 +1094,8 @@ async function initializeGamePhase() {
             
 
         }
-        addLiveUI();
+        addTimeUI();
+        //addLiveUI();
         //SetRedeployTimeForAll(10);
 
         // Sounds
@@ -1051,9 +1111,8 @@ async function initializeGamePhase() {
         teamVO.push(mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0), mod.CreateVector(0, 0, 0)));
     } else if (gamePhase == 3) {
         // EndScreen phase logic
-        mod.EnableGameModeObjective(mod.GetCapturePoint(201), false);
-        mod.EnableGameModeObjective(mod.GetCapturePoint(202), false);
-        mod.EnableGameModeObjective(mod.GetCapturePoint(203), false);
+        
+        mod.SetGameModeTimeLimit(mod.GetMatchTimeElapsed() + POSTMATCH_TIME)
         mod.DeleteAllUIWidgets();
         phaseTickCount = 0;
         countDown = POSTMATCH_TIME;
@@ -1169,8 +1228,9 @@ export function OngoingGlobal() {
             return;
         }
     }
-
+/*
     if (gamePhase == 3) {
+        
         if (phaseTickCount <= 60) {
             mod.SetUITextAlpha(mod.FindUIWidgetWithName("TotalTime"), phaseTickCount / 60);
             mod.SetUITextAlpha(mod.FindUIWidgetWithName("FinalScoreText"), phaseTickCount / 60);
@@ -1181,29 +1241,33 @@ export function OngoingGlobal() {
             mod.SetUITextAlpha(mod.FindUIWidgetWithName("PostMatchDash"), phaseTickCount / 60);
             
         }
+        
         if (mod.Modulo(phaseTickCount, TICK_RATE) == 0) {
             
             countDown -= 1;
-            
+            console.log(countDown)
             if (countDown == 0) {
                 console.log("PostMatch ends.")
                 
 
                 
                 if (serverScores[0] > serverScores[1]) {
-                    mod.EndGameMode(team1);
+
+                    //mod.EndGameMode(team1);
+                    mod.SetGameModeScore(team2, -1)
                 } else if (serverScores[0] < serverScores[1]) {
-                    mod.EndGameMode(team2);
+                    mod.SetGameModeScore(team1, -1)
+                    //mod.EndGameMode(team2);
                 } else {
-                    mod.EndGameMode(teamNeutral);
+                    //mod.EndGameMode(teamNeutral);
                 }
             }
         }
     }
-    
+    */
 
 }
-
+/*
 export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
 
     if (gamePhase == 2) {
@@ -1325,51 +1389,13 @@ export function OngoingCapturePoint(eventCapturePoint: mod.CapturePoint) {
         } else {
             capturePoints[id].capturer = 0;
             UnflashFlag(id);
-            /*
-            if (currentProgress < 1 && currentProgress > 0) {
-                const currentOwner = mod.GetCurrentOwnerTeam(eventCapturePoint);
-                
-                if (mod.Equals(currentOwner, teamNeutral)) {
-                    // Neutralizing
-                    mod.SetCapturePointNeutralizationTime(eventCapturePoint, NEUTRALIZE_TIME);
-                }
-                else {
-                    // Capturing
-                    mod.SetCapturePointCapturingTime(eventCapturePoint, CAPTURE_TIME);
-                }
-                
-            }
-                */
-        }
-        /*
-        if (previousCapturer != capturePoints[id].capturer) {
             
-            for (let i = 0; i < n; i++) {
-
-                const player = mod.ValueInArray(playersOnPoint, i);
-                
-                mod.StopSound(sounds[0], player);
-                mod.StopSound(sounds[1], player);
-                mod.StopSound(sounds[2], player);
-                
-                
-                if (capturePoints[id].capturer == 3) {
-                    mod.PlaySound(sounds[2], 0.2, player);
-                }
-                else if (capturePoints[id].capturer == mod.GetObjId(mod.GetTeam(player))) {
-                    mod.PlaySound(sounds[0], 0.2, player);
-                } else if (capturePoints[id].capturer != 0){
-                    mod.PlaySound(sounds[1], 0.2, player);
-                }
-                
-                    
-                
-            }
         }
-        */
+        
+        
     }
 }
-
+*/
 export function OngoingPlayer(eventPlayer: mod.Player) {
     if (gamePhase == 2) {
         const id = mod.GetObjId(eventPlayer);
@@ -1407,7 +1433,7 @@ export function OngoingPlayer(eventPlayer: mod.Player) {
     }
     
 }
-
+/*
 export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     if (gamePhase == 2) {
         
@@ -1430,7 +1456,7 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
         const id = mod.GetObjId(eventCapturePoint)
         
         
-
+        
         mod.AddUIContainer("OnPoint"+ mod.GetObjId(eventPlayer), mod.CreateVector(0,110,0), mod.CreateVector(300, 60,0), mod.UIAnchor.TopLeft,
             mod.FindUIWidgetWithName("LiveContainer"), true, 0,mod.CreateVector(1,1,1) , 0.4, mod.UIBgFill.None, eventPlayer);
         const parent = mod.FindUIWidgetWithName("OnPoint"+ mod.GetObjId(eventPlayer))
@@ -1446,7 +1472,7 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
             parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[0]), 34, COLOR_FRIENDLY, 1, mod.UIAnchor.Center);
         mod.AddUIText("EnemyOnPoint" + mod.GetObjId(eventPlayer), mod.CreateVector(60, 0, 0), mod.CreateVector(40, 40, 0), mod.UIAnchor.CenterRight,
             parent, true, 0, mod.CreateVector(0, 0, 0), 0.4, mod.UIBgFill.Solid, mod.Message(teamPlayers[1]), 34, COLOR_ENEMY, 1, mod.UIAnchor.Center);
-
+        */
         /*
         await mod.Wait(0.1);
         if (capturePoints[id].capturer == 3) {
@@ -1458,24 +1484,25 @@ export async function OnPlayerEnterCapturePoint(eventPlayer: mod.Player, eventCa
         } else if (capturePoints[id].capturer != 0){
             mod.PlaySound(sounds[1], 0.2, eventPlayer);
         }
-            */
+            
     }
     
 
 }
-
+*/
+/*
 export function OnPlayerExitCapturePoint(eventPlayer: mod.Player, eventCapturePoint: mod.CapturePoint) {
     if (gamePhase == 2) {
         
         mod.DeleteUIWidget(mod.FindUIWidgetWithName("OnPoint"+ mod.GetObjId(eventPlayer)));
-        /*
+        
         mod.StopSound(sounds[0], eventPlayer);
         mod.StopSound(sounds[1], eventPlayer);
         mod.StopSound(sounds[2], eventPlayer);
-        */
+        
     }
 }
-
+*/
 export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mod.InteractPoint) {
     
     if (gamePhase == 0) {
@@ -1529,8 +1556,8 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
                     mod.UndeployPlayer(eventPlayer);
                     try {
                         mod.SetTeam(eventPlayer, team2);
-                        mod.DeleteAllUIWidgets();
-                        addLiveUI();
+                        //mod.DeleteAllUIWidgets();
+                        //addLiveUI();
                     } catch (e) {
                         console.log(e);
                     }
@@ -1543,8 +1570,8 @@ export function OnPlayerInteract(eventPlayer: mod.Player, eventInteractPoint: mo
                     mod.UndeployPlayer(eventPlayer);
                     try {
                         mod.SetTeam(eventPlayer, team1);
-                        mod.DeleteAllUIWidgets();
-                        addLiveUI();
+                        //mod.DeleteAllUIWidgets();
+                        //addLiveUI();
                     } catch (e) {
                         console.log(e);
                     }
@@ -1601,7 +1628,7 @@ export async function OnPlayerJoinGame(eventPlayer: mod.Player): Promise<void> {
     }
     if (gamePhase == 2) {
         
-        addLiveUI();
+        //addLiveUI();
         mod.SetRedeployTime(eventPlayer, REDEPLOY_TIME)
         return;
     }
@@ -1688,7 +1715,7 @@ export function OnPlayerEnterAreaTrigger(eventPlayer: mod.Player, eventAreaTrigg
         const playerId = mod.GetObjId(eventPlayer);
         const areaId = mod.GetObjId(eventAreaTrigger);
 
-        if (areaId > 20000) {
+        if (areaId > 20000 && !restrictedArea[playerId]) {
             restrictedArea[playerId] = true;
             addRestrictedAreaUI(eventPlayer);
         }
@@ -1723,14 +1750,16 @@ export function OnPlayerExitAreaTrigger(eventPlayer: mod.Player, eventAreaTrigge
         }
     }
 }
-
+/*
 export function OnCapturePointLost(eventCapturePoint: mod.CapturePoint): void {
+    
     const id = mod.GetObjId(eventCapturePoint);
     mod.SetUITextColor(mod.FindUIWidgetWithName(`FLAG${capturePoints[id].symbol}1`), COLOR_NEUTRAL);
     mod.SetUITextColor(mod.FindUIWidgetWithName(`FLAG${capturePoints[id].symbol}2`), COLOR_NEUTRAL);
     
 }
-
+*/
+/*
 export function OnCapturePointCaptured(eventCapturePoint: mod.CapturePoint): void {
     const id = mod.GetObjId(eventCapturePoint);
     const currentOwner = mod.GetCurrentOwnerTeam(eventCapturePoint);
@@ -1746,7 +1775,7 @@ export function OnCapturePointCaptured(eventCapturePoint: mod.CapturePoint): voi
         
     
 }
-
+*/
 export function OnPlayerLeaveGame(eventNumber: number): void {
     isDeployed[eventNumber] = false
     if (gamePhase == 0) {
